@@ -1,0 +1,468 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Billiards</title>
+	<link rel="stylesheet" href="https://www.joelpark.net/billiards/canvas.css">
+</head>
+<body onload="draw();">
+    <div id="container">
+    <canvas id="table" width="1000" height="574"></canvas>
+    <!-- 310x168 -->
+    <script>
+        
+        var canvas = document.getElementById("table");
+        var context = canvas.getContext("2d");
+        canvas.addEventListener('mousedown',checkStyleDown,false);
+        canvas.addEventListener('mousemove',checkStyleMove,false);
+        window.addEventListener('mouseup',checkStyleUp,false);
+        canvas.addEventListener("touchstart",touchStart,false);
+        canvas.addEventListener("touchmove",draw_mouseMove,false);
+        window.addEventListener("touchend",draw_mouseUp,false);
+        canvas.addEventListener("dblclick",doubleClick,false);
+        
+        var xWhite = 287;
+        var yWhite = 340;
+        var xYellow = 287;
+        var yYellow = 287;
+        var xRed = 713;
+        var yRed = 287;
+        
+	var tableColor = '#37f';
+	var railColor = '#000';
+	var cushionColor = '#15f';
+	var gridColor = '#48f';
+
+	function toggleColor() {
+	    if (tableColor == '#37f') {
+		tableColor = '#207050';
+		railColor = '#704030';
+		cushionColor = '#105040';
+		gridColor = '#1a6a4a';
+	    }
+	    else if (tableColor == '#207050') {
+		tableColor = '#37f';
+		railColor = '#000';
+		cushionColor = '#15f';
+		gridColor = '#48f';
+	    }
+	    draw();
+	}
+
+        function coord() {
+            coordArray = document.getElementById("coord").value.split(",");
+            xWhite = coordArray[0];
+            yWhite = coordArray[1];
+            xYellow = coordArray[2];
+            yYellow = coordArray[3];
+            xRed = coordArray[4];
+            yRed = coordArray[5];
+            
+            draw();
+        }
+        
+        function randomPos() {
+            xWhite = Math.floor((Math.random() * 835) + 83);
+            yWhite = Math.floor((Math.random() * 409) + 83);
+            xYellow = Math.floor((Math.random() * 835) + 83);
+            yYellow = Math.floor((Math.random() * 409) + 83);
+            xRed = Math.floor((Math.random() * 835) + 83);
+            yRed = Math.floor((Math.random() * 409) + 83);
+            
+            draw();
+        }
+        
+        function draw() {
+            context.beginPath();
+            context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+            context.fillStyle = 0;
+            context.fill();
+                
+            //background
+            context.fillStyle = "#333";
+            context.fillRect(0,0,1000,574);
+        
+            // rails
+            context.fillStyle = railColor;
+            context.fillRect(35,35,930,504);
+        
+            // cushions
+            context.fillStyle = cushionColor;
+            context.fillRect(56,56,888,462);
+        
+            // 284x142 playing area
+            context.fillStyle = tableColor;
+            context.fillRect(74,74,852,426);
+        
+            // grid
+            for (var x = 180.5; x < 926; x += 106.5) {
+                context.moveTo(x, 74);
+                context.lineTo(x, 500);
+            }
+            for (var y = 180.5; y < 500; y += 106.5) {
+                context.moveTo(74, y);
+                context.lineTo(926, y);
+            }
+                context.strokeStyle = gridColor;
+                context.stroke();
+            
+            // diamonds
+            for (var x = 74; x < 965; x += 106.5) {
+                context.beginPath();
+                context.arc(x, 46, 1.75, 0, 2 * Math.PI, false);
+                context.arc(x, 528, 1.75, 0, 2 * Math.PI, false);
+                context.fillStyle = '#fff';
+                context.fill();
+            }
+        
+            for (var y = 74; y < 539; y += 106.5) {
+                context.beginPath();
+                context.arc(46, y, 1.75, 0, 2 * Math.PI, false);
+                context.arc(954, y, 1.75, 0, 2 * Math.PI, false);
+                context.fillStyle = '#fff';
+                context.fill();
+            }
+        
+            // break markers
+            context.beginPath();
+            context.arc(287, 287, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(287, 233.75, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(287, 340.25, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(713, 287, 2, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            // balls
+            if (xWhite > 916.75) { xWhite = 916.75; }
+            if (xWhite < 83.2) { xWhite = 83.2; }
+            if (yWhite > 490.75) { yWhite = 490.75; }
+            if (yWhite < 83.2) { yWhite = 83.2; }
+            if (xYellow > 916.75) { xYellow = 916.75; }
+            if (xYellow < 83.2) { xYellow = 83.2; }
+            if (yYellow > 490.75) { yYellow = 490.75; }
+            if (yYellow < 83.2) { yYellow = 83.2; }
+            if (xRed > 916.75) { xRed = 916.75; }
+            if (xRed < 83.2) { xRed = 83.2; }
+            if (yRed > 490.75) { yRed = 490.75; }
+            if (yRed < 83.2) { yRed = 83.2; }
+            
+            var ballRadius = 9.225;
+        
+            whiteGradient = context.createRadialGradient(xWhite-2, yWhite-2, 2, xWhite-2, yWhite-2, 9);
+            whiteGradient.addColorStop(0, "#fff");
+            whiteGradient.addColorStop(1, "#ddd");
+        
+            yellowGradient = context.createRadialGradient(xYellow-2, yYellow-2, 2, xYellow-2, yYellow-2, 9);
+            yellowGradient.addColorStop(0, "#fb0");
+            yellowGradient.addColorStop(1, "#e90");
+        
+            redGradient = context.createRadialGradient(xRed-2, yRed-2, 2, xRed-2, yRed-2, 9);
+            redGradient.addColorStop(0, "#f33");
+            redGradient.addColorStop(1, "#d11");
+        
+            context.beginPath();
+            context.arc(xWhite, yWhite, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = whiteGradient;
+            context.fill();
+        
+            context.beginPath();
+            context.arc(xYellow, yYellow, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = yellowGradient;
+            context.fill();
+        
+            context.beginPath();
+            context.arc(xRed, yRed, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = redGradient;
+            context.fill();
+            
+            context.beginPath();
+            context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+            context.fillStyle = 0;
+            context.fill();
+            
+            document.getElementById("coord").value = xWhite + ',' + yWhite + ',' + xYellow + ',' + yYellow + ',' + xRed + ',' + yRed;
+            
+            if( navigator.userAgent.match(/Android/i)
+             || navigator.userAgent.match(/webOS/i)
+             || navigator.userAgent.match(/iPhone/i)
+             || navigator.userAgent.match(/iPad/i)
+             || navigator.userAgent.match(/iPod/i)
+             || navigator.userAgent.match(/BlackBerry/i)
+             || navigator.userAgent.match(/Windows Phone/i)
+             ) {
+            document.getElementById("mobile1").style.display = "none";
+            document.getElementById("mobile2").style.display = "none";
+            }
+        }
+        
+        // set to image
+        function saveImg() {
+            isDrawing = false;
+            var download = document.getElementById("download");
+            var dataURL = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            download.setAttribute("href", dataURL);
+        }
+        
+// draw lines
+        function midPointBtw(p1, p2) {
+            return {
+                x: p1.x + (p2.x - p1.x) / 2,
+                y: p1.y + (p2.y - p1.y) / 2
+            };
+        }
+        var linecolor = "#fff";
+        var mouseX,mouseY;
+        var isDrawing, points = [ ];
+        
+        function checkStyleDown(e) {
+            if(document.getElementById('freehand').checked) {
+                draw_mouseDown(e);
+            }
+            else if(document.getElementById('straight').checked) {
+                draw_straight(e);
+            }
+        }
+        
+        function checkStyleMove(e) {
+            if(document.getElementById('freehand').checked) {
+                draw_mouseMove(e);
+            }
+            else if(document.getElementById('straight').checked) {
+                return;
+            }
+        }
+        
+        function checkStyleUp() {
+            if(document.getElementById('freehand').checked) {
+                draw_mouseUp();
+            }
+            else if(document.getElementById('straight').checked) {
+                return;
+            }
+        }
+        
+        function draw_straight(e) {
+            getMousePos(e);
+            if (!isDrawing) {
+                isDrawing = true;
+                context.beginPath();
+                context.moveTo(mouseX,mouseY);
+            }
+            else {
+                if(document.getElementById('solid').checked) {
+                    context.lineWidth = 1;
+                    context.setLineDash([]);
+                }
+                else if(document.getElementById('dotted').checked) {
+                    context.lineWidth = 1.5;
+                    context.setLineDash([1,3]);
+                }
+                context.lineTo(mouseX,mouseY);
+                context.strokeStyle = linecolor;
+                context.stroke();
+            }
+        }
+        
+        function draw_mouseDown(e) {
+            isDrawing = true;
+            getMousePos(e);
+            points.push({ x: mouseX, y: mouseY });
+        }
+
+        function draw_mouseUp() {
+            isDrawing = false;
+            context.closePath();
+            points = [ ];
+        }
+
+        function draw_mouseMove(e) { 
+            if (!isDrawing) return;
+            getMousePos(e);
+            points.push({ x: mouseX, y: mouseY });
+
+            var p1 = points[0];
+            var p2 = points[1];
+
+            context.beginPath();
+            context.moveTo(p1.x, p1.y);
+            console.log(points);
+            
+            for (var i = 1, len = points.length; i < len; i++) {
+                var midPoint = midPointBtw(p1, p2);
+                context.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+                p1 = points[i];
+                p2 = points[i+1];
+            }
+            
+            if(document.getElementById('solid').checked) {
+                detectmobileSolid();
+            }
+            
+            else if(document.getElementById('dotted').checked) {
+                detectmobileDotted();
+            }
+            
+            context.lineTo(p1.x, p1.y);
+            context.strokeStyle = linecolor;
+            context.stroke();
+            e.preventDefault();
+        };
+        
+        function detectmobileSolid() { 
+            if( navigator.userAgent.match(/Android/i)
+             || navigator.userAgent.match(/webOS/i)
+             || navigator.userAgent.match(/iPhone/i)
+             || navigator.userAgent.match(/iPad/i)
+             || navigator.userAgent.match(/iPod/i)
+             || navigator.userAgent.match(/BlackBerry/i)
+             || navigator.userAgent.match(/Windows Phone/i)
+             ){
+                return;
+            }
+            else {
+                context.lineWidth = 1;
+                context.setLineDash([]);
+            }
+        }
+                
+        function detectmobileDotted() { 
+            if( navigator.userAgent.match(/Android/i)
+             || navigator.userAgent.match(/webOS/i)
+             || navigator.userAgent.match(/iPhone/i)
+             || navigator.userAgent.match(/iPad/i)
+             || navigator.userAgent.match(/iPod/i)
+             || navigator.userAgent.match(/BlackBerry/i)
+             || navigator.userAgent.match(/Windows Phone/i)
+             ){
+                return;
+            }
+            else {
+                context.lineWidth = 1.5;
+                context.setLineDash([1,3]);
+            }
+        }
+    
+        function getMousePos(e) {
+            if (!e) {
+                var e = event;
+            }
+            if (e.offsetX) {
+                mouseX = e.offsetX;
+                mouseY = e.offsetY;
+            }
+            else if (e.layerX) {
+                mouseX = e.layerX;
+                mouseY = e.layerY;
+            }
+        }
+     
+        function changeColor(color) {
+            linecolor = color;
+            isDrawing = false; 
+        }
+        
+        function doubleClick(e) {
+            isDrawing = false; 
+            getMousePos(e);
+            if (document.getElementById('white').checked) {
+                xWhite = mouseX;
+                yWhite = mouseY;
+                draw();
+            }
+            else if (document.getElementById('yellow').checked) {
+                xYellow = mouseX;
+                yYellow = mouseY;
+                draw();
+            }
+            else if (document.getElementById('red').checked) {
+                xRed = mouseX;
+                yRed = mouseY;
+                draw();
+            }
+        }
+        
+        var clickTimer = null;
+
+        function touchStart() {
+            event.preventDefault();
+            if (clickTimer == null) {
+                clickTimer = setTimeout(function () {
+                    clickTimer = null;
+                    draw_mouseDown();
+                }, 200)
+            } else {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                doubleClick();
+            }
+        }
+             
+    </script>
+    <p>
+        <form id="mobile1">
+            <fieldset><input type="radio" class="radio" name="drawstyle" id="freehand" onclick="isDrawing = false;" />Freehand</fieldset>
+            <fieldset><input type="radio" class="radio" name="drawstyle" id="straight" onclick="isDrawing = false;" checked />Straight lines (click on table to draw)</fieldset>
+        </form>
+    </p>
+    <p>
+        <form id="mobile2">
+            <fieldset><input type="radio" class="radio" name="linestyle" id="solid" onclick="isDrawing = false;" checked />Solid line</fieldset>
+            <fieldset><input type="radio" class="radio" name="linestyle" id="dotted" onclick="isDrawing = false;" />Dotted line</fieldset>
+        </form>
+    </p>
+    <p>
+    <form>
+        <label>Line color: </label>
+            <fieldset><input type="radio" class="radio" name="colorLine" onclick="changeColor(&quot;#fff&quot;);" checked />White</fieldset>
+            <fieldset><input type="radio" class="radio" name="colorLine" onclick="changeColor(&quot;#fb0&quot;);" />Yellow</fieldset>
+            <fieldset><input type="radio" class="radio" name="colorLine" onclick="changeColor(&quot;#f00&quot;);" />Red</fieldset>
+            <fieldset><input type="radio" class="radio" name="colorLine" onclick="changeColor(&quot;#04f&quot;);" />Blue</fieldset>
+        </form>
+    </p>
+    <p>
+        <form><label>Move (select, then double click on table): </label>
+            <fieldset><input type="radio" class="radio" name="posBall" id="white" checked />White</fieldset>
+            <fieldset><input type="radio" class="radio" name="posBall" id="yellow" />Yellow</fieldset>
+            <fieldset><input type="radio" class="radio" name="posBall" id="red" />Red</fieldset>
+        </form>
+    </p>
+    <p>
+        <button onclick="toggleColor();">Toggle green/blue</button>
+    </p>
+    <p>
+        Coordinates: <input type="text" id="coord" />
+        <button onclick="isDrawing = false;coord();">Go</button>
+    </p>
+    <p>
+        <button onclick="isDrawing = false;randomPos();">Random</button>
+    </p>
+    <p>
+        <a id="download" download="screenshot.png"><button onclick="saveImg();">Save as image</button></a>
+    </p>
+    <p>
+        <button onclick="draw();isDrawing = false;">Clear</button>
+    </p>
+    <p>
+        <button onclick="location.reload();">Reset</button>
+    </p>
+    <p>
+        <button onclick="window.open('aim.html');isDrawing = false;">Link: Aiming diagram</button>
+    </p>
+    <p>
+        <button onclick="window.location.href = 'index.html';">Home</button>
+    </p>
+</body>
+</html>

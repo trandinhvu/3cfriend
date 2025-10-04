@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hướng dẫn Bida 3 Băng</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 100%;
+    overflow-x: hidden;
+    background: #f4f4f9;
+    text-align: center;
+  }
+  h2 {
+    font-size: calc(18px + 1.5vw);
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 5s ease infinite;
+    margin-bottom: 15px;
+  }
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  h3 {
+    font-size: calc(14px + 1vw);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tabs button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border: none;
+    background: #e0e0e0;
+    border-radius: 6px;
+    font-size: calc(12px + 0.5vw);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .tabs button:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+  }
+  .tabs button.active {
+    background: linear-gradient(45deg, #4CAF50, #66bb6a);
+    color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+  .panel.active {
+    display: flex;
+  }
+  .options {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    margin-bottom: 8px;
+    justify-content: center;
+  }
+  .option-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .thumbCanvas {
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .thumbCanvas.selected {
+  }
+  .epCanvas {
+    width: calc(10vw + 32px);
+    height: calc(10vw + 32px);
+    max-width: 38px;
+    max-height: 38px;
+  }
+  .maCanvas {
+    width: calc(10vw + 40px);
+    height: calc(10vw + 40px);
+    max-width: 48px;
+    max-height: 48px;
+  }
+  .thumbLabel {
+    font-size: calc(8px + 0.3vw);
+    margin-top: 2px;
+    text-align: center;
+  }
+  .thumbLabel.selected {
+    font-weight: bold;
+    color: #ff4d4d;
+  }
+  .maOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .maOptionsRow {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    justify-content: center;
+  }
+  #mainCanvas {
+    margin-top: 0px;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 8px;
+  }
+  #guideText {
+    margin-top: 8px;
+    padding: 12px;
+    background: #e6f0fa;
+    border-radius: 6px;
+    white-space: pre-line;
+    font-size: calc(14px + 0.5vw);
+    color: #0000FF;
+    max-width: 360px;
+  }
+  .quiz {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .quiz button {
+    display: block;
+    margin: 6px 0;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 360px;
+    font-size: calc(12px + 0.5vw);
+    background: #fff;
+    transition: background 0.2s;
+  }
+  .quiz button:hover {
+    background: #f0f0f0;
+  }
+  .quizResult {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: calc(12px + 0.5vw);
+    max-width: 360px;
+  }
+  .summaryText {
+    font-weight: bold;
+    color: #FFD700;
+    margin-bottom: 4px;
+    font-size: calc(14px + 0.5vw);
+  }
+  .credit {
+    margin-top: 20px;
+    padding: 16px;
+    background: #e6f0fa;
+    border-radius: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  .credit-title {
+    font-size: calc(14px + 1vw);
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 5s ease infinite;
+    margin-bottom: 8px;
+  }
+  .credit-text {
+    font-size: calc(12px + 0.5vw);
+    line-height: 1.5;
+    color: #333;
+  }
+  .credit-text a {
+    color: #0000FF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .credit-text a:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
+  .all-combinations {
+    margin-top: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .combination-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+  }
+  .combination-canvas {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    border-radius: 8px;
+  }
+  .combination-text {
+    padding: 10px;
+    background: #e6f0fa;
+    border-radius: 6px;
+    font-size: calc(12px + 0.5vw);
+    color: #0000FF;
+    text-align: left;
+    white-space: pre-line;
+  }
+  @media (max-width: 600px) {
+    h2 { font-size: calc(16px + 1.5vw); }
+    h3 { font-size: calc(12px + 1vw); }
+    .epCanvas { width: calc(10vw + 30px); height: calc(10vw + 30px); max-width: 36px; max-height: 36px; }
+    .maCanvas { width: calc(10vw + 38px); height: calc(10vw + 38px); max-width: 46px; max-height: 46px; }
+    .thumbLabel { font-size: calc(9px + 0.3vw); }
+    #mainCanvas { max-width: 288px; }
+    #guideText { max-width: 288px; }
+    .quiz button { max-width: 288px; }
+    .quizResult { max-width: 288px; }
+    .credit { max-width: 288px; }
+    .credit-title { font-size: calc(12px + 1vw); }
+    .credit-text { font-size: calc(10px + 0.5vw); }
+    .all-combinations { max-width: 288px; }
+    .combination-row { grid-template-columns: 144px 1fr; }
+    .combination-canvas { max-width: 144px; }
+    .combination-text { font-size: calc(10px + 0.5vw); }
+  }
+</style>
+</head>
+<body>
+<h2>Hướng dẫn Bida 3 Băng</h2>
+
+<div class="tabs">
+  <button class="tabBtn active" data-tab="tab1">Hướng dẫn</button>
+  <button class="tabBtn" data-tab="tab2">Kiểm tra</button>
+</div>
+
+<div id="tab1" class="panel active">
+  <h3>Chọn ép phê trên bi chủ</h3>
+  <div id="epOptions" class="options"></div>
+
+  <h3>Chọn má chạm trên bi carde</h3>
+  <div id="maOptions" class="maOptionsContainer"></div>
+
+  <h3>Hướng dẫn chạm má với ép phê</h3>
+  <div id="summaryText" class="summaryText"></div>
+  <canvas id="mainCanvas"></canvas>
+  <div id="guideText">Hãy chọn ép phê và má chạm để xem hướng dẫn.</div>
+</div>
+
+<div id="tab2" class="panel">
+  <h3>Trắc nghiệm chạm má bi</h3>
+  <div id="quizArea" class="quiz"></div>
+</div>
+
+<div class="credit">
+  <div class="credit-title">3C Friend - Bạn đồng hành của anh em chơi 3C</div>
+  <div class="credit-text">
+    Được tạo bởi Trần Đình Vũ - Năm 2025<br>
+    <a href="tel:0983409459">0983.409.459</a> - <a href="tel:0908409459">0908.409.459</a><br>
+    <a href="mailto:trandinhvu@gmail.com">trandinhvu@gmail.com</a>
+  </div>
+</div>
+
+<div class="all-combinations"></div>
+
+<script>
+// Hàm tính GCD để rút gọn phân số
+function gcd(a, b) {
+  a = Math.abs(a);
+  b = Math.abs(b);
+  while (b) {
+    const temp = b;
+    b = a % b;
+    a = temp;
+  }
+  return a;
+}
+
+const epValues = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+const maValues = [
+  { k: 1, side: "right" }, { k: 2, side: "right" }, { k: 3, side: "right" }, { k: 4, side: "right" },
+  { k: 5, side: "right" }, { k: 6, side: "right" }, { k: 7, side: "right" },
+  { k: 7, side: "left" }, { k: 6, side: "left" }, { k: 5, side: "left" }, { k: 4, side: "left" },
+  { k: 3, side: "left" }, { k: 2, side: "left" }, { k: 1, side: "left" }
+];
+
+let currentEp = null, currentMa = null;
+
+// ---- Mảng tất cả trường hợp ----
+const combinations = [
+  [-4, 'r1', 'huongdan', 0], [-4, 'r2', 'huongdan', 0], [-4, 'r3', 'huongdan', 0], [-4, 'r4', 'huongdan', 0],
+  [-4, 'r5', 'huongdan', 0], [-4, 'r6', 'huongdan', 0], [-4, 'r7', 'huongdan', 0], [-4, 'l7', 'huongdan', 0],
+  [-4, 'l6', 'huongdan', 0], [-4, 'l5', 'huongdan', 0], [-4, 'l4', 'huongdan', 0], [-4, 'l3', 'huongdan', 0],
+  [-4, 'l2', 'huongdan', 0], [-4, 'l1', 'huongdan', 0], [-3, 'r1', 'huongdan', 0], [-3, 'r2', 'huongdan', 0],
+  [-3, 'r3', 'huongdan', 0], [-3, 'r4', 'huongdan', 0], [-3, 'r5', 'huongdan', 0], [-3, 'r6', 'huongdan', 0],
+  [-3, 'r7', 'huongdan', 0], [-3, 'l7', 'huongdan', 0], [-3, 'l6', 'huongdan', 0], [-3, 'l5', 'huongdan', 0],
+  [-3, 'l4', 'huongdan', 0], [-3, 'l3', 'huongdan', 0], [-3, 'l2', 'huongdan', 0], [-3, 'l1', 'huongdan', 0],
+  [-2, 'r1', 'huongdan', 0], [-2, 'r2', 'huongdan', 0], [-2, 'r3', 'huongdan', 0], [-2, 'r4', 'huongdan', 0],
+  [-2, 'r5', 'huongdan', 0], [-2, 'r6', 'huongdan', 0], [-2, 'r7', 'huongdan', 0], [-2, 'l7', 'huongdan', 0],
+  [-2, 'l6', 'huongdan', 0], [-2, 'l5', 'huongdan', 0], [-2, 'l4', 'huongdan', 0], [-2, 'l3', 'huongdan', 0],
+  [-2, 'l2', 'huongdan', 0], [-2, 'l1', 'huongdan', 0], [-1, 'r1', 'huongdan', 0], [-1, 'r2', 'huongdan', 0],
+  [-1, 'r3', 'huongdan', 0], [-1, 'r4', 'huongdan', 0], [-1, 'r5', 'huongdan', 0], [-1, 'r6', 'huongdan', 0],
+  [-1, 'r7', 'huongdan', 0], [-1, 'l7', 'huongdan', 0], [-1, 'l6', 'huongdan', 0], [-1, 'l5', 'huongdan', 0],
+  [-1, 'l4', 'huongdan', 0], [-1, 'l3', 'huongdan', 0], [-1, 'l2', 'huongdan', 0], [-1, 'l1', 'huongdan', 0],
+  [0, 'r1', 'huongdan', 0], [0, 'r2', 'huongdan', 0], [0, 'r3', 'huongdan', 0], [0, 'r4', 'huongdan', 0],
+  [0, 'r5', 'huongdan', 0], [0, 'r6', 'huongdan', 0], [0, 'r7', 'huongdan', 0], [0, 'l7', 'huongdan', 0],
+  [0, 'l6', 'huongdan', 0], [0, 'l5', 'huongdan', 0], [0, 'l4', 'huongdan', 0], [0, 'l3', 'huongdan', 0],
+  [0, 'l2', 'huongdan', 0], [0, 'l1', 'huongdan', 0], [1, 'r1', 'huongdan', 0], [1, 'r2', 'huongdan', 0],
+  [1, 'r3', 'huongdan', 0], [1, 'r4', 'huongdan', 0], [1, 'r5', 'huongdan', 0], [1, 'r6', 'huongdan', 0],
+  [1, 'r7', 'huongdan', 0], [1, 'l7', 'huongdan', 0], [1, 'l6', 'huongdan', 0], [1, 'l5', 'huongdan', 0],
+  [1, 'l4', 'huongdan', 0], [1, 'l3', 'huongdan', 0], [1, 'l2', 'huongdan', 0], [1, 'l1', 'huongdan', 0],
+  [2, 'r1', 'huongdan', 0], [2, 'r2', 'huongdan', 0], [2, 'r3', 'huongdan', 0], [2, 'r4', 'huongdan', 0],
+  [2, 'r5', 'huongdan', 0], [2, 'r6', 'huongdan', 0], [2, 'r7', 'huongdan', 0], [2, 'l7', 'huongdan', 0],
+  [2, 'l6', 'huongdan', 0], [2, 'l5', 'huongdan', 0], [2, 'l4', 'huongdan', 0], [2, 'l3', 'huongdan', 0],
+  [2, 'l2', 'huongdan', 0], [2, 'l1', 'huongdan', 0], [3, 'r1', 'huongdan', 0], [3, 'r2', 'huongdan', 0],
+  [3, 'r3', 'huongdan', 0], [3, 'r4', 'huongdan', 0], [3, 'r5', 'huongdan', 0], [3, 'r6', 'huongdan', 0],
+  [3, 'r7', 'huongdan', 0], [3, 'l7', 'huongdan', 0], [3, 'l6', 'huongdan', 0], [3, 'l5', 'huongdan', 0],
+  [3, 'l4', 'huongdan', 0], [3, 'l3', 'huongdan', 0], [3, 'l2', 'huongdan', 0], [3, 'l1', 'huongdan', 0],
+  [4, 'r1', 'huongdan', 0], [4, 'r2', 'huongdan', 0], [4, 'r3', 'huongdan', 0], [4, 'r4', 'huongdan', 0],
+  [4, 'r5', 'huongdan', 0], [4, 'r6', 'huongdan', 0], [4, 'r7', 'huongdan', 0], [4, 'l7', 'huongdan', 0],
+  [4, 'l6', 'huongdan', 0], [4, 'l5', 'huongdan', 0], [4, 'l4', 'huongdan', 0], [4, 'l3', 'huongdan', 0],
+  [4, 'l2', 'huongdan', 0], [4, 'l1', 'huongdan', 0]
+];
+
+// ---- Hàm vẽ bi với hiệu ứng 3D và bóng ----
+function drawBall(ctx, x, y, r, color, isWhite = false, isSelected = false) {
+  const gradient = ctx.createRadialGradient(x - r * 0.4, y - r * 0.4, r * 0.2, x, y, r);
+  gradient.addColorStop(0, isWhite ? '#fff' : '#ff4d4d');
+  gradient.addColorStop(1, isWhite ? '#d9d9d9' : '#b30000');
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+  ctx.shadowColor = isSelected ? 'rgba(0,0,255,0.5)' : 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 4;
+  ctx.shadowOffsetY = 4;
+  ctx.fill();
+  ctx.shadowColor = 'transparent';
+}
+function drawCueTip(ctx, x, y, r) {
+  const gradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+  gradient.addColorStop(0, '#4d79ff');
+  gradient.addColorStop(1, '#0033cc');
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = gradient;
+  ctx.fill();
+}
+
+// ---- Responsive canvas ----
+function resizeCanvases() {
+  const mainCanvas = document.getElementById('mainCanvas');
+  const width = Math.min(window.innerWidth - 40, 360);
+  const height = width / 2;
+  mainCanvas.width = width;
+  mainCanvas.height = height;
+  updateMain();
+}
+window.addEventListener('resize', resizeCanvases);
+
+// ---- Thumbnail ép phê ----
+function makeEpThumb(val) {
+  const container = document.createElement('div');
+  container.className = 'option-container';
+  const c = document.createElement('canvas');
+  c.width = c.height = Math.min(window.innerWidth / 10, 38);
+  c.className = 'thumbCanvas epCanvas';
+  const ctx = c.getContext('2d');
+  const rBall = c.width * 0.37;
+  const rTip = c.width * 0.08;
+  drawBall(ctx, c.width / 2, c.height / 2, rBall, '#fff', true, false);
+  const offset = (val / 4) * (rBall - rTip);
+  drawCueTip(ctx, c.width / 2 + offset, c.height / 2, rTip);
+  c.title = `Ép phê ${val}`;
+  c.onclick = () => {
+    document.querySelectorAll('#epOptions .thumbCanvas').forEach(cv => {
+      cv.classList.remove('selected');
+      cv.nextSibling.classList.remove('selected');
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      drawBall(ctx, cv.width / 2, cv.height / 2, rBall, '#fff', true, false);
+      const v = parseInt(cv.nextSibling.innerText);
+      const off = (v / 4) * (rBall - rTip);
+      drawCueTip(ctx, cv.width / 2 + off, cv.height / 2, rTip);
+    });
+    c.className = 'thumbCanvas epCanvas selected';
+    c.nextSibling.classList.add('selected');
+    ctx.clearRect(0, 0, c.width, c.height);
+    drawBall(ctx, c.width / 2, c.height / 2, rBall, '#fff', true, true);
+    drawCueTip(ctx, c.width / 2 + offset, c.height / 2, rTip);
+    currentEp = val;
+    updateSelectedTexts();
+    updateMain();
+  };
+  const label = document.createElement('span');
+  label.className = 'thumbLabel';
+  label.innerText = `${val < 0 ? '' : val > 0 ? '' : ''}${val}EF`;
+  container.appendChild(c);
+  container.appendChild(label);
+  return container;
+}
+
+// ---- Thumbnail chạm má ----
+function makeMaThumb(opt) {
+  const container = document.createElement('div');
+  container.className = 'option-container';
+  const c = document.createElement('canvas');
+  c.width = c.height = Math.min(window.innerWidth / 8, 48);
+  c.className = 'thumbCanvas maCanvas';
+  const ctx = c.getContext('2d');
+  const rBall = c.width * 0.37;
+  drawBall(ctx, c.width / 2, c.height / 2, rBall, 'red', false, false);
+  ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let i = 1; i < 8; i++) {
+    let x = c.width / 2 - rBall + i * (2 * rBall / 8);
+    let label = opt.side === 'right' ? 8 - i : i;
+    ctx.fillText(label, x, c.height / 2 + rBall + rBall * 0.3 + 2);
+  }
+  let frac = opt.k / 8;
+  let contactX = opt.side === 'right' ?
+    (c.width / 2 + rBall - (frac * 2 * rBall) + rBall) :
+    (c.width / 2 - rBall + (frac * 2 * rBall) - rBall);
+  drawBall(ctx, contactX, c.height / 2, rBall, '#fff', true, false);
+  c.title = `Chạm ${opt.k}/8 má ${opt.side === 'right' ? 'phải' : 'trái'}`;
+  c.onclick = () => {
+    document.querySelectorAll('#maOptions .thumbCanvas').forEach(cv => {
+      cv.classList.remove('selected');
+      cv.nextSibling.classList.remove('selected');
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      drawBall(ctx, cv.width / 2, cv.height / 2, rBall, 'red', false, false);
+      ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      const optStr = cv.nextSibling.innerText;
+      const k = parseInt(optStr.slice(1));
+      const side = optStr[0] === 'P' ? 'right' : 'left';
+      for (let i = 1; i < 8; i++) {
+        let x = cv.width / 2 - rBall + i * (2 * rBall / 8);
+        let label = side === 'right' ? 8 - i : i;
+        ctx.fillText(label, x, cv.height / 2 + rBall + rBall * 0.3 + 2);
+      }
+      let f = k / 8;
+      let cX = side === 'right' ?
+        (cv.width / 2 + rBall - (f * 2 * rBall) + rBall) :
+        (cv.width / 2 - rBall + (f * 2 * rBall) - rBall);
+      drawBall(ctx, cX, cv.height / 2, rBall, '#fff', true, false);
+    });
+    c.className = 'thumbCanvas maCanvas selected';
+    c.nextSibling.classList.add('selected');
+    ctx.clearRect(0, 0, c.width, c.height);
+    drawBall(ctx, c.width / 2, c.height / 2, rBall, 'red', false, true);
+    ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    for (let i = 1; i < 8; i++) {
+      let x = c.width / 2 - rBall + i * (2 * rBall / 8);
+      let label = opt.side === 'right' ? 8 - i : i;
+      ctx.fillText(label, x, c.height / 2 + rBall + rBall * 0.3 + 2);
+    }
+    drawBall(ctx, contactX, c.height / 2, rBall, '#fff', true, true);
+    currentMa = opt;
+    updateSelectedTexts();
+    updateMain();
+  };
+  const label = document.createElement('span');
+  label.className = 'thumbLabel';
+  label.innerText = `${opt.side === 'right' ? 'P' : 'T'}${opt.k}/8`;
+  container.appendChild(c);
+  container.appendChild(label);
+  return container;
+}
+
+// ---- Khởi tạo options má chạm thành 2 hàng ----
+function initMaOptions() {
+  const maOptions = document.getElementById('maOptions');
+  maOptions.innerHTML = '';
+  const rightRow = document.createElement('div');
+  rightRow.className = 'maOptionsRow';
+  const leftRow = document.createElement('div');
+  leftRow.className = 'maOptionsRow';
+  maValues.forEach(m => {
+    const thumb = makeMaThumb(m);
+    if (m.side === 'right') {
+      rightRow.appendChild(thumb);
+    } else {
+      leftRow.appendChild(thumb);
+    }
+  });
+  maOptions.appendChild(rightRow);
+  maOptions.appendChild(leftRow);
+}
+
+// ---- Cập nhật text lựa chọn ----
+function updateSelectedTexts() {
+  const summaryElem = document.getElementById('summaryText');
+  if (currentEp !== null && currentMa !== null) {
+    const epDesc = currentEp === 0 ? 'chính giữa' : `${Math.abs(currentEp)} ép phê bên ${currentEp > 0 ? 'phải' : 'trái'}`;
+    const maDesc = `${currentMa.k}/8 bên ${currentMa.side === 'right' ? 'phải' : 'trái'} bi carde`;
+    summaryElem.innerText = `Chạm ${maDesc} với ${epDesc}`;
+  } else {
+    summaryElem.innerText = '';
+  }
+}
+
+// ---- Vẽ chính ----
+function updateMain() {
+  const canvas = document.getElementById('mainCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (currentEp === null || currentMa === null) return;
+  const rBall = canvas.width * 0.14;
+  const rTip = rBall * 0.175;
+  const centerX = canvas.width / 2;
+  drawBall(ctx, centerX, canvas.height / 2, rBall, 'red', false, false);
+  ctx.strokeStyle = '#666';
+  ctx.lineWidth = 0.3;
+  ctx.setLineDash([3, 3]);
+  ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let i = 1; i < 8; i++) {
+    let x = centerX - rBall + i * (2 * rBall / 8);
+    let label = currentMa.side === 'right' ? 8 - i : i;
+    ctx.beginPath();
+    ctx.moveTo(x, canvas.height / 2 + rBall);
+    ctx.lineTo(x, canvas.height / 2 + rBall + rBall * 0.5);
+    ctx.stroke();
+    ctx.fillText(label, x, canvas.height / 2 + rBall + rBall * 0.5 + 4);
+  }
+  ctx.setLineDash([]);
+  let frac = currentMa.k / 8;
+  let contactX = currentMa.side === 'right' ?
+    (centerX + rBall - (frac * 2 * rBall) + rBall) :
+    (centerX - rBall + (frac * 2 * rBall) - rBall);
+  ctx.globalAlpha = 0.5;
+  drawBall(ctx, contactX, canvas.height / 2, rBall, '#fff', true, false);
+  ctx.globalAlpha = 1.0;
+  const offset = (currentEp / 4) * (rBall - rTip);
+  drawCueTip(ctx, contactX + offset, canvas.height / 2, rTip);
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(contactX + offset, canvas.height / 2);
+  ctx.lineTo(contactX - (currentMa.side === 'right' ? rBall : -rBall), canvas.height / 2);
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();
+  ctx.setLineDash([]);
+  const epText = currentEp === 0 ? 'chính giữa' : `${Math.abs(currentEp)} ép phê bên ${currentEp > 0 ? 'phải' : 'trái'}`;
+  const maText = `${currentMa.k}/8 mép ${currentMa.side === 'right' ? 'phải' : 'trái'}`;
+  const aimSide = currentEp >= 0 ? 'trái' : 'phải';
+  const targetSide = currentMa.side === 'right' ? 'phải' : 'trái';
+  const distance = currentMa.k <= 2 ? '0.5 đầu cơ (~6 mm)' : '1 đầu cơ (~12 mm)';
+  const huongdan = `Nhắm ${epText} trên bi chủ sao cho mép ${aimSide} đầu cơ cách mép ${targetSide} bi carde (đỏ) khoảng ${distance}.`;
+  document.getElementById('guideText').innerText = huongdan;
+}
+
+// ---- Hiển thị tất cả trường hợp ----
+function drawCombination(ep, ma) {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'combination-canvas';
+  const width = Math.min(window.innerWidth / 2 - 20, 180);
+  canvas.width = width;
+  canvas.height = width / 2;
+  const ctx = canvas.getContext('2d');
+  const rBall = canvas.width * 0.14;
+  const rTip = rBall * 0.175;
+  const centerX = canvas.width / 2;
+  drawBall(ctx, centerX, canvas.height / 2, rBall, 'red', false, false);
+  ctx.strokeStyle = '#666';
+  ctx.lineWidth = 0.3;
+  ctx.setLineDash([3, 3]);
+  ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let i = 1; i < 8; i++) {
+    let x = centerX - rBall + i * (2 * rBall / 8);
+    let label = ma.side === 'right' ? 8 - i : i;
+    ctx.beginPath();
+    ctx.moveTo(x, canvas.height / 2 + rBall);
+    ctx.lineTo(x, canvas.height / 2 + rBall + rBall * 0.5);
+    ctx.stroke();
+    ctx.fillText(label, x, canvas.height / 2 + rBall + rBall * 0.5 + 4);
+  }
+  ctx.setLineDash([]);
+  let frac = ma.k / 8;
+  let contactX = ma.side === 'right' ?
+    (centerX + rBall - (frac * 2 * rBall) + rBall) :
+    (centerX - rBall + (frac * 2 * rBall) - rBall);
+  ctx.globalAlpha = 0.5;
+  drawBall(ctx, contactX, canvas.height / 2, rBall, '#fff', true, false);
+  ctx.globalAlpha = 1.0;
+  const offset = (ep / 4) * (rBall - rTip);
+  drawCueTip(ctx, contactX + offset, canvas.height / 2, rTip);
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(contactX + offset, canvas.height / 2);
+  ctx.lineTo(contactX - (ma.side === 'right' ? rBall : -rBall), canvas.height / 2);
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Tính toán khoảng cách gần nhất giữa các vị trí của bi đỏ và đầu cơ
+  const ballDiameterCm = 6.12; // Đường kính bi đỏ 61.2 mm
+  const tipDiameterCm = 1.19; // Đường kính đầu cơ 11.9 mm
+  const pixelsPerCm = (2 * rBall) / ballDiameterCm; // Tỷ lệ pixel/cm
+
+  // Vị trí bi đỏ
+  const redLeft = centerX - rBall;
+  const redCenter = centerX;
+  const redRight = centerX + rBall;
+
+  // Vị trí đầu cơ
+  const tipCenter = contactX + offset;
+  const tipLeft = tipCenter - rTip;
+  const tipRight = tipCenter + rTip;
+
+  // Danh sách các vị trí
+  const redPositions = [
+    { name: 'mép trái bi carde (đỏ)', value: redLeft },
+    { name: 'tâm bi đỏ', value: redCenter },
+    { name: 'mép phải bi carde (đỏ)', value: redRight }
+  ];
+  const tipPositions = [
+    { name: 'mép trái đầu cơ', value: tipLeft },
+    { name: 'tâm đầu cơ', value: tipCenter },
+    { name: 'mép phải đầu cơ', value: tipRight }
+  ];
+
+  // Tìm khoảng cách gần nhất
+  let minDistance = Infinity;
+  let minPair = { red: '', tip: '' };
+  redPositions.forEach(red => {
+    tipPositions.forEach(tip => {
+      const dist = Math.abs(red.value - tip.value);
+      if (dist < minDistance) {
+        minDistance = dist;
+        minPair = { red: red.name, tip: tip.name };
+      }
+    });
+  });
+
+  // Chuyển đổi khoảng cách
+  const distanceCm = minDistance / pixelsPerCm;
+  const distanceTips = distanceCm / tipDiameterCm;
+  const roundedTips = Math.round(distanceTips * 4) / 4; // Làm tròn đến 1/4
+  const distanceMm = Math.round((distanceCm * 10) / 3) * 3; // Làm tròn đến 3 mm
+
+  // Rút gọn phân số
+  let distanceTipsText;
+  if (roundedTips % 1 === 0) {
+    distanceTipsText = `${roundedTips}`;
+  } else {
+    const numerator = Math.round(roundedTips * 4);
+    const denominator = 4;
+    const divisor = gcd(numerator, denominator);
+    const simplifiedNumerator = numerator / divisor;
+    const simplifiedDenominator = denominator / divisor;
+    distanceTipsText = `${simplifiedNumerator}/${simplifiedDenominator}`;
+  }
+
+  // Ánh xạ khoảng cách sang văn bản tối ưu
+  const distanceMap = {
+    '1/2': 'nửa đầu cơ',
+    '3/4': 'gần 1 đầu cơ',
+    '5/4': 'hơn 1 đầu cơ',
+    '3/2': 'khoảng 1 đầu cơ rưỡi',
+    '7/4': 'gần 2 đầu cơ',
+    '5/2': 'khoảng 2 đầu cơ rưỡi',
+    '7/2': 'hơn 3 đầu cơ',
+    '9/4': 'hơn 2 đầu cơ'
+  };
+
+  // Ánh xạ các trường hợp khoảng cách 0
+  const zeroDistanceMap = {
+    'mép trái đầu cơ_mép phải bi carde (đỏ)': 'mép trái đầu cơ tiếp xúc với mép phải bi carde (đỏ)',
+    'mép trái đầu cơ_tâm bi đỏ': 'mép trái đầu cơ tiếp xúc với tâm carde (đỏ)',
+    'mép trái đầu cơ_mép trái bi carde (đỏ)': 'mép trái đầu cơ tiếp xúc với mép trái bi carde (đỏ)',
+    'mép phải đầu cơ_mép phải bi carde (đỏ)': 'mép phải đầu cơ tiếp xúc với mép phải bi carde (đỏ)',
+    'mép phải đầu cơ_tâm bi đỏ': 'mép phải đầu cơ tiếp xúc với tâm carde (đỏ)',
+    'mép phải đầu cơ_mép trái bi carde (đỏ)': 'mép phải đầu cơ tiếp xúc với mép trái bi carde (đỏ)',
+    'tâm đầu cơ_mép phải bi carde (đỏ)': 'tâm đầu cơ trùng với mép phải bi carde (đỏ)',
+    'tâm đầu cơ_tâm bi đỏ': 'tâm đầu cơ trùng với tâm carde (đỏ)',
+    'tâm đầu cơ_mép trái bi carde (đỏ)': 'tâm đầu cơ trùng với mép trái bi carde (đỏ)'
+  };
+
+  // Tạo chuỗi hướng dẫn
+  const epText = ep === 0 ? 'chính giữa' : `${Math.abs(ep)} ép phê bên ${ep > 0 ? 'phải' : 'trái'}`;
+  let huongdan;
+  if (roundedTips === 0) {
+    const key = `${minPair.tip}_${minPair.red}`;
+    huongdan = `Đặt đầu cơ vào vị trí ${epText} của bi chủ (bi trắng) rồi ngắm sao cho ${zeroDistanceMap[key] || `${minPair.tip} cách ${minPair.red} khoảng 0 đầu cơ (~ 0 mm)`}`;
+  } else {
+    const distanceText = distanceMap[distanceTipsText] || `${distanceTipsText} đầu cơ`;
+    huongdan = `Đặt đầu cơ vào vị trí ${epText} của bi chủ (bi trắng) rồi ngắm sao cho ${minPair.tip} cách ${minPair.red} khoảng ${distanceText} (~ ${distanceMm} mm)`;
+  }
+
+  return { canvas, huongdan };
+}
+
+// ---- Cập nhật mảng combinations với huongdan mới ----
+function updateCombinations() {
+  epValues.forEach(ep => {
+    maValues.forEach(ma => {
+      const maString = `${ma.side === 'right' ? 'r' : 'l'}${ma.k}`;
+      const { huongdan } = drawCombination(ep, ma);
+      const combo = combinations.find(c => c[0] === ep && c[1] === maString);
+      if (combo) combo[2] = huongdan;
+    });
+  });
+}
+
+// ---- Hiển thị tất cả trường hợp và in mảng ra console ----
+function initCombinations() {
+  const container = document.querySelector('.all-combinations');
+  container.innerHTML = '';
+  epValues.forEach(ep => {
+    maValues.forEach(ma => {
+      const row = document.createElement('div');
+      row.className = 'combination-row';
+      const { canvas, huongdan } = drawCombination(ep, ma);
+      const textDiv = document.createElement('div');
+      textDiv.className = 'combination-text';
+      textDiv.innerText = huongdan;
+      row.appendChild(canvas);
+      row.appendChild(textDiv);
+      container.appendChild(row);
+    });
+  });
+
+  // In mảng combinations ra console
+  console.log('[');
+  combinations.forEach((combo, index) => {
+    console.log(`  [${combo[0]}, '${combo[1]}', '${combo[2]}']${index < combinations.length - 1 ? ',' : ''}`);
+  });
+  console.log('];');
+}
+
+// ---- Khởi tạo options ----
+epValues.forEach(v => document.getElementById('epOptions').appendChild(makeEpThumb(v)));
+initMaOptions();
+resizeCanvases();
+updateCombinations();
+initCombinations();
+
+// ---- Tabs ----
+document.querySelectorAll('.tabBtn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  };
+});
+
+// ---- Quiz ----
+function newQuiz() {
+  const area = document.getElementById('quizArea');
+  area.innerHTML = '';
+  const ep = epValues[Math.floor(Math.random() * epValues.length)];
+  const ma = maValues[Math.floor(Math.random() * maValues.length)];
+  const correct = `Ép phê ${ep}, chạm ${ma.k}/8 má ${ma.side === 'right' ? 'phải' : 'trái'}`;
+  const qCanvas = document.createElement('canvas');
+  qCanvas.width = Math.min(window.innerWidth - 40, 360);
+  qCanvas.height = qCanvas.width / 2;
+  const ctx = qCanvas.getContext('2d');
+  const rBall = qCanvas.width * 0.14;
+  const rTip = rBall * 0.175;
+  const centerX = qCanvas.width / 2;
+  drawBall(ctx, centerX, qCanvas.height / 2, rBall, 'red', false, false);
+  ctx.strokeStyle = '#666';
+  ctx.lineWidth = 0.3;
+  ctx.setLineDash([3, 3]);
+  ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  for (let i = 1; i < 8; i++) {
+    let x = centerX - rBall + i * (2 * rBall / 8);
+    let label = ma.side === 'right' ? 8 - i : i;
+    ctx.beginPath();
+    ctx.moveTo(x, qCanvas.height / 2 + rBall);
+    ctx.lineTo(x, qCanvas.height / 2 + rBall + rBall * 0.5);
+    ctx.stroke();
+    ctx.fillText(label, x, qCanvas.height / 2 + rBall + rBall * 0.5 + 4);
+  }
+  ctx.setLineDash([]);
+  let frac = ma.k / 8;
+  let contactX = ma.side === 'right' ?
+    (centerX + rBall - (frac * 2 * rBall) + rBall) :
+    (centerX - rBall + (frac * 2 * rBall) - rBall);
+  ctx.globalAlpha = 0.5;
+  drawBall(ctx, contactX, qCanvas.height / 2, rBall, '#fff', true, false);
+  ctx.globalAlpha = 1.0;
+  const offset = (ep / 4) * (rBall - rTip);
+  drawCueTip(ctx, contactX + offset, qCanvas.height / 2, rTip);
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(contactX + offset, qCanvas.height / 2);
+  ctx.lineTo(contactX - (ma.side === 'right' ? rBall : -rBall), qCanvas.height / 2);
+  ctx.strokeStyle = 'blue';
+  ctx.stroke();
+  ctx.setLineDash([]);
+  area.appendChild(qCanvas);
+  let answers = [correct];
+  while (answers.length < 3) {
+    let e = epValues[Math.floor(Math.random() * epValues.length)];
+    let m = maValues[Math.floor(Math.random() * maValues.length)];
+    let ans = `Ép phê ${e}, chạm ${m.k}/8 má ${m.side === 'right' ? 'phải' : 'trái'}`;
+    if (!answers.includes(ans)) answers.push(ans);
+  }
+  answers.sort(() => Math.random() - 0.5);
+  answers.forEach(ans => {
+    const b = document.createElement('button');
+    b.textContent = ans;
+    b.onclick = () => {
+      document.querySelectorAll('#quizArea button').forEach(bb => bb.disabled = true);
+      const res = document.createElement('div');
+      res.className = 'quizResult';
+      if (ans === correct) {
+        res.style.background = '#cfc';
+        res.innerText = 'Đúng! ' + correct;
+      } else {
+        res.style.background = '#fcc';
+        res.innerText = 'Sai! Đáp án: ' + correct +
+          '\nPhân tích: ép phê ' + ep + ' tạo xoáy ' + (ep > 0 ? 'phải' : ep < 0 ? 'trái' : 'không') +
+          ', chạm ' + ma.k + '/8 ' + (ma.side === 'right' ? 'phải' : 'trái') +
+          (ma.k <= 2 ? ' → mỏng (bi chủ đi dài)' : ' → dày (bi chủ đi ngắn)');
+      }
+      area.appendChild(res);
+      const next = document.createElement('button');
+      next.textContent = 'Câu tiếp theo';
+      next.onclick = newQuiz;
+      area.appendChild(next);
+    };
+    area.appendChild(b);
+  });
+}
+newQuiz();
+</script>
+</body>
+</html>

@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3C Friend - Hướng dẫn ngắm đánh</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 20px auto;
+    max-width: 100%;
+    overflow-x: hidden;
+    background: #f4f4f9;
+    text-align: center;
+  }
+  h2 {
+    font-size: calc(18px + 1.5vw);
+    /* background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); */
+    background: linear-gradient(45deg, #ff0000, #ffbb00, #1100ff);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 5s ease infinite;
+    margin-bottom: 10px;
+    margin-top: 5px;
+  }
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  h3 {
+    font-size: calc(14px + 1vw);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tabs button {
+    padding: 15px 30px;
+    cursor: pointer;
+    border: none;
+    background: #e0e0e0;
+    border-radius: 6px;
+    font-size: calc(12px + 0.5vw);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .tabs button:hover {
+    background: #d0d0d0;
+    transform: translateY(-2px);
+  }
+  .tabs button.active {
+    background: linear-gradient(45deg, #4CAF50, #66bb6a);
+    color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .panel {
+    color: rgb(20, 18, 148);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+  .panel.active {
+    display: flex;
+  }
+  .options {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    margin-bottom: 8px;
+    justify-content: center;
+  }
+  .option-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .thumbCanvas {
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .thumbCanvas.selected {
+  }
+  .epCanvas {
+    width: calc(10vw + 32px);
+    height: calc(10vw + 32px);
+    max-width: 38px;
+    max-height: 38px;
+  }
+  .maCanvas {
+    width: calc(10vw + 40px);
+    height: calc(10vw + 40px);
+    max-width: 48px;
+    max-height: 48px;
+  }
+  .thumbLabel {
+    font-size: calc(8px + 0.3vw);
+    margin-top: 2px;
+    text-align: center;
+  }
+  .thumbLabel.selected {
+    font-weight: bold;
+    color: #ff4d4d;
+  }
+  .highlight {
+    color: #ff4d4d;
+  }
+  .maOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+  .maOptionsRow {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 3px;
+    justify-content: center;
+  }
+  #mainCanvas {
+    margin-top: 0px;
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    border-radius: 8px;
+  }
+  #guideText {
+    margin-top: 8px;
+    padding: 12px;
+    background: #e6f0fa;
+    border-radius: 6px;
+    white-space: pre-line;
+    font-size: calc(14px + 0.5vw);
+    color: #0000FF;
+    max-width: 360px;
+  }
+  .quiz {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .quiz button {
+    display: block;
+    margin: 6px 0;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 360px;
+    font-size: calc(12px + 0.5vw);
+    background: #fff;
+    transition: background 0.2s;
+  }
+  .quiz button:hover {
+    background: #f0f0f0;
+  }
+  .quizResult {
+    margin-top: 8px;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: calc(12px + 0.5vw);
+    max-width: 360px;
+  }
+  .summaryText {
+    font-weight: bold;
+    color: #ffae00;
+    margin-bottom: 4px;
+    font-size: calc(14px + 0.5vw);
+  }
+  .credit {
+    margin-top: 20px;
+    padding: 16px;
+    background: #e6f0fa;
+    border-radius: 8px;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  .credit-title {
+    font-size: calc(14px + 1vw);
+    font-weight: bold;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 5s ease infinite;
+    margin-bottom: 8px;
+  }
+  .credit-text {
+    font-size: calc(12px + 0.5vw);
+    line-height: 1.5;
+    color: #333;
+  }
+  .credit-text a {
+    color: #0000FF;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .credit-text a:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
+  .container {
+    width: 100%;
+    /* min-height: 100vh; */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #14213d; */
+  }
+
+  .text span {
+    font-weight: bold;
+    font-size: 50px;
+    padding: 0 5px;
+    text-transform: uppercase;
+    color: #4006ef;
+    animation: zoomup 2s linear infinite;
+    animation-delay: calc(200ms * var(--i));
+  }
+
+  @keyframes zoomup {
+    0%,
+    100% {
+      color: #00c2ba;
+      filter: blur(1px);
+      text-shadow: 0 0 10px #00c2ba, 0 0 20px #00c2ba, 0 0 30px #00c2ba,
+        0 0 40px #00c2ba, 0 0 60px #00c2ba, 0 0 80px #00c2ba, 0 0 100px #00c2ba,
+        0 0 120px #00c2ba;
+    }
+
+    5%,
+    95% {
+      filter: blur(0);
+      color: #4006ef;
+      text-shadow: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    h2 { font-size: calc(16px + 1.5vw); }
+    h3 { font-size: calc(12px + 1vw); }
+    .epCanvas { width: calc(10vw + 30px); height: calc(10vw + 30px); max-width: 36px; max-height: 36px; }
+    .maCanvas { width: calc(10vw + 38px); height: calc(10vw + 38px); max-width: 46px; max-height: 46px; }
+    .thumbLabel { font-size: calc(9px + 0.3vw); }
+    #mainCanvas { max-width: 288px; }
+    #guideText { max-width: 288px; }
+    .quiz button { max-width: 288px; }
+    .quizResult { max-width: 288px; }
+    .credit { max-width: 288px; }
+    .credit-title { font-size: calc(12px + 1vw); }
+    .credit-text { font-size: calc(10px + 0.5vw); }
+  }
+</style>
+
+<!-- CSS cho menu floating (thêm vào <style> trong <head>) -->
+<style>
+  /* Floating Menu Styles */
+  .float-menu {
+    position: fixed;
+    top: 10px;
+    z-index: 1000;
+  }
+  .float-menu-left {
+    left: 10px;
+  }
+  .float-menu-right {
+    right: 10px;
+  }
+  .float-menu-button {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(45deg, #4CAF50, #66BB6A);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: transform 0.2s, background 0.2s;
+  }
+  .float-menu-button:hover {
+    background: linear-gradient(45deg, #45A049, #5DAE62);
+    transform: scale(1.1);
+  }
+  .float-menu-button::before {
+    content: '☰';
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .float-menu-panel {
+    display: none;
+    position: absolute;
+    top: 45px;
+    background: #f9f9f9;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    padding: 12px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    color: #222;
+    line-height: 1.4;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  .float-menu-left .float-menu-panel {
+    left: 0;
+    width: auto;
+    min-width: 200px;
+    max-width: 300px; /* Giới hạn tối đa để tránh quá rộng */
+  }
+  .float-menu-right .float-menu-panel {
+    right: 0; /* Panel xổ sang trái cho menu phải */
+    /*width: 220px; /* Giữ cố định cho panel phải */
+  }
+  .float-menu-panel.active {
+    display: block;
+  }
+  .float-menu-panel h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #4CAF50;
+    font-weight: 600;
+  }
+  .float-menu-panel p {
+    margin: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .float-menu-panel ul {
+    margin: 0;
+    padding-left: 16px;
+    list-style-type: disc;
+  }
+  .float-menu-panel li {
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+  .float-menu-panel a {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .float-menu-panel a:hover {
+    color: #0033cc;
+    text-decoration: underline;
+  }
+  @media (max-width: 600px) {
+    .float-menu-button {
+      width: 32px;
+      height: 32px;
+    }
+    .float-menu-button::before {
+      font-size: 18px;
+    }
+    .float-menu-panel {
+      font-size: 12px;
+    }
+    .float-menu-left .float-menu-panel {
+      min-width: 180px;
+      max-width: 260px;
+    }
+    .float-menu-right .float-menu-panel {
+      width: 200px;
+    }
+    .float-menu-panel h4 {
+      font-size: 14px;
+    }
+    .float-menu-panel p {
+      font-size: 12px;
+    }
+    .float-menu-panel li {
+      font-size: 11px;
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <!-- HTML cho menu floating (thêm ngay sau thẻ <body>) -->
+  <div class="float-menu float-menu-left">
+    <button class="float-menu-button" id="floatMenuLeftBtn"></button>
+    <div class="float-menu-panel" id="floatMenuLeftPanel">
+      <h4>Dự án đang phát triển</h4>
+      <p>1. Hướng dẫn bida 3 băng:</p>
+      <ul>
+        <li>Hướng dẫn đặt ép phê, ngắm, ra cơ</li>
+        <li>Tạo hình bi tự động để tập</li>
+        <li>Quét bàn bi, đề xuất cách đánh</li>
+      </ul>
+      <p>2. Lịch thi đấu thể thao:</p>
+      <ul>
+        <li>Tạo bảng đấu chuyên nghiệp</li>
+        <li>Bốc thăm, xếp hạt giống</li>
+        <li>Cập nhật tỉ số, link live</li>
+        <li>Theo dõi tiến trình thi đấu</li>
+        <li>Xếp hạng đội/vận động viên</li>
+        <li>Lịch sử đối đầu</li>
+      </ul>
+    </div>
+  </div>
+  <div class="float-menu float-menu-right">
+    <button class="float-menu-button" id="floatMenuRightBtn"></button>
+    <div class="float-menu-panel" id="floatMenuRightPanel">
+      <h4>Liên hệ góp ý</h4>
+      <p>
+        Trần Đình Vũ<br>
+        <a href="tel:0983409459">0983.409.459</a><br>
+        <a href="tel:0908409459">0908.409.459</a><br>
+        <a href="mailto:trandinhvu@gmail.com">trandinhvu@gmail.com</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="text">
+      <span style="--i:1">3</span>
+      <span style="--i:2">C</span>
+      <span style="--i:3"> </span>
+      <span style="--i:4">F</span>
+      <span style="--i:5">r</span>
+      <span style="--i:6">i</span>
+      <span style="--i:7">e</span>
+      <span style="--i:8">n</span>
+      <span style="--i:9">d</span>
+    </div>
+  </div>
+
+<h2>Hướng dẫn Ngắm đánh</h2>
+
+<div class="tabs">
+  <button class="tabBtn active" data-tab="tab1">Hướng dẫn</button>
+  <button class="tabBtn" data-tab="tab2">Kiểm tra</button>
+</div>
+
+<div id="tab1" class="panel active">
+  <h3>Chọn ép phê trên bi chủ</h3>
+  <div id="epOptions" class="options"></div>
+
+  <h3>Chọn má chạm trên bi carde</h3>
+  <div id="maOptions" class="maOptionsContainer"></div>
+
+  <h3>Hướng dẫn chạm má với ép phê</h3>
+  <div id="summaryText" class="summaryText"></div>
+  <canvas id="mainCanvas"></canvas>
+  <div id="guideText">Hãy chọn ép phê và má chạm để xem hướng dẫn.</div>
+</div>
+
+<div id="tab2" class="panel">
+  <h3>Trắc nghiệm chạm má bi</h3>
+  <div id="quizArea" class="quiz"></div>
+</div>
+
+<div class="credit">
+  <div class="credit-title">3C Friend - Bạn đồng hành của anh em chơi 3C</div>
+  <div class="credit-text">
+    Được tạo bởi Trần Đình Vũ - Năm 2025<br>
+    <a href="tel:0983409459">0983.409.459</a> - <a href="tel:0908409459">0908.409.459</a><br>
+    <a href="mailto:trandinhvu@gmail.com">trandinhvu@gmail.com</a>
+  </div>
+</div>
+
+<script>
+// Constants
+const BALL_DIAMETER = 61.2; // mm
+const TIP_DIAMETER = 11.9; // mm
+
+// Hàm tính GCD
+function gcd(a, b) {
+  while (b) {
+    a %= b;
+    [a, b] = [b, a];
+  }
+  return a;
+}
+
+// Hàm làm tròn khoảng cách cho tooltip
+function roundDistance(mm) {
+  const fraction = Math.round((mm / TIP_DIAMETER) * 4) / 4; // Làm tròn đến 1/4
+  const mmRounded = Math.round(mm / 3) * 3; // Làm tròn đến 3mm
+  if (fraction < 0 || isNaN(fraction)) return { mm: 0, fraction: '0', word: '0' };
+  const g = gcd(Math.round(fraction * 4), 4);
+  const num = Math.round(fraction * 4) / g;
+  const denom = 4 / g;
+  const fractionText = num === 0 ? '0' : num === denom ? '1' : `${num}/${denom}`;
+  const fractionWord = {
+    '0': '0',
+    '1/4': '1/4',
+    '2/1': 'hai',
+    '1/2': 'nửa',
+    '3/4': 'gần một',
+    '1': 'một',
+    '5/4': 'hơn một',
+    '3/2': '1,5',
+    '7/4': 'gần hai',
+    '7/2': 'hơn ba',
+    '2': 'hai',
+    '9/4': 'hơn hai',
+    '5/2': 'hai rưỡi',
+    '11/4': 'gần ba',
+    '3': 'ba'
+  }[fractionText] || fractionText;
+  return { mm: mmRounded, fraction: fractionText, word: fractionWord };
+}
+
+const epValues = [-4, -3, -2, -1, 0, 1, 2, 3, 4];
+const maValues = [
+  { k: 1, side: "right" }, { k: 2, side: "right" }, { k: 3, side: "right" }, { k: 4, side: "right" },
+  { k: 5, side: "right" }, { k: 6, side: "right" }, { k: 7, side: "right" },
+  { k: 7, side: "left" }, { k: 6, side: "left" }, { k: 5, side: "left" }, { k: 4, side: "left" },
+  { k: 3, side: "left" }, { k: 2, side: "left" }, { k: 1, side: "left" }
+];
+
+let currentEp = null; // Không có giá trị mặc định
+let currentMa = null; // Không có giá trị mặc định
+
+const combinations = [
+  [-4, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-4, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-4, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [-4, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [-4, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-4, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-4, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [-4, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-4, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-4, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1 đầu cơ (~ 12 mm)</span><br>'],
+  [-4, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 2 đầu cơ (~ 21 mm)</span><br>'],
+  [-4, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 2 đầu cơ (~ 27 mm)</span><br>'],
+  [-4, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">3 đầu cơ (~ 36 mm)</span><br>'],
+  [-4, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 3 đầu cơ (~ 42 mm)</span><br>'],
+  [-3, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [-3, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-3, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-3, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-3, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [-3, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-3, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-3, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [-3, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-3, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-3, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [-3, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 2 đầu cơ (~ 21 mm)</span><br>'],
+  [-3, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 2 đầu cơ rưỡi (~ 30 mm)</span><br>'],
+  [-3, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">3 đầu cơ (~ 36 mm)</span><br>'],
+  [-2, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-2, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-2, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [-2, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-2, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-2, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-2, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [-2, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-2, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-2, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [-2, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [-2, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [-2, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">2 đầu cơ (~ 24 mm)</span><br>'],
+  [-2, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 2 đầu cơ rưỡi (~ 30 mm)</span><br>'],
+  [-1, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1 đầu cơ (~ 12 mm)</span><br>'],
+  [-1, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-1, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [-1, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [-1, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [-1, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-1, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [-1, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [-1, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [-1, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [-1, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [-1, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [-1, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [-1, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên trái</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">2 đầu cơ (~ 24 mm)</span><br>'],
+  [0, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 1 đầu cơ rưỡi (~ 18 mm)</span><br>'],
+  [0, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [0, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [0, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [0, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [0, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [0, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [0, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [0, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">chính giữa</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 1 đầu cơ rưỡi (~ 18 mm)</span><br>'],
+  [1, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">2 đầu cơ (~ 24 mm)</span><br>'],
+  [1, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [1, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [1, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [1, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [1, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [1, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [1, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [1, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [1, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [1, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [1, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> trùng với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [1, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [1, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">1 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1 đầu cơ (~ 12 mm)</span><br>'],
+  [2, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 2 đầu cơ rưỡi (~ 30 mm)</span><br>'],
+  [2, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">2 đầu cơ (~ 24 mm)</span><br>'],
+  [2, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [2, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [2, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [2, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [2, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [2, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [2, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [2, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [2, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [2, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [2, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [2, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">2 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [3, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">3 đầu cơ (~ 36 mm)</span><br>'],
+  [3, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">khoảng 2 đầu cơ rưỡi (~ 30 mm)</span><br>'],
+  [3, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 2 đầu cơ (~ 21 mm)</span><br>'],
+  [3, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 1 đầu cơ (~ 15 mm)</span><br>'],
+  [3, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [3, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [3, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép phải bi carde (đỏ)</span><br>'],
+  [3, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [3, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [3, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [3, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [3, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [3, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [3, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">3 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">mép trái bi carde (đỏ)</span><br>'],
+  [4, 'r1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 3 đầu cơ (~ 42 mm)</span><br>'],
+  [4, 'r2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">3 đầu cơ (~ 36 mm)</span><br>'],
+  [4, 'r3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">hơn 2 đầu cơ (~ 27 mm)</span><br>'],
+  [4, 'r4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 2 đầu cơ (~ 21 mm)</span><br>'],
+  [4, 'r5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1 đầu cơ (~ 12 mm)</span><br>'],
+  [4, 'r6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [4, 'r7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [4, 'l7', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">mép phải bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [4, 'l6', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [4, 'l5', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>'],
+  [4, 'l4', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> tiếp xúc với <br><span class="highlight">tâm bi carde (đỏ)</span><br>'],
+  [4, 'l3', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép phải đầu cơ</span><br> cách <br><span class="highlight">tâm bi carde (đỏ)</span><br> khoảng <br><span class="highlight">gần 1 đầu cơ (~ 9 mm)</span><br>'],
+  [4, 'l2', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">mép trái đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">nửa đầu cơ (~ 6 mm)</span><br>'],
+  [4, 'l1', 'Đặt đầu cơ vào vị trí <br><span class="highlight">4 ép phê bên phải</span><br> của bi chủ (trắng) rồi ngắm sao cho <br><span class="highlight">tâm đầu cơ</span><br> cách <br><span class="highlight">mép trái bi carde (đỏ)</span><br> khoảng <br><span class="highlight">1/4 đầu cơ (~ 3 mm)</span><br>']
+];
+
+// ---- Hàm vẽ bi với hiệu ứng 3D và bóng ----
+function drawBall(ctx, x, y, r, color, isWhite = false, isSelected = false) {
+  try {
+    const gradient = ctx.createRadialGradient(x - r * 0.4, y - r * 0.4, r * 0.2, x, y, r);
+    gradient.addColorStop(0, isWhite ? '#fff' : '#ff4d4d');
+    gradient.addColorStop(1, isWhite ? '#d9d9d9' : '#b30000');
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+    ctx.shadowColor = isSelected ? 'rgba(0,150,0,1)' : 'rgba(0,0,0,0.2)';
+    ctx.shadowBlur = 9;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.fill();
+    ctx.shadowColor = 'transparent';
+  } catch (e) {
+    console.error('Error in drawBall:', e);
+  }
+}
+
+// ---- Hàm vẽ đầu cơ ----
+function drawCueTip(ctx, x, y, r) {
+  try {
+    const gradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
+    gradient.addColorStop(0, '#4d79ff');
+    gradient.addColorStop(1, '#0033cc');
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  } catch (e) {
+    console.error('Error in drawCueTip:', e);
+  }
+}
+
+// ---- Responsive canvas ----
+function resizeCanvases() {
+  const mainCanvas = document.getElementById('mainCanvas');
+  const width = Math.min(Math.max(window.innerWidth - 40, 100), 360); // Đảm bảo chiều rộng tối thiểu 100px
+  const height = width / 1.8; // Tăng chiều cao canvas
+  mainCanvas.width = width;
+  mainCanvas.height = height;
+  if (currentEp !== null && currentMa !== null) {
+    updateMain();
+  }
+}
+window.addEventListener('resize', resizeCanvases);
+
+// ---- Thumbnail ép phê ----
+function makeEpThumb(val) {
+  const container = document.createElement('div');
+  container.className = 'option-container';
+  const c = document.createElement('canvas');
+  c.width = c.height = Math.min(window.innerWidth / 10, 38);
+  c.className = 'thumbCanvas epCanvas';
+  const ctx = c.getContext('2d');
+  const scale = c.width / BALL_DIAMETER; // Tỷ lệ pixel/mm
+  const rBall = (BALL_DIAMETER / 2.5) * scale; // Bán kính bi
+  const rTip = (TIP_DIAMETER / 2.5) * scale; // Bán kính đầu cơ
+  drawBall(ctx, c.width / 2, c.height / 2, rBall, '#fff', true, false);
+  const offset = (val / 4) * (rBall - rTip);
+  drawCueTip(ctx, c.width / 2 + offset, c.height / 2, rTip);
+  c.title = `Ép phê ${val}`;
+  c.onclick = () => {
+    document.querySelectorAll('#epOptions .thumbCanvas').forEach(cv => {
+      cv.classList.remove('selected');
+      cv.nextSibling.classList.remove('selected');
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      drawBall(ctx, cv.width / 2, cv.height / 2, rBall, '#fff', true, false);
+      const v = parseInt(cv.nextSibling.innerText);
+      const off = (v / 4) * (rBall - rTip);
+      drawCueTip(ctx, cv.width / 2 + off, cv.height / 2, rTip);
+    });
+    c.className = 'thumbCanvas epCanvas selected';
+    c.nextSibling.classList.add('selected');
+    ctx.clearRect(0, 0, c.width, c.height);
+    drawBall(ctx, c.width / 2, c.height / 2, rBall, '#fff', true, true);
+    drawCueTip(ctx, c.width / 2 + offset, c.height / 2, rTip);
+    currentEp = val;
+    updateSelectedTexts();
+    updateMain();
+  };
+  const label = document.createElement('span');
+  label.className = 'thumbLabel';
+  label.innerText = `${val < 0 ? '' : val > 0 ? '' : ''}${val}EF`;
+  container.appendChild(c);
+  container.appendChild(label);
+  return container;
+}
+
+// ---- Thumbnail chạm má ----
+function makeMaThumb(opt) {
+  const container = document.createElement('div');
+  container.className = 'option-container';
+  const c = document.createElement('canvas');
+  c.width = c.height = Math.min(window.innerWidth / 8, 48);
+  c.className = 'thumbCanvas maCanvas';
+  const ctx = c.getContext('2d');
+  const scale = c.width / BALL_DIAMETER; // Tỷ lệ pixel/mm
+  const rBall = (BALL_DIAMETER / 2.5) * scale; // Bán kính bi
+  drawBall(ctx, c.width / 2, c.height / 2, rBall, 'red', false, false);
+  ctx.font = 'normal ' + (rBall * 0.3) + 'px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#ff0000'; // Màu đỏ cho nhãn
+  for (let i = 1; i < 8; i++) {
+    let x = c.width / 2 - rBall + i * (2 * rBall / 8);
+    let label = opt.side === 'right' ? 8 - i : i;
+    ctx.fillText(label, x, c.height / 2 + rBall + rBall * 0.3 + 2);
+  }
+  let frac = opt.k / 8;
+  let contactX = opt.side === 'right' ?
+    (c.width / 2 + rBall - (frac * 2 * rBall) + rBall) :
+    (c.width / 2 - rBall + (frac * 2 * rBall) - rBall);
+  drawBall(ctx, contactX, c.height / 2, rBall, '#fff', true, false);
+  c.title = `Chạm ${opt.k}/8 má ${opt.side === 'right' ? 'phải' : 'trái'}`;
+  c.onclick = () => {
+    document.querySelectorAll('#maOptions .thumbCanvas').forEach(cv => {
+      cv.classList.remove('selected');
+      cv.nextSibling.classList.remove('selected');
+      const ctx = cv.getContext('2d');
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      drawBall(ctx, cv.width / 2, cv.height / 2, rBall, 'red', false, false);
+      ctx.font = 'normal ' + (rBall * 0.3) + 'px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = '#ff0000';
+      const optStr = cv.nextSibling.innerText;
+      const k = parseInt(optStr.slice(1));
+      const side = optStr[0] === 'P' ? 'right' : 'left';
+      for (let i = 1; i < 8; i++) {
+        let x = cv.width / 2 - rBall + i * (2 * rBall / 8);
+        let label = side === 'right' ? 8 - i : i;
+        ctx.fillText(label, x, cv.height / 2 + rBall + rBall * 0.3 + 2);
+      }
+      let f = k / 8;
+      let cX = side === 'right' ?
+        (cv.width / 2 + rBall - (f * 2 * rBall) + rBall) :
+        (cv.width / 2 - rBall + (f * 2 * rBall) - rBall);
+      drawBall(ctx, cX, cv.height / 2, rBall, '#fff', true, false);
+    });
+    c.className = 'thumbCanvas maCanvas selected';
+    c.nextSibling.classList.add('selected');
+    ctx.clearRect(0, 0, c.width, c.height);
+    drawBall(ctx, c.width / 2, c.height / 2, rBall, 'red', false, true);
+    ctx.font = 'normal ' + (rBall * 0.3) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#ff0000';
+    for (let i = 1; i < 8; i++) {
+      let x = c.width / 2 - rBall + i * (2 * rBall / 8);
+      let label = opt.side === 'right' ? 8 - i : i;
+      ctx.fillText(label, x, c.height / 2 + rBall + rBall * 0.3 + 2);
+    }
+    drawBall(ctx, contactX, c.height / 2, rBall, '#fff', true, true);
+    currentMa = opt;
+    updateSelectedTexts();
+    updateMain();
+  };
+  const label = document.createElement('span');
+  label.className = 'thumbLabel';
+  label.innerText = `${opt.side === 'right' ? 'P' : 'T'}${opt.k}/8`;
+  container.appendChild(c);
+  container.appendChild(label);
+  return container;
+}
+
+// ---- Khởi tạo options má chạm thành 2 hàng ----
+function initMaOptions() {
+  const maOptions = document.getElementById('maOptions');
+  maOptions.innerHTML = '';
+  const rightRow = document.createElement('div');
+  rightRow.className = 'maOptionsRow';
+  const leftRow = document.createElement('div');
+  leftRow.className = 'maOptionsRow';
+  maValues.forEach(m => {
+    const thumb = makeMaThumb(m);
+    if (m.side === 'right') {
+      rightRow.appendChild(thumb);
+    } else {
+      leftRow.appendChild(thumb);
+    }
+  });
+  maOptions.appendChild(rightRow);
+  maOptions.appendChild(leftRow);
+}
+
+// ---- Cập nhật text lựa chọn ----
+function updateSelectedTexts() {
+  const summaryElem = document.getElementById('summaryText');
+  if (currentEp !== null && currentMa !== null) {
+    const epDesc = currentEp === 0 ? '0 ép phê' : `${Math.abs(currentEp)} ép phê bên ${currentEp > 0 ? 'phải' : 'trái'}`;
+    const maDesc = `${currentMa.k}/8 bên ${currentMa.side === 'right' ? 'phải' : 'trái'} bi carde`;
+    summaryElem.innerText = `Chạm ${maDesc} với ${epDesc}`;
+  } else {
+    summaryElem.innerText = '';
+  }
+}
+
+// ---- Vẽ chính ----
+function updateMain() {
+  const canvas = document.getElementById('mainCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (currentEp === null || currentMa === null) {
+    ctx.font = 'normal 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#000';
+    ctx.fillText('', canvas.width / 2, canvas.height / 2);
+    return;
+  }
+
+  try {
+    const scale = canvas.width / (BALL_DIAMETER * 3); // Tỷ lệ pixel/mm, đủ chỗ cho 3 bi
+    const rBall = (BALL_DIAMETER / 2) * scale; // Bán kính bi
+    const rTip = (TIP_DIAMETER / 2) * scale; // Bán kính đầu cơ
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Vẽ bi carde (đỏ)
+    drawBall(ctx, centerX, centerY, rBall, 'red', false, false);
+
+    // Vẽ bi chủ (trắng)
+    let frac = currentMa.k / 8;
+    let contactX = currentMa.side === 'right' ?
+      (centerX + rBall - (frac * 2 * rBall) + rBall) :
+      (centerX - rBall + (frac * 2 * rBall) - rBall);
+    drawBall(ctx, contactX, centerY, rBall, '#fff', true, false);
+
+    // Vẽ đầu cơ
+    const epOffset = (currentEp / 4) * (rBall - rTip);
+    const tipX = contactX + epOffset;
+    drawCueTip(ctx, tipX, centerY, rTip);
+
+    // Tính khoảng cách ngắn nhất
+    const redPoints = [
+      { pos: centerX - rBall, name: 'mép tráibi carde (đỏ)' },
+      { pos: centerX, name: 'tâm bi carde (đỏ)' },
+      { pos: centerX + rBall, name: 'mép phảibi carde (đỏ)' }
+    ];
+    const tipPoints = [
+      { pos: tipX - rTip, name: 'mép trái đầu cơ' },
+      { pos: tipX, name: 'tâm đầu cơ' },
+      { pos: tipX + rTip, name: 'mép phải đầu cơ' }
+    ];
+
+    let minDistance = Infinity;
+    let minRedPos, minTipPos, minRedName, minTipName;
+    redPoints.forEach(red => {
+      tipPoints.forEach(tip => {
+        const dist = Math.abs(red.pos - tip.pos);
+        if (dist < minDistance) {
+          minDistance = dist;
+          minRedPos = red.pos;
+          minTipPos = tip.pos;
+          minRedName = red.name;
+          minTipName = tip.name;
+        }
+      });
+    });
+
+    // Vẽ đường thẳng màu xanh lá cây với hai chấm vàng
+    ctx.strokeStyle = '#0b6e4f'; // Xanh lá cây
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(minRedPos, centerY);
+    ctx.lineTo(minTipPos, centerY);
+    ctx.stroke();
+
+    // Vẽ hai chấm vàng ở hai đầu
+    ctx.fillStyle = '#ffff00'; // Vàng
+    ctx.beginPath();
+    ctx.arc(minRedPos, centerY, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(minTipPos, centerY, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Vẽ các đường phân chia và dãy số 1->7 hoặc 7->1 bên dưới bi
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 0.3;
+    ctx.setLineDash([3, 3]);
+    ctx.font = 'normal ' + (rBall * 0.2) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#ff0000'; // Màu đỏ cho nhãn
+    for (let i = 1; i < 8; i++) {
+      let x = centerX - rBall + i * (2 * rBall / 8);
+      let label = currentMa.side === 'right' ? 8 - i : i;
+      ctx.beginPath();
+      ctx.moveTo(x, centerY + rBall);
+      ctx.lineTo(x, centerY + rBall + rBall * 0.3);
+      ctx.stroke();
+      ctx.fillText(label, x, centerY + rBall + rBall * 0.3 + 2);
+    }
+    ctx.setLineDash([]);
+
+    // Tính minDistance sang mm
+    const minDistanceMm = minDistance / scale;
+    const distanceInfo = roundDistance(minDistanceMm);
+
+    // Vẽ distanceTooltip phía trên bi carde
+    ctx.fillStyle = '#0b6e4f'; // Xanh lá cây
+    ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    //const tooltipText = `${distanceInfo.word} đầu cơ (~${distanceInfo.mm}mm) từ ${minRedName} đến ${minTipName}`;
+    const tooltipText = distanceInfo.mm === 0 ? `trùng` : `${distanceInfo.word} đầu cơ (~${distanceInfo.mm}mm)`;
+    //const tooltipText = `${distanceInfo.word} đầu cơ (~${distanceInfo.mm}mm)`;
+    ctx.fillText(tooltipText, centerX, centerY - rBall - 10);
+
+    // Cập nhật văn bản hướng dẫn
+    const guideText = document.getElementById('guideText');
+    const maKey = currentMa.side === 'right' ? `r${currentMa.k}` : `l${currentMa.k}`;
+    const combo = combinations.find(c => c[0] === currentEp && c[1] === maKey);
+    guideText.innerHTML = combo ? combo[2] : 'Hãy chọn ép phê và má chạm để xem hướng dẫn.';
+    console.log(combo[2]);
+  } catch (e) {
+    console.error('Error in updateMain:', e);
+  }
+}
+
+// Biến toàn cục để lưu trữ số câu đúng/sai
+let correctCount = 0;
+let incorrectCount = 0;
+let totalCount = 0;
+
+// ---- Hàm vẽ canvas cho trắc nghiệm ----
+function drawQuizCanvas(canvas, ep, ma) {
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  try {
+    const scale = canvas.width / (BALL_DIAMETER * 3); // Tỷ lệ pixel/mm, đủ chỗ cho 3 bi
+    const rBall = (BALL_DIAMETER / 2) * scale; // Bán kính bi
+    const rTip = (TIP_DIAMETER / 2) * scale; // Bán kính đầu cơ
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+
+    // Vẽ bi carde (đỏ)
+    drawBall(ctx, centerX, centerY, rBall, 'red', false, false);
+
+    // Vẽ bi chủ (trắng)
+    let frac = ma.k / 8;
+    let contactX = ma.side === 'right' ?
+      (centerX + rBall - (frac * 2 * rBall) + rBall) :
+      (centerX - rBall + (frac * 2 * rBall) - rBall);
+    drawBall(ctx, contactX, centerY, rBall, '#fff', true, false);
+
+    // Vẽ đầu cơ
+    const epOffset = (ep / 4) * (rBall - rTip);
+    const tipX = contactX + epOffset;
+    drawCueTip(ctx, tipX, centerY, rTip);
+
+    // Tính khoảng cách ngắn nhất
+    const redPoints = [
+      { pos: centerX - rBall, name: 'mép trái bi carde (đỏ)' },
+      { pos: centerX, name: 'tâm bi carde (đỏ)' },
+      { pos: centerX + rBall, name: 'mép phải bi carde (đỏ)' }
+    ];
+    const tipPoints = [
+      { pos: tipX - rTip, name: 'mép trái đầu cơ' },
+      { pos: tipX, name: 'tâm đầu cơ' },
+      { pos: tipX + rTip, name: 'mép phải đầu cơ' }
+    ];
+
+    let minDistance = Infinity;
+    let minRedPos, minTipPos, minRedName, minTipName;
+    redPoints.forEach(red => {
+      tipPoints.forEach(tip => {
+        const dist = Math.abs(red.pos - tip.pos);
+        if (dist < minDistance) {
+          minDistance = dist;
+          minRedPos = red.pos;
+          minTipPos = tip.pos;
+          minRedName = red.name;
+          minTipName = tip.name;
+        }
+      });
+    });
+
+    // Vẽ đường thẳng màu xanh lá cây với hai chấm vàng
+    ctx.strokeStyle = '#0b6e4f'; // Xanh lá cây
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(minRedPos, centerY);
+    ctx.lineTo(minTipPos, centerY);
+    ctx.stroke();
+
+    // Vẽ hai chấm vàng ở hai đầu
+    ctx.fillStyle = '#ffff00'; // Vàng
+    ctx.beginPath();
+    ctx.arc(minRedPos, centerY, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(minTipPos, centerY, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Vẽ các đường phân chia và dãy số 1->7 hoặc 7->1 bên dưới bi
+    ctx.strokeStyle = '#666';
+    ctx.lineWidth = 0.3;
+    ctx.setLineDash([3, 3]);
+    ctx.font = 'normal ' + (rBall * 0.2) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = '#ff0000'; // Màu đỏ cho nhãn
+    for (let i = 1; i < 8; i++) {
+      let x = centerX - rBall + i * (2 * rBall / 8);
+      let label = ma.side === 'right' ? 8 - i : i;
+      ctx.beginPath();
+      ctx.moveTo(x, centerY + rBall);
+      ctx.lineTo(x, centerY + rBall + rBall * 0.3);
+      ctx.stroke();
+      ctx.fillText(label, x, centerY + rBall + rBall * 0.3 + 2);
+    }
+    ctx.setLineDash([]);
+
+    // Tính minDistance sang mm
+    const minDistanceMm = minDistance / scale;
+    const distanceInfo = roundDistance(minDistanceMm);
+
+    // Vẽ distanceTooltip phía trên bi carde
+    ctx.fillStyle = '#0b6e4f'; // Xanh lá cây
+    ctx.font = 'normal ' + (rBall * 0.25) + 'px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    const tooltipText = distanceInfo.mm === 0 ? `trùng` : `${distanceInfo.word} đầu cơ (~${distanceInfo.mm}mm)`;
+    ctx.fillText(tooltipText, centerX, centerY - rBall - 10);
+  } catch (e) {
+    console.error('Error in drawQuizCanvas:', e);
+  }
+}
+
+// ---- Hàm lấy mô tả ép phê + má bi ----
+function getComboDescription(ep, ma) {
+  const epDesc = ep === 0 ? '0 ép phê' : `${Math.abs(ep)} ép phê bên ${ep > 0 ? 'phải' : 'trái'}`;
+  const maDesc = `${ma.k}/8 bên ${ma.side === 'right' ? 'phải' : 'trái'} bi carde`;
+  return `Chạm ${maDesc} với ${epDesc}`;
+}
+
+// ---- Cập nhật thống kê đúng/sai ----
+function updateStatsDisplay() {
+  let statsDiv = document.getElementById('quizStats');
+  if (!statsDiv) {
+    statsDiv = document.createElement('div');
+    statsDiv.id = 'quizStats';
+    statsDiv.style.fontSize = `calc(12px + 0.5vw)`;
+    statsDiv.style.fontWeight = 'bold';
+    statsDiv.style.color = '#333';
+    statsDiv.style.marginBottom = '10px';
+    document.getElementById('quizArea').prepend(statsDiv);
+  }
+  statsDiv.innerText = `Đúng: ${correctCount}, Sai: ${incorrectCount}, Tổng: ${totalCount}`;
+}
+
+// ---- Khởi tạo trắc nghiệm ----
+function initQuiz() {
+  const quizArea = document.getElementById('quizArea');
+  quizArea.innerHTML = ''; // Xóa nội dung cũ
+
+  // Hiển thị thống kê
+  updateStatsDisplay();
+
+  // Lọc các tổ hợp có hướng dẫn
+  const validCombinations = combinations.filter(c => c[2]);
+  if (validCombinations.length === 0) {
+    quizArea.innerHTML = '<div>Không có hướng dẫn nào để tạo câu hỏi!</div>';
+    return;
+  }
+
+  // Chọn ngẫu nhiên tổ hợp
+  const randomCombo = validCombinations[Math.floor(Math.random() * validCombinations.length)];
+  const [ep, maKey, correctGuide] = randomCombo;
+  const ma = maValues.find(m => (m.side === 'right' ? `r${m.k}` : `l${m.k}`) === maKey);
+
+  // Xáo trộn loại câu hỏi (0: Ép phê + Má bi, 1: Hình ảnh, 2: Hướng dẫn)
+  const questionTypes = [0, 1, 2];
+  const questionType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+  const answerTypes = questionTypes.filter(t => t !== questionType);
+  const answerType = answerTypes[Math.floor(Math.random() * answerTypes.length)];
+  const resultType = questionTypes.find(t => t !== questionType && t !== answerType);
+
+  // Chuẩn bị câu hỏi
+  const questionContainer = document.createElement('div');
+  questionContainer.style.fontSize = `calc(12px + 0.5vw)`;
+  questionContainer.style.marginBottom = '10px';
+
+  let correctAnswer;
+  if (questionType === 0) { // Câu hỏi: Ép phê + Má bi
+    const questionContent = getComboDescription(ep, ma);
+    questionContainer.innerText = `${questionContent}`; //Hình ảnh hoặc hướng dẫn nào phù hợp với: ${questionContent}?
+    correctAnswer = answerType === 1 ? { type: 'canvas', ep, ma } : correctGuide;
+  } else if (questionType === 1) { // Câu hỏi: Hình ảnh
+    questionContainer.innerText = ``; //Hình ảnh này tương ứng với ép phê và má bi hoặc hướng dẫn nào?
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.min(Math.max(window.innerWidth - 40, 100), 360);
+    canvas.height = canvas.width / 1.8;
+    canvas.style.marginBottom = '10px';
+    drawQuizCanvas(canvas, ep, ma);
+    questionContainer.appendChild(canvas);
+    correctAnswer = answerType === 0 ? getComboDescription(ep, ma) : correctGuide;
+  } else { // Câu hỏi: Hướng dẫn
+    questionContainer.innerHTML = `${correctGuide}`; //Hướng dẫn sau phù hợp với ép phê và má bi hoặc hình ảnh nào?<br>${correctGuide}
+    correctAnswer = answerType === 0 ? getComboDescription(ep, ma) : { type: 'canvas', ep, ma };
+  }
+  quizArea.appendChild(questionContainer);
+
+  // Chuẩn bị câu trả lời
+  const answers = [correctAnswer];
+  while (answers.length < 3) {
+    const randomOtherCombo = validCombinations[Math.floor(Math.random() * validCombinations.length)];
+    const [otherEp, otherMaKey, otherGuide] = randomOtherCombo;
+    const otherMa = maValues.find(m => (m.side === 'right' ? `r${m.k}` : `l${m.k}`) === otherMaKey);
+    let otherAnswer;
+    if (answerType === 0) {
+      otherAnswer = getComboDescription(otherEp, otherMa);
+    } else if (answerType === 1) {
+      otherAnswer = { type: 'canvas', ep: otherEp, ma: otherMa };
+    } else {
+      otherAnswer = otherGuide;
+    }
+    if (!answers.some(ans => 
+      (ans.type === 'canvas' && otherAnswer.type === 'canvas' && ans.ep === otherAnswer.ep && ans.ma.k === otherAnswer.ma.k && ans.ma.side === otherAnswer.ma.side) ||
+      (ans.type !== 'canvas' && otherAnswer.type !== 'canvas' && ans === otherAnswer)
+    )) {
+      answers.push(otherAnswer);
+    }
+  }
+  answers.sort(() => Math.random() - 0.5);
+
+  // Hiển thị câu trả lời
+  const answerContainer = document.createElement('div');
+  answerContainer.style.display = 'flex';
+  answerContainer.style.flexDirection = 'column';
+  answerContainer.style.alignItems = 'center';
+  answers.forEach(ans => {
+    const btn = document.createElement('button');
+    if (ans.type === 'canvas') {
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.min(Math.max(window.innerWidth - 40, 100), 180);
+      canvas.height = canvas.width / 1.8;
+      drawQuizCanvas(canvas, ans.ep, ans.ma);
+      btn.appendChild(canvas);
+    } else {
+      btn.innerHTML = ans || 'Không có hướng dẫn';
+    }
+    btn.style.display = 'flex';
+    btn.style.justifyContent = 'center';
+    btn.style.alignItems = 'center';
+    btn.style.padding = '6px';
+    btn.style.margin = '6px 0';
+    btn.style.borderRadius = '5px';
+    btn.style.border = '1px solid #ccc';
+    btn.style.width = '100%';
+    btn.style.maxWidth = '360px';
+    btn.style.background = '#fff';
+    btn.style.transition = 'background 0.2s';
+    btn.onclick = () => {
+      // Cập nhật thống kê
+      const isCorrect = ans === correctAnswer || (ans.type === 'canvas' && ans.ep === ep && ans.ma.k === ma.k && ans.ma.side === ma.side);
+      if (isCorrect) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+      totalCount++;
+
+      // Tạo container cho kết quả
+      const resultContainer = document.createElement('div');
+      resultContainer.className = 'quizResult';
+      resultContainer.style.background = isCorrect ? '#ccffcc' : '#ffcccc';
+      resultContainer.style.padding = '10px';
+      resultContainer.style.borderRadius = '5px';
+      resultContainer.style.marginTop = '10px';
+      resultContainer.style.width = '100%';
+      resultContainer.style.maxWidth = '360px';
+      resultContainer.style.textAlign = 'center';
+
+      // Hiển thị trạng thái đúng/sai
+      const statusText = document.createElement('div');
+      statusText.innerText = isCorrect ? 'Đúng rồi!' : 'Sai!';
+      statusText.style.fontWeight = 'bold';
+      resultContainer.appendChild(statusText);
+
+      // Hiển thị phần tử thứ ba (kết quả đúng)
+      let resultContent = document.createElement('div');
+      resultContent.style.marginTop = '8px';
+      if (resultType === 0) {
+        resultContent.innerText = `Đáp án đúng: ${getComboDescription(ep, ma)}`;
+      } else if (resultType === 1) {
+        resultContent.innerText = 'Đáp án đúng:';
+        const resultCanvas = document.createElement('canvas');
+        resultCanvas.width = Math.min(Math.max(window.innerWidth - 40, 100), 360);
+        resultCanvas.height = resultCanvas.width / 1.8;
+        resultCanvas.style.marginTop = '8px';
+        drawQuizCanvas(resultCanvas, ep, ma);
+        resultContainer.appendChild(resultContent);
+        resultContainer.appendChild(resultCanvas);
+      } else {
+        resultContent.innerHTML = `Đáp án đúng: ${correctGuide}`;
+      }
+      if (resultType !== 1) {
+        resultContainer.appendChild(resultContent);
+      }
+
+      // Thêm nút "Câu hỏi tiếp theo"
+      const nextButton = document.createElement('button');
+      nextButton.innerText = 'Câu hỏi tiếp theo';
+      nextButton.style.marginTop = '10px';
+      nextButton.style.padding = '8px';
+      nextButton.style.background = '#4CAF50';
+      nextButton.style.color = 'white';
+      nextButton.style.border = 'none';
+      nextButton.style.borderRadius = '5px';
+      nextButton.style.cursor = 'pointer';
+      nextButton.style.width = '100%';
+      nextButton.style.maxWidth = '360px';
+      nextButton.style.fontSize = `calc(12px + 0.5vw)`;
+      nextButton.onmouseover = () => {
+        nextButton.style.background = '#45a049';
+      };
+      nextButton.onmouseout = () => {
+        nextButton.style.background = '#4CAF50';
+      };
+      nextButton.onclick = () => initQuiz();
+
+      // Cập nhật giao diện
+      quizArea.innerHTML = ''; // Xóa nội dung cũ
+      quizArea.appendChild(document.getElementById('quizStats') || document.createElement('div')); // Giữ lại thống kê
+      quizArea.appendChild(questionContainer);
+      quizArea.appendChild(resultContainer);
+      quizArea.appendChild(nextButton);
+      updateStatsDisplay(); // Cập nhật thống kê
+    };
+    answerContainer.appendChild(btn);
+  });
+  quizArea.appendChild(answerContainer);
+}
+
+// ---- Khởi tạo tabs ----
+function initTabs() {
+  const tabs = document.querySelectorAll('.tabBtn');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+      if (tab.dataset.tab === 'tab2') initQuiz();
+      else updateMain();
+    });
+  });
+}
+
+// ---- Khởi tạo options ép phê ----
+function initEpOptions() {
+  const epOptions = document.getElementById('epOptions');
+  epValues.forEach(val => {
+    epOptions.appendChild(makeEpThumb(val));
+  });
+}
+
+// ---- Khởi tạo toàn bộ ----
+function init() {
+  initEpOptions();
+  initMaOptions();
+  initTabs();
+  resizeCanvases();
+  updateMain(); // Gọi để vẽ canvas mặc định (hiển thị thông báo chọn)
+}
+
+init();
+</script>
+
+<!-- JavaScript cho toggle menu và ẩn khi nhấn ra ngoài (thêm vào cuối <script>) -->
+<script>
+  // Toggle floating menus
+  document.getElementById('floatMenuLeftBtn').addEventListener('click', function(e) {
+    e.stopPropagation(); // Ngăn sự kiện click lan ra document
+    const leftPanel = document.getElementById('floatMenuLeftPanel');
+    const rightPanel = document.getElementById('floatMenuRightPanel');
+    leftPanel.classList.toggle('active');
+    if (rightPanel.classList.contains('active')) {
+      rightPanel.classList.remove('active');
+    }
+  });
+  document.getElementById('floatMenuRightBtn').addEventListener('click', function(e) {
+    e.stopPropagation(); // Ngăn sự kiện click lan ra document
+    const leftPanel = document.getElementById('floatMenuLeftPanel');
+    const rightPanel = document.getElementById('floatMenuRightPanel');
+    rightPanel.classList.toggle('active');
+    if (leftPanel.classList.contains('active')) {
+      leftPanel.classList.remove('active');
+    }
+  });
+  
+  // Hide menus when clicking outside
+  document.addEventListener('click', function(e) {
+    const leftPanel = document.getElementById('floatMenuLeftPanel');
+    const rightPanel = document.getElementById('floatMenuRightPanel');
+    const leftButton = document.getElementById('floatMenuLeftBtn');
+    const rightButton = document.getElementById('floatMenuRightBtn');
+    
+    // Kiểm tra nếu click không nằm trong panel hoặc nút
+    if (!leftPanel.contains(e.target) && !leftButton.contains(e.target)) {
+      leftPanel.classList.remove('active');
+    }
+    if (!rightPanel.contains(e.target) && !rightButton.contains(e.target)) {
+      rightPanel.classList.remove('active');
+    }
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+body {
+    background-color: #333;
+    font-family: verdana;
+    color: #ddd;
+    font-size: 0.8em;
+}
+
+#container {
+    margin: 10px auto;
+    width: 1006px;
+    padding: 2px;
+    position: relative;
+    text-align: right;
+}
+
+#container_aim {
+    margin: 10px auto;
+    width: 606px;
+    padding: 2px;
+    position: relative;
+    text-align: right;
+}
+
+#table, #aim {
+    border: 0px solid #000;
+    cursor: crosshair;
+}
+
+button {
+    margin-left: 10px;
+}
+
+#saveimg {
+    position: absolute;
+    left: 35px;
+    top: 586px;
+}
+
+#saveimg_aim {
+    position: absolute;
+    left: 35px;
+    top: 320px;
+}
+
+p {
+    margin-top: 10px;
+    margin-right: 35px;
+}
+
+fieldset {
+    margin: 0 10px;
+    border: 0;
+    padding: 0;
+    display: inline;
+}
+
+input {
+    margin-right: 10px;
+}
+
+#tip {
+    width: 75px;
+    margin-left: 10px;
+}
+
+#go {
+    margin-left: 150px;
+}
+
+p, input, button, form {
+    font-size:1.5em;
+}
+
+#slider {
+    width: 200px;
+}
+
+.radio {
+    margin-left: 2px;
+}
+
+form {
+    margin-right: 35px;
+}
+
+#toc a {
+    color: #eee;
+}
+
+#toc a:hover {
+    color: #aaa;
+}
+
+#toc {
+    margin: 2em;
+}
+
+input[type="text"] {
+    width: 22em;
+    font-size: 14px;
+}
+
+

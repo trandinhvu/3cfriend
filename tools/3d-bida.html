@@ -1,0 +1,626 @@
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bida Carom Mobile - Matter.js</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            touch-action: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        body {
+            background: #1a1a1a;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #canvasWrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        #ui {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 10;
+            font-size: 14px;
+        }
+        
+        #powerContainer {
+            margin-top: 5px;
+        }
+        
+        #powerBar {
+            width: 150px;
+            height: 15px;
+            background: #333;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            margin-top: 3px;
+            overflow: hidden;
+        }
+        
+        #powerLevel {
+            height: 100%;
+            background: linear-gradient(to right, #00ff00, #ffff00, #ff0000);
+            width: 0%;
+            transition: width 0.1s;
+            border-radius: 5px;
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+        
+        .control-btn {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        
+        .control-btn:active {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        #aimTouch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 5;
+        }
+        
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        #startButton {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        
+        .instructions {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.4;
+        }
+        
+        @media (max-width: 768px) {
+            #ui {
+                font-size: 12px;
+                padding: 8px;
+            }
+            
+            .control-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 10px;
+            }
+            
+            #powerBar {
+                width: 120px;
+                height: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 9px;
+            }
+            
+            #ui {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="canvasWrapper">
+            <canvas id="gameCanvas"></canvas>
+            <div id="aimTouch"></div>
+            
+            <div id="ui">
+                <div>Điểm: <span id="score">0</span></div>
+                <div id="powerContainer">
+                    <div>Lực: <span id="powerValue">0</span>%</div>
+                    <div id="powerBar">
+                        <div id="powerLevel"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!--div id="controls">
+                <div class="control-btn" id="chargeBtn">GIỮ ĐỂ<br>LẤY LỰC</div>
+                <div class="control-btn" id="shootBtn">ĐÁNH</div>
+                <div class="control-btn" id="moveLeftBtn">← TRÁI</div>
+                <div class="control-btn" id="moveRightBtn">PHẢI →</div>
+            </div>
+            
+            <div id="startScreen">
+                <h1>🎱 BIDA CAROM 🎱</h1>
+                <p>Mô phỏng game bida carom thực tế</p>
+                <button id="startButton">BẮT ĐẦU CHƠI</button>
+                <div class="instructions">
+                    <p><strong>Hướng dẫn:</strong></p>
+                    <p>• Chạm và kéo để ngắm</p>
+                    <p>• Giữ nút "LẤY LỰC" để tăng lực đánh</p>
+                    <p>• Nhấn "ĐÁNH" để đánh bi</p>
+                    <p>• Dùng nút TRÁI/PHẢI để di chuyển bi cái</p>
+                </div>
+            </div-->
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script>
+        // Khởi tạo engine
+        const Engine = Matter.Engine,
+              Render = Matter.Render,
+              Runner = Matter.Runner,
+              Bodies = Matter.Bodies,
+              Body = Matter.Body,
+              World = Matter.World,
+              Events = Matter.Events,
+              Mouse = Matter.Mouse,
+              MouseConstraint = Matter.MouseConstraint;
+
+        // Biến game
+        let engine, render, world;
+        let score = 0;
+        let isCharging = false;
+        let power = 0;
+        let maxPower = 100;
+        let cueBall = null;
+        let isBallMoving = false;
+        let gameStarted = false;
+        let aimAngle = 0;
+        let chargeInterval;
+
+        // Kích thước bàn
+        let tableWidth, tableHeight;
+
+        function initGame() {
+            // Tính toán kích thước dựa trên màn hình
+            const canvas = document.getElementById('gameCanvas');
+            const container = document.getElementById('canvasWrapper');
+            
+            tableWidth = container.clientWidth * 0.9;
+            tableHeight = container.clientHeight * 0.7;
+            
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+
+            // Tạo engine
+            engine = Engine.create();
+            world = engine.world;
+
+            // Tạo renderer
+            render = Render.create({
+                canvas: canvas,
+                engine: engine,
+                options: {
+                    width: canvas.width,
+                    height: canvas.height,
+                    wireframes: false,
+                    background: '#2a5c2a',
+                    pixelRatio: window.devicePixelRatio || 1
+                }
+            });
+
+            createTable();
+            createBalls();
+            setupControls();
+            setupCollisions();
+            setupTouchControls();
+
+            // Game loop
+            Events.on(engine, 'afterUpdate', () => {
+                checkBallsStopped();
+            });
+
+            // Custom render để vẽ đường ngắm
+            Matter.Render.lookAt(render, {
+                min: { x: 0, y: 0 },
+                max: { x: canvas.width, y: canvas.height }
+            });
+
+            Render.run(render);
+            Runner.run(Runner.create(), engine);
+
+            // Ẩn màn hình bắt đầu
+            document.getElementById('startScreen').style.display = 'none';
+        }
+
+        function createTable() {
+            const tableX = render.canvas.width / 2;
+            const tableY = render.canvas.height / 2;
+            const cushionWidth = 15;
+            const cornerRadius = 20;
+
+            // Mặt bàn (trong)
+            const playingSurface = Bodies.rectangle(tableX, tableY, tableWidth, tableHeight, {
+                isStatic: true,
+                render: { fillStyle: '#2a5c2a' },
+                chamfer: { radius: cornerRadius }
+            });
+
+            // Các băng bàn
+            const cushions = [
+                // Top
+                Bodies.rectangle(tableX, tableY - tableHeight/2, tableWidth + cushionWidth*2, cushionWidth, { 
+                    isStatic: true,
+                    render: { fillStyle: '#8B4513' },
+                    friction: 0.1,
+                    restitution: 0.8
+                }),
+                // Bottom
+                Bodies.rectangle(tableX, tableY + tableHeight/2, tableWidth + cushionWidth*2, cushionWidth, { 
+                    isStatic: true,
+                    render: { fillStyle: '#8B4513' },
+                    friction: 0.1,
+                    restitution: 0.8
+                }),
+                // Left
+                Bodies.rectangle(tableX - tableWidth/2, tableY, cushionWidth, tableHeight, { 
+                    isStatic: true,
+                    render: { fillStyle: '#8B4513' },
+                    friction: 0.1,
+                    restitution: 0.8
+                }),
+                // Right
+                Bodies.rectangle(tableX + tableWidth/2, tableY, cushionWidth, tableHeight, { 
+                    isStatic: true,
+                    render: { fillStyle: '#8B4513' },
+                    friction: 0.1,
+                    restitution: 0.8
+                })
+            ];
+
+            World.add(world, [playingSurface, ...cushions]);
+        }
+
+        function createBalls() {
+            const ballRadius = Math.min(tableWidth, tableHeight) * 0.03;
+            const ballOptions = {
+                friction: 0.005,
+                frictionAir: 0.002,
+                restitution: 0.85,
+                density: 0.001,
+                render: { 
+                    lineWidth: 1
+                }
+            };
+
+            // Bi cái (cue ball)
+            const startX = render.canvas.width * 0.2;
+            const startY = render.canvas.height / 2;
+            
+            cueBall = Bodies.circle(startX, startY, ballRadius, {
+                ...ballOptions,
+                render: { fillStyle: '#ffffff' },
+                label: 'cueBall'
+            });
+
+            // Bi đích
+            const redBall1 = Bodies.circle(render.canvas.width * 0.7, render.canvas.height * 0.4, ballRadius, {
+                ...ballOptions,
+                render: { fillStyle: '#ff4444' },
+                label: 'redBall'
+            });
+
+            const redBall2 = Bodies.circle(render.canvas.width * 0.7, render.canvas.height * 0.6, ballRadius, {
+                ...ballOptions,
+                render: { fillStyle: '#ff4444' },
+                label: 'redBall'
+            });
+
+            World.add(world, [cueBall, redBall1, redBall2]);
+        }
+
+        function setupTouchControls() {
+            const aimTouch = document.getElementById('aimTouch');
+            let isAiming = false;
+            let startX, startY;
+
+            aimTouch.addEventListener('touchstart', (e) => {
+                if (isBallMoving || !gameStarted) return;
+                e.preventDefault();
+                
+                const touch = e.touches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+                isAiming = true;
+            });
+
+            aimTouch.addEventListener('touchmove', (e) => {
+                if (!isAiming || isBallMoving || !cueBall) return;
+                e.preventDefault();
+                
+                const touch = e.touches[0];
+                const ballPos = cueBall.position;
+                
+                // Tính góc ngắm
+                aimAngle = Math.atan2(
+                    touch.clientY - ballPos.y,
+                    touch.clientX - ballPos.x
+                );
+            });
+
+            aimTouch.addEventListener('touchend', (e) => {
+                isAiming = false;
+            });
+
+            // Nút lấy lực
+            const chargeBtn = document.getElementById('chargeBtn');
+            chargeBtn.addEventListener('touchstart', (e) => {
+                if (isBallMoving || !gameStarted) return;
+                e.preventDefault();
+                startCharging();
+            });
+
+            chargeBtn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopCharging();
+            });
+
+            // Nút đánh
+            const shootBtn = document.getElementById('shootBtn');
+            shootBtn.addEventListener('touchstart', (e) => {
+                if (isBallMoving || !gameStarted) return;
+                e.preventDefault();
+                shootBall();
+            });
+
+            // Nút di chuyển trái
+            const moveLeftBtn = document.getElementById('moveLeftBtn');
+            moveLeftBtn.addEventListener('touchstart', (e) => {
+                if (isBallMoving || !gameStarted || !cueBall) return;
+                e.preventDefault();
+                moveCueBall(-10, 0);
+            });
+
+            // Nút di chuyển phải
+            const moveRightBtn = document.getElementById('moveRightBtn');
+            moveRightBtn.addEventListener('touchstart', (e) => {
+                if (isBallMoving || !gameStarted || !cueBall) return;
+                e.preventDefault();
+                moveCueBall(10, 0);
+            });
+        }
+
+        function startCharging() {
+            if (isCharging || isBallMoving) return;
+            isCharging = true;
+            power = 0;
+            
+            chargeInterval = setInterval(() => {
+                if (isCharging) {
+                    power = Math.min(power + 2, maxPower);
+                    updatePowerBar();
+                }
+            }, 50);
+        }
+
+        function stopCharging() {
+            isCharging = false;
+            if (chargeInterval) {
+                clearInterval(chargeInterval);
+            }
+        }
+
+        function shootBall() {
+            if (!cueBall || isBallMoving) return;
+
+            const force = {
+                x: Math.cos(aimAngle) * power * 0.0005,
+                y: Math.sin(aimAngle) * power * 0.0005
+            };
+
+            Body.applyForce(cueBall, cueBall.position, force);
+            isBallMoving = true;
+            
+            // Reset power
+            power = 0;
+            updatePowerBar();
+            stopCharging();
+        }
+
+        function moveCueBall(deltaX, deltaY) {
+            if (!cueBall || isBallMoving) return;
+            
+            const newPos = {
+                x: cueBall.position.x + deltaX,
+                y: cueBall.position.y + deltaY
+            };
+
+            // Giới hạn trong bàn
+            const tableX = render.canvas.width / 2;
+            const tableY = render.canvas.height / 2;
+            const margin = 30;
+            
+            if (newPos.x > tableX - tableWidth/2 + margin && 
+                newPos.x < tableX + tableWidth/2 - margin &&
+                newPos.y > tableY - tableHeight/2 + margin && 
+                newPos.y < tableY + tableHeight/2 - margin) {
+                
+                Body.setPosition(cueBall, newPos);
+            }
+        }
+
+        function updatePowerBar() {
+            const powerLevel = document.getElementById('powerLevel');
+            const powerValue = document.getElementById('powerValue');
+            const percentage = (power / maxPower) * 100;
+            
+            powerLevel.style.width = percentage + '%';
+            powerValue.textContent = Math.round(percentage);
+        }
+
+        function setupCollisions() {
+            Events.on(engine, 'collisionStart', (event) => {
+                event.pairs.forEach((pair) => {
+                    const bodyA = pair.bodyA;
+                    const bodyB = pair.bodyB;
+                    
+                    if ((bodyA.label === 'cueBall' && bodyB.label === 'redBall') ||
+                        (bodyA.label === 'redBall' && bodyB.label === 'cueBall')) {
+                        score += 10;
+                        document.getElementById('score').textContent = score;
+                    }
+                });
+            });
+        }
+
+        function checkBallsStopped() {
+            if (!isBallMoving) return;
+
+            const bodies = World.allBodies(engine.world);
+            const allStopped = bodies.every(body => {
+                if (body.label.includes('Ball')) {
+                    return Math.abs(body.velocity.x) < 0.1 && Math.abs(body.velocity.y) < 0.1;
+                }
+                return true;
+            });
+
+            if (allStopped) {
+                isBallMoving = false;
+            }
+        }
+
+        function setupControls() {
+            // Bắt đầu game
+            document.getElementById('startButton').addEventListener('click', () => {
+                gameStarted = true;
+                initGame();
+            });
+
+            // Xử lý resize window
+            window.addEventListener('resize', () => {
+                if (gameStarted) {
+                    // Có thể thêm logic resize nếu cần
+                }
+            });
+        }
+
+        // Vẽ đường ngắm custom
+        const originalRender = Render.world;
+        Render.world = function(engine) {
+            originalRender(engine);
+            drawAimLine();
+        };
+
+        function drawAimLine() {
+            if (!cueBall || isBallMoving || !gameStarted) return;
+
+            const render = Matter.Render;
+            const ballPos = cueBall.position;
+            const context = render.context;
+            
+            const length = Math.min(tableWidth, tableHeight) * 0.5;
+            const lineEnd = {
+                x: ballPos.x + Math.cos(aimAngle) * length,
+                y: ballPos.y + Math.sin(aimAngle) * length
+            };
+
+            // Vẽ đường ngắm
+            context.save();
+            context.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            context.lineWidth = 3;
+            context.setLineDash([10, 5]);
+            context.beginPath();
+            context.moveTo(ballPos.x, ballPos.y);
+            context.lineTo(lineEnd.x, lineEnd.y);
+            context.stroke();
+            
+            // Vẽ điểm cuối
+            context.fillStyle = 'rgba(255, 255, 0, 0.8)';
+            context.beginPath();
+            context.arc(lineEnd.x, lineEnd.y, 8, 0, Math.PI * 2);
+            context.fill();
+            context.restore();
+        }
+
+        // Chống context menu trên mobile
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Khởi tạo controls khi trang load
+        document.addEventListener('DOMContentLoaded', setupControls);
+    </script>
+</body>
+</html>

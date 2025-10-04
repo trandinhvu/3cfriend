@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Billiards</title>
+    <link rel="stylesheet" href="style/canvas.css">
+  </head>
+  <body onload="draw();">
+    <div id="container">
+      <canvas id="mainCanvas"></canvas>
+      <!-- 310x168 -->
+      <script>
+        var canvasWidth = 1000;
+        var canvasHeight = 574;
+        var xWhite = 500;
+        var yWhite = 287;
+        var bgColor = '#333';
+        var ballRadius = 9.225;
+        var tableColor = '#37f';
+        var railColor = '#000';
+        var cushionColor = '#15f';
+        var gridColor = '#48f';
+        var marginRail = 35;
+        var marginCushion = 56;
+        var marginClothe = 74;
+        var marginDiamond = 46;
+        var spaceGrid = (canvasWidth - (marginClothe*2))/8;
+        var diamondColor = '#fff';
+        var makerColor = '#fff';
+
+        var canvas = document.getElementById("mainCanvas");
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        var context = canvas.getContext("2d");
+        canvas.addEventListener('mousedown', mouseDown, false);
+        canvas.addEventListener("dblclick", doubleClick, false);
+        canvas.addEventListener("touchstart", mouseDown, false);
+        canvas.addEventListener("touchmove", doubleClick, false);
+
+        function draw() {
+          context.beginPath();
+          context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+          context.fillStyle = 0;
+          context.fill();
+          //background
+          context.fillStyle = bgColor;
+          context.fillRect(0, 0, canvasWidth, canvasHeight);
+          // rails
+          context.fillStyle = railColor;
+          context.fillRect(marginRail, marginRail, canvasWidth - (marginRail*2), canvasHeight - (marginRail*2));
+          // cushions
+          context.fillStyle = cushionColor;
+          context.fillRect(marginCushion, marginCushion, canvasWidth - (marginCushion*2), canvasHeight - (marginCushion*2));
+          // clothe
+          context.fillStyle = tableColor;
+          context.fillRect(marginClothe, marginClothe, canvasWidth - (marginClothe*2), canvasHeight - (marginClothe*2));
+          // grid
+          for (var x = spaceGrid+marginClothe; x < canvasWidth-marginClothe; x += spaceGrid) {
+            context.moveTo(x, marginClothe);
+            context.lineTo(x, canvasHeight-marginClothe);
+          }
+          for (var y = spaceGrid+marginClothe; y < canvasHeight-marginClothe; y += spaceGrid) {
+            context.moveTo(marginClothe, y);
+            context.lineTo(canvasWidth-marginClothe, y);
+          }
+          context.strokeStyle = gridColor;
+          context.stroke();
+          // english diagram
+          context.font = '14px verdana';
+          context.beginPath();
+          context.arc(500, 287, 106.5, 0, 2 * Math.PI, false);
+          context.stroke();
+          context.beginPath();
+          context.arc(500, 287, 79.875, 0, 2 * Math.PI, false);
+          context.stroke();
+          context.beginPath();
+          context.arc(500, 207.125, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorN;
+          context.fill();
+          context.fillText('0', 495.75, 196.125);
+          context.beginPath();
+          context.arc(556.5, 230.5, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorR12;
+          context.fill();
+          context.fillText('½', 560.5, 226.5);
+          context.beginPath();
+          context.arc(443.5, 230.5, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorL12;
+          context.fill();
+          context.fillText('½', 423.5, 226.5);
+          context.beginPath();
+          context.arc(579.875, 287, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorR;
+          context.fill();
+          context.fillText('R', 590, 292);
+          context.beginPath();
+          context.arc(420.125, 287, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorL;
+          context.fill();
+          context.fillText('L', 400, 292);
+          context.beginPath();
+          context.arc(573.8, 256.4, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorR34;
+          context.fill();
+          context.fillText('¾', 580.8, 256);
+          context.beginPath();
+          context.arc(530.6, 213.2, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorR14;
+          context.fill();
+          context.fillText('¼', 532, 207);
+          context.beginPath();
+          context.arc(426.2, 256.4, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorL34;
+          context.fill();
+          context.fillText('¾', 404, 256);
+          context.beginPath();
+          context.arc(469.4, 213.2, 6, 0, 2 * Math.PI, false);
+          context.fillStyle = tipColorL14;
+          context.fill();
+          context.fillText('¼', 454, 207);
+          // diamonds
+          for (var x = marginClothe; x < canvasWidth-marginDiamond; x += spaceGrid) {
+            context.beginPath();
+            context.arc(x, marginDiamond, 1.75, 0, 2 * Math.PI, false);
+            context.arc(x, canvasHeight-marginDiamond, 1.75, 0, 2 * Math.PI, false);
+            context.fillStyle = diamondColor;
+            context.fill();
+          }
+          for (var y = marginClothe; y < canvasHeight-marginDiamond; y += spaceGrid) {
+            context.beginPath();
+            context.arc(marginDiamond, y, 1.75, 0, 2 * Math.PI, false);
+            context.arc(canvasWidth-marginDiamond, y, 1.75, 0, 2 * Math.PI, false);
+            context.fillStyle = diamondColor;
+            context.fill();
+          }
+          // break markers
+          context.beginPath();
+          //context.arc(287, 287, 1.5, 0, 2 * Math.PI, false);
+          context.arc(marginClothe+spaceGrid*2, marginClothe+spaceGrid*1.5, 1, 0, 2 * Math.PI, false);
+          context.fillStyle = makerColor;
+          context.fill();
+          context.beginPath();
+          //context.arc(287, 233.75, 1.5, 0, 2 * Math.PI, false);
+          context.arc(marginClothe+spaceGrid*2, marginClothe+spaceGrid*2, 1, 0, 2 * Math.PI, false);
+          context.fillStyle = makerColor;
+          context.fill();
+          context.beginPath();
+          //context.arc(287, 340.25, 1.5, 0, 2 * Math.PI, false);
+          context.arc(marginClothe+spaceGrid*2, marginClothe+spaceGrid*2.5, 1, 0, 2 * Math.PI, false);
+          context.fillStyle = makerColor;
+          context.fill();
+          context.beginPath();
+          //context.arc(713, 287, 2, 0, 2 * Math.PI, false);
+          context.arc(marginClothe+spaceGrid*6, marginClothe+spaceGrid*2, 1, 0, 2 * Math.PI, false);
+          context.fillStyle = makerColor;
+          context.fill();
+          // balls
+          if (xWhite > canvasWidth-marginClothe-ballRadius) {
+            xWhite = canvasWidth-marginClothe-ballRadius;
+          }
+          if (xWhite < marginClothe+ballRadius) {
+            xWhite = marginClothe+ballRadius;
+          }
+          if (yWhite > canvasHeight-marginClothe-ballRadius) {
+            yWhite = canvasHeight-marginClothe-ballRadius;
+          }
+          if (yWhite < marginClothe+ballRadius) {
+            yWhite = marginClothe+ballRadius;
+          }
+          whiteGradient = context.createRadialGradient(xWhite - 2, yWhite - 2, 2, xWhite - 2, yWhite - 2, 9);
+          whiteGradient.addColorStop(0, "#fff");
+          whiteGradient.addColorStop(1, "#ddd");
+          context.beginPath();
+          context.arc(xWhite, yWhite, ballRadius, 0, 2 * Math.PI, false);
+          context.fillStyle = whiteGradient;
+          context.fill();
+          context.beginPath();
+          context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+          context.fillStyle = 0;
+          context.fill();
+        }
+
+        const TABLE = {
+          LEFT: 83, RIGHT: 917, TOP: 83, BOTTOM: 491,
+          WIDTH: 834, HEIGHT: 408,
+          EXT_SHORT: 37, OFFSET_X: 213, OFFSET_Y: 426,
+          ADJ_CUE: 80, ADJ_FACTOR: 1.15, MAIN_MULT: 1.75
+        };
+
+        function mouseDown(e) {
+          draw();
+          e.preventDefault();
+          getMousePos(e);
+
+          const ratio = (mouseX - xWhite) / (yWhite - mouseY);
+          const ratioTL = (TABLE.LEFT - xWhite) / (yWhite - TABLE.TOP);
+          const ratioTR = (TABLE.RIGHT - xWhite) / (yWhite - TABLE.TOP);
+          const ratioBR = (TABLE.RIGHT - xWhite) / (yWhite - TABLE.BOTTOM);
+          const ratioBL = (TABLE.LEFT - xWhite) / (yWhite - TABLE.BOTTOM);
+
+          const isAdjOn = document.getElementById('adjOn').checked;
+          const adjV = isAdjOn ? TABLE.ADJ_CUE * ratio : 0;
+          const adjH = isAdjOn ? TABLE.ADJ_CUE / ratio : 0;
+
+          context.strokeStyle = "#fff";
+
+          function drawLineAndBall(fromX, fromY, toX, toY) {
+            context.beginPath();
+            context.moveTo(fromX, fromY);
+            context.lineTo(toX, toY);
+            context.stroke();
+            context.beginPath();
+            context.arc(toX, toY, ballRadius, 0, 2 * Math.PI, false);
+            context.stroke();
+          }
+
+          function drawRedExtension(fromX, fromY, toX, toY) {
+            context.strokeStyle = "#f00";
+            context.beginPath();
+            context.moveTo(fromX, fromY);
+            context.lineTo(toX, toY);
+            context.stroke();
+            context.strokeStyle = "#fff";
+          }
+
+          function clipPoint(fromX, fromY, toX, toY, isHorizontal) {
+            let clippedX = toX, clippedY = toY;
+            if (isHorizontal) {
+              if (toX > TABLE.RIGHT) {
+                const frac = (TABLE.RIGHT - fromX) / (toX - fromX);
+                clippedY = fromY + (toY - fromY) * frac;
+                clippedX = TABLE.RIGHT;
+              } else if (toX < TABLE.LEFT) {
+                const frac = (TABLE.LEFT - fromX) / (toX - fromX);
+                clippedY = fromY + (toY - fromY) * frac;
+                clippedX = TABLE.LEFT;
+              }
+            } else {
+              if (toY > TABLE.BOTTOM) {
+                const frac = (TABLE.BOTTOM - fromY) / (toY - fromY);
+                clippedX = fromX + (toX - fromX) * frac;
+                clippedY = TABLE.BOTTOM;
+              } else if (toY < TABLE.TOP) {
+                const frac = (TABLE.TOP - fromY) / (toY - fromY);
+                clippedX = fromX + (toX - fromX) * frac;
+                clippedY = TABLE.TOP;
+              }
+            }
+            return { x: clippedX, y: clippedY };
+          }
+
+          function drawTopPath() {
+            const x1 = xWhite + (yWhite - TABLE.TOP) * ratio;
+            const xr = x1 + TABLE.EXT_SHORT * ratio;
+            drawLineAndBall(xWhite, yWhite, x1, TABLE.TOP);
+            let x2 = x1 + TABLE.HEIGHT * ratio + TABLE.OFFSET_X * english + adjV;
+            if (x2 > TABLE.RIGHT) {
+              const y2s = TABLE.TOP + TABLE.HEIGHT * (TABLE.RIGHT - x1) / (x2 - x1);
+              drawLineAndBall(x1, TABLE.TOP, TABLE.RIGHT, y2s);
+              let y3 = y2s + TABLE.WIDTH * (y2s - TABLE.TOP) / (TABLE.RIGHT - x1) * (isAdjOn ? TABLE.ADJ_FACTOR : 1) + TABLE.OFFSET_Y * english;
+              if (y3 > TABLE.BOTTOM) {
+                const x3s = TABLE.RIGHT - TABLE.WIDTH * (TABLE.BOTTOM - y2s) / (y3 - y2s);
+                drawLineAndBall(TABLE.RIGHT, y2s, x3s, TABLE.BOTTOM);
+                let x4 = x3s - TABLE.HEIGHT * (TABLE.RIGHT - x3s) / (TABLE.BOTTOM - y2s) * (isAdjOn ? TABLE.ADJ_FACTOR : 1) - TABLE.OFFSET_X * english;
+                const clipped = clipPoint(x3s, TABLE.BOTTOM, x4, TABLE.TOP, true);
+                drawLineAndBall(x3s, TABLE.BOTTOM, clipped.x, clipped.y);
+              } else if (y3 < TABLE.TOP) {
+                const x3s = TABLE.RIGHT - TABLE.WIDTH * (y2s - TABLE.TOP) / (y2s - y3);
+                drawLineAndBall(TABLE.RIGHT, y2s, x3s, TABLE.TOP);
+              } else {
+                drawLineAndBall(TABLE.RIGHT, y2s, TABLE.LEFT, y3);
+              }
+            } else if (x2 < TABLE.LEFT) {
+              const y2s = TABLE.TOP + TABLE.HEIGHT * (x1 - TABLE.LEFT) / (x1 - x2);
+              drawLineAndBall(x1, TABLE.TOP, TABLE.LEFT, y2s);
+            } else {
+              drawLineAndBall(x1, TABLE.TOP, x2, TABLE.BOTTOM);
+              let x3 = x2 + (x2 - x1) * (isAdjOn && english !== 0 ? TABLE.MAIN_MULT : 1) - TABLE.OFFSET_X * english;
+              const clipped = clipPoint(x2, TABLE.BOTTOM, x3, TABLE.TOP, true);
+              drawLineAndBall(x2, TABLE.BOTTOM, clipped.x, clipped.y);
+            }
+            drawRedExtension(x1, TABLE.TOP, xr, TABLE.TOP - TABLE.EXT_SHORT);
+          }
+
+          function drawRightPath() {
+            const y1 = yWhite - (TABLE.RIGHT - xWhite) / ratio;
+            const yr = y1 - TABLE.EXT_SHORT / ratio;
+            drawLineAndBall(xWhite, yWhite, TABLE.RIGHT, y1);
+            let y2 = y1 - TABLE.WIDTH / ratio + TABLE.OFFSET_Y * english - adjH;
+            const clipped = clipPoint(TABLE.RIGHT, y1, TABLE.LEFT, y2, false);
+            drawLineAndBall(TABLE.RIGHT, y1, clipped.x, clipped.y);
+            drawRedExtension(TABLE.RIGHT, y1, TABLE.RIGHT + TABLE.EXT_SHORT, yr);
+          }
+
+          function drawBottomPath() {
+            const x1 = xWhite + (yWhite - TABLE.BOTTOM) * ratio;
+            const xr = x1 - TABLE.EXT_SHORT * ratio;
+            drawLineAndBall(xWhite, yWhite, x1, TABLE.BOTTOM);
+            let x2 = x1 - TABLE.HEIGHT * ratio - TABLE.OFFSET_X * english - adjV;
+            const clipped = clipPoint(x1, TABLE.BOTTOM, x2, TABLE.TOP, true);
+            drawLineAndBall(x1, TABLE.BOTTOM, clipped.x, clipped.y);
+            drawRedExtension(x1, TABLE.BOTTOM, xr, TABLE.BOTTOM + TABLE.EXT_SHORT);
+          }
+
+          function drawLeftPath() {
+            const y1 = yWhite - (TABLE.LEFT - xWhite) / ratio;
+            const yr = y1 + TABLE.EXT_SHORT / ratio;
+            drawLineAndBall(xWhite, yWhite, TABLE.LEFT, y1);
+            let y2 = y1 + TABLE.WIDTH / ratio - TABLE.OFFSET_Y * english + adjH;
+            const clipped = clipPoint(TABLE.LEFT, y1, TABLE.RIGHT, y2, false);
+            drawLineAndBall(TABLE.LEFT, y1, clipped.x, clipped.y);
+            drawRedExtension(TABLE.LEFT, y1, TABLE.LEFT - TABLE.EXT_SHORT, yr);
+          }
+
+          // Xử lý từng hướng
+          if (mouseY < yWhite && ratio > ratioTL && ratio < ratioTR) drawTopPath();
+          else if (mouseX > xWhite && (1 / ratio) > (1 / ratioBR) && (1 / ratio) < (1 / ratioTR)) drawRightPath();
+          else if (mouseY > yWhite && ratio > ratioBR && ratio < ratioBL) drawBottomPath();
+          else if (mouseX < xWhite && (1 / ratio) > (1 / ratioTL) && (1 / ratio) < (1 / ratioBL)) drawLeftPath();
+        }
+
+        function toggleColor() {
+          if (tableColor == '#37f') {
+            tableColor = '#207050';
+            railColor = '#704030';
+            cushionColor = '#105040';
+            gridColor = '#1a6a4a';
+          } else if (tableColor == '#207050') {
+            tableColor = '#37f';
+            railColor = '#000';
+            cushionColor = '#15f';
+            gridColor = '#48f';
+          }
+          tipColorL = gridColor;
+          tipColorL34 = gridColor;
+          tipColorL12 = gridColor;
+          tipColorL14 = gridColor;
+          tipColorN = cushionColor;
+          tipColorR14 = gridColor;
+          tipColorR12 = gridColor;
+          tipColorR34 = gridColor;
+          tipColorR = gridColor;
+          draw();
+        }
+        var tipColorL = gridColor;
+        var tipColorL34 = gridColor;
+        var tipColorL12 = gridColor;
+        var tipColorL14 = gridColor;
+        var tipColorN = cushionColor;
+        var tipColorR14 = gridColor;
+        var tipColorR12 = gridColor;
+        var tipColorR34 = gridColor;
+        var tipColorR = gridColor;
+
+        function changeTipColor() {
+          if (document.getElementById('tipL').checked) {
+            tipColorL = cushionColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipN').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor
+            tipColorN = cushionColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipR').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = cushionColor;
+            draw();
+          } else if (document.getElementById('tipL14').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = cushionColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipL12').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = cushionColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipL34').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = cushionColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipR14').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = cushionColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipR12').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = cushionColor;
+            tipColorR34 = gridColor;
+            tipColorR = gridColor;
+            draw();
+          } else if (document.getElementById('tipR34').checked) {
+            tipColorL = gridColor;
+            tipColorL34 = gridColor;
+            tipColorL12 = gridColor;
+            tipColorL14 = gridColor;
+            tipColorN = gridColor;
+            tipColorR14 = gridColor;
+            tipColorR12 = gridColor;
+            tipColorR34 = cushionColor;
+            tipColorR = gridColor;
+            draw();
+          }
+        }
+
+        // set to image
+        function saveImg() {
+          isDrawing = false;
+          var download = document.getElementById("download");
+          var dataURL = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+          download.setAttribute("href", dataURL);
+        }
+
+        function getMousePos(e) {
+          if (!e) {
+            var e = event;
+          }
+          if (e.offsetX) {
+            mouseX = e.offsetX;
+            mouseY = e.offsetY;
+          } else if (e.layerX) {
+            mouseX = e.layerX;
+            mouseY = e.layerY;
+          }
+        }
+
+        function doubleClick(e) {
+          e.preventDefault();
+          getMousePos(e);
+          xWhite = mouseX;
+          yWhite = mouseY;
+          draw();
+        }
+        var english = 0;
+
+        function changeEnglish(eng) {
+          english = eng;
+        }
+      </script>
+      <p>
+      <form>
+        <label>English: </label>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipL" onclick="changeTipColor();changeEnglish(-1);" />Left
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipN" onclick="changeTipColor();changeEnglish(0);" checked />None
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipR" onclick="changeTipColor();changeEnglish(1);" />Right
+        </fieldset>
+        <br />
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipL34" onclick="changeTipColor();changeEnglish(-0.75);" />&frac34; left
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipL12" onclick="changeTipColor();changeEnglish(-0.5);" />&frac12; left
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipL14" onclick="changeTipColor();changeEnglish(-0.25);" />&frac14; left
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipR14" onclick="changeTipColor();changeEnglish(0.25);" />&frac14; right
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipR12" onclick="changeTipColor();changeEnglish(0.5);" />&frac12; right
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="tipR34" onclick="changeTipColor();changeEnglish(0.75);" />&frac34; right
+        </fieldset>
+      </form>
+      </p>
+      <p>
+      <form>
+        <label>Adjustments: </label>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="adjOn" checked />On
+        </fieldset>
+        <fieldset>
+          <input type="radio" class="radio" name="english" id="adjOff" />Off
+        </fieldset>
+      </form>
+      </p>
+      <p>
+        <button onclick="toggleColor();">Toggle green/blue</button>
+      </p>
+      <p>
+        <a id="download" download="screenshot.png">
+          <button onclick="saveImg();">Save as image</button>
+        </a>
+      </p>
+      <p>
+        <button onclick="window.location.href = 'index.html';">Home</button>
+      </p>
+  </body>
+</html>

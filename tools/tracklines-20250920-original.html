@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Billiards</title>
+	<link rel="stylesheet" href="https://www.joelpark.net/billiards/canvas.css">
+</head>
+<body onload="draw();">
+    <div id="container">
+    <canvas id="table" width="1000" height="574"></canvas>
+    <!-- 310x168 -->
+    <script>
+        
+        var canvas = document.getElementById("table");
+        var context = canvas.getContext("2d");
+        canvas.addEventListener('mousedown',mouseDown,false);
+        canvas.addEventListener("dblclick",doubleClick,false);
+        canvas.addEventListener("touchstart",mouseDown,false);
+        canvas.addEventListener("touchmove",doubleClick,false);
+        
+        var xWhite = 500;
+        var yWhite = 287;
+        var ballRadius = 9.225;
+        
+	var tableColor = '#37f';
+	var railColor = '#000';
+	var cushionColor = '#15f';
+	var gridColor = '#48f';
+
+	function toggleColor() {
+	    if (tableColor == '#37f') {
+		tableColor = '#207050';
+		railColor = '#704030';
+		cushionColor = '#105040';
+		gridColor = '#1a6a4a';
+	    }
+	    else if (tableColor == '#207050') {
+		tableColor = '#37f';
+		railColor = '#000';
+		cushionColor = '#15f';
+		gridColor = '#48f';
+	    }
+	    tipColorL = gridColor;
+	    tipColorL34 = gridColor;
+	    tipColorL12 = gridColor;
+	    tipColorL14 = gridColor;
+	    tipColorN = cushionColor;
+	    tipColorR14 = gridColor;
+	    tipColorR12 = gridColor;
+	    tipColorR34 = gridColor;
+	    tipColorR = gridColor;
+	    draw();
+	}
+
+	var tipColorL = gridColor;
+        var tipColorL34 = gridColor;
+        var tipColorL12 = gridColor;
+        var tipColorL14 = gridColor;
+        var tipColorN = cushionColor;
+        var tipColorR14 = gridColor;
+        var tipColorR12 = gridColor;
+        var tipColorR34 = gridColor;
+        var tipColorR = gridColor;
+
+        function changeTipColor() {
+            if (document.getElementById('tipL').checked) {
+                tipColorL = cushionColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipN').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor
+                tipColorN = cushionColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipR').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = cushionColor;
+                draw();
+            }
+            else if (document.getElementById('tipL14').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = cushionColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipL12').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = cushionColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipL34').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = cushionColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipR14').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = cushionColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipR12').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = cushionColor;
+                tipColorR34 = gridColor;
+                tipColorR = gridColor;
+                draw();
+            }
+            else if (document.getElementById('tipR34').checked) {
+                tipColorL = gridColor;
+                tipColorL34 = gridColor;
+                tipColorL12 = gridColor;
+                tipColorL14 = gridColor;
+                tipColorN = gridColor;
+                tipColorR14 = gridColor;
+                tipColorR12 = gridColor;
+                tipColorR34 = cushionColor;
+                tipColorR = gridColor;
+                draw();
+            }
+        }
+            
+        function draw() {
+            context.beginPath();
+            context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+            context.fillStyle = 0;
+            context.fill();
+                
+            //background
+            context.fillStyle = "#333";
+            context.fillRect(0,0,1000,574);
+        
+            // rails
+            context.fillStyle = railColor;
+            context.fillRect(35,35,930,504);
+        
+            // cushions
+            context.fillStyle = cushionColor;
+            context.fillRect(56,56,888,462);
+        
+            // 284x142 playing area
+            context.fillStyle = tableColor;
+            context.fillRect(74,74,852,426);
+        
+            // grid
+            for (var x = 180.5; x < 926; x += 106.5) {
+                context.moveTo(x, 74);
+                context.lineTo(x, 500);
+            }
+            for (var y = 180.5; y < 500; y += 106.5) {
+                context.moveTo(74, y);
+                context.lineTo(926, y);
+            }
+                context.strokeStyle = gridColor;
+                context.stroke();
+            
+            // english diagram
+            
+            context.font='14px verdana';
+            
+            context.beginPath();
+            context.arc(500, 287, 106.5, 0, 2 * Math.PI, false);
+            context.stroke();
+            
+            context.beginPath();
+            context.arc(500, 287, 79.875, 0, 2 * Math.PI, false);
+            context.stroke();
+            
+            context.beginPath();
+            context.arc(500, 207.125, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorN;
+            context.fill();
+            
+            
+            context.fillText('0',495.75,196.125);
+            
+            context.beginPath();
+            context.arc(556.5, 230.5, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorR12;
+            context.fill();
+            
+            context.fillText('½',560.5,226.5);
+            
+            context.beginPath();
+            context.arc(443.5, 230.5, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorL12;
+            context.fill();
+            
+            context.fillText('½',423.5,226.5);
+            
+            context.beginPath();
+            context.arc(579.875, 287, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorR;
+            context.fill();
+            
+            context.fillText('R',590,292);
+            
+            context.beginPath();
+            context.arc(420.125, 287, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorL;
+            context.fill();
+            
+            context.fillText('L',400,292);
+            
+            context.beginPath();
+            context.arc(573.8, 256.4, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorR34;
+            context.fill();
+            
+            context.fillText('¾',580.8,256);
+            
+            context.beginPath();
+            context.arc(530.6, 213.2, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorR14;
+            context.fill();
+            
+            context.fillText('¼',532,207);
+            
+            context.beginPath();
+            context.arc(426.2, 256.4, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorL34;
+            context.fill();
+            
+            context.fillText('¾',404,256);
+            
+            context.beginPath();
+            context.arc(469.4, 213.2, 6, 0, 2 * Math.PI, false);
+            context.fillStyle = tipColorL14;
+            context.fill();
+            
+            context.fillText('¼',454,207);
+            
+            // diamonds
+            for (var x = 74; x < 965; x += 106.5) {
+                context.beginPath();
+                context.arc(x, 46, 1.75, 0, 2 * Math.PI, false);
+                context.arc(x, 528, 1.75, 0, 2 * Math.PI, false);
+                context.fillStyle = '#fff';
+                context.fill();
+            }
+        
+            for (var y = 74; y < 539; y += 106.5) {
+                context.beginPath();
+                context.arc(46, y, 1.75, 0, 2 * Math.PI, false);
+                context.arc(954, y, 1.75, 0, 2 * Math.PI, false);
+                context.fillStyle = '#fff';
+                context.fill();
+            }
+        
+            // break markers
+            context.beginPath();
+            context.arc(287, 287, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(287, 233.75, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(287, 340.25, 1.5, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            context.beginPath();
+            context.arc(713, 287, 2, 0, 2 * Math.PI, false);
+            context.fillStyle = '#000';
+            context.fill();
+        
+            // balls
+            if (xWhite > 916.75) { xWhite = 916.75; }
+            if (xWhite < 83.2) { xWhite = 83.2; }
+            if (yWhite > 490.75) { yWhite = 490.75; }
+            if (yWhite < 83.2) { yWhite = 83.2; }
+
+            whiteGradient = context.createRadialGradient(xWhite-2, yWhite-2, 2, xWhite-2, yWhite-2, 9);
+            whiteGradient.addColorStop(0, "#fff");
+            whiteGradient.addColorStop(1, "#ddd");
+        
+            context.beginPath();
+            context.arc(xWhite, yWhite, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = whiteGradient;
+            context.fill();
+            
+            context.beginPath();
+            context.arc(0, 0, 0, 0, 2 * Math.PI, false);
+            context.fillStyle = 0;
+            context.fill();
+        }
+        
+        // set to image
+        function saveImg() {
+            isDrawing = false;
+            var download = document.getElementById("download");
+            var dataURL = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            download.setAttribute("href", dataURL);
+        }
+        
+        function getMousePos(e) {
+            if (!e) {
+                var e = event;
+            }
+            if (e.offsetX) {
+                mouseX = e.offsetX;
+                mouseY = e.offsetY;
+            }
+            else if (e.layerX) {
+                mouseX = e.layerX;
+                mouseY = e.layerY;
+            }
+        }
+        
+        function doubleClick(e) {
+            e.preventDefault();
+            getMousePos(e);
+            xWhite = mouseX;
+            yWhite = mouseY;
+            draw();
+        }
+            
+        var english = 0;
+        
+        function changeEnglish(eng) {
+            english = eng;
+        }
+            
+        function mouseDown(e) {
+            draw();
+            e.preventDefault();
+            getMousePos(e);
+            
+            var x,y,xr,yr,x2,y2,x2s,y2s,x3,y3,x3s,y3s,x4,y4,x4s,y4s;
+            var ratio;
+            var ratioTL,ratioTR,ratioBR,ratioBL;
+            var adjH,adjV;
+            
+            ratio = (mouseX-xWhite)/(yWhite-mouseY);
+            ratioTL = (83-xWhite)/(yWhite-83);
+            ratioTR = (917-xWhite)/(yWhite-83);
+            ratioBR = (917-xWhite)/(yWhite-491);
+            ratioBL = (83-xWhite)/(yWhite-491);
+            
+            context.strokeStyle = "#fff";
+            
+            if (document.getElementById('adjOn').checked) {
+                    adjV = (80*ratio);
+                    adjH = (80/ratio);
+            }
+            if (document.getElementById('adjOff').checked) {
+                    adjV = 0;
+                    adjH = 0;
+            }
+                
+            if ( mouseY < yWhite && ratio > ratioTL && ratio < ratioTR ) {
+                x = (yWhite-83)*ratio+xWhite;
+                xr = 37*ratio+x;
+                x2 = x+408*ratio+213*english+adjV;
+                context.beginPath();
+                context.moveTo(xWhite,yWhite);
+                context.lineTo(x,83);
+                context.stroke();
+                context.beginPath();
+                context.arc(x,83, ballRadius, 0, 2 * Math.PI, false);
+                context.moveTo(x,83);
+                if (x2 > 917) {
+                    y2s = 83 + 408*(917-x)/(x2-x);
+                    if (document.getElementById('adjOn').checked) {
+                        y3 = y2s + 834*(y2s-83)/(917-x)*1.15+426*english;
+                    }
+                    if (document.getElementById('adjOff').checked) {
+                        y3 = y2s + 834*(y2s-83)/(917-x)+426*english;
+                    }
+                    context.lineTo(917,y2s);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(917,y2s, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(917,y2s);
+                    if (y3 > 491) {
+                        x3s = 917-834*(491-y2s)/(y3-y2s);
+                        if (document.getElementById('adjOn').checked) {
+                            x4 = x3s-408*(917-x3s)/(491-y2s)*1.15-213*english;
+                        }
+                        if (document.getElementById('adjOff').checked) {
+                            x4 = x3s-408*(917-x3s)/(491-y2s)-213*english;
+                        }
+                        context.lineTo(x3s,491);
+                        context.stroke();
+                        context.beginPath();
+                        context.arc(x3s,491, ballRadius, 0, 2 * Math.PI, false);
+                        context.moveTo(x3s,491);
+                        if (x4 < 83) {
+                            y4s = 491-408*(x3s-83)/(x3s-x4);
+                            context.lineTo(83,y4s);
+                            context.stroke();
+                            context.beginPath();
+                            context.arc(83,y4s, ballRadius, 0, 2 * Math.PI, false);
+                            context.moveTo(83,y4s);
+                            context.stroke();
+                        }
+                        else {
+                            context.lineTo(x4,83);
+                            context.stroke();
+                            context.beginPath();
+                            context.arc(x4,83, ballRadius, 0, 2 * Math.PI, false);
+                            context.moveTo(x4,83);
+                            context.stroke();
+                        }
+                    }
+                    else if (y3 < 83) {
+                        x3s = 917-834*(y2s-83)/(y2s-y3);
+                        context.lineTo(x3s,83);
+                        context.stroke();
+                        context.beginPath();
+                        context.arc(x3s,83, ballRadius, 0, 2 * Math.PI, false);
+                        context.moveTo(x3s,83);
+                        context.stroke();
+                    }
+                    else {
+                        context.lineTo(83,y3);
+                        context.stroke();
+                        context.beginPath();
+                        context.arc(83,y3, ballRadius, 0, 2 * Math.PI, false);
+                        context.moveTo(83,y3);
+                        context.stroke();
+                    }
+                }
+                else if (x2 < 83) {
+                    y2s = 83 + 408*(x-83)/(x-x2);
+                    context.lineTo(83,y2s);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(83,y2s, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(83,y2s);
+                    context.stroke();
+                }
+                else {
+                    if (document.getElementById('adjOn').checked && english != 0) {
+                        x3 = 1.75*(x2-x)+x2-213*english;
+                    }
+                    else {
+                        x3 = (x2-x)+x2-213*english;
+                    }
+                    context.lineTo(x2,491);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2,491, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2,491);
+                    context.lineTo(x3,83);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x3,83, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x3,83);
+                    context.stroke();
+                }
+                context.closePath();
+                context.beginPath();
+                context.lineTo(x,83);
+                context.lineTo(xr,46);
+                context.strokeStyle = "#f00";
+                context.stroke();
+                context.closePath();
+            }
+            
+            if ( mouseX > xWhite && (1/ratio) > (1/ratioBR) && (1/ratio) < (1/ratioTR) ) {
+                y = yWhite-(917-xWhite)/ratio;
+                yr = y-(37)/ratio;
+                y2 = y-834/ratio+426*english-adjH;
+                context.beginPath();
+                context.moveTo(xWhite,yWhite);
+                context.lineTo(917,y);
+                context.stroke();
+                context.beginPath();
+                context.arc(917,y, ballRadius, 0, 2 * Math.PI, false);
+                context.moveTo(917,y);
+                if (y2 > 491) {
+                    x2s = 83 + 834*(y2-491)/(y2-y);
+                    context.lineTo(x2s,491);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2s,491, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2s,491);
+                    context.stroke();
+                }
+                else if (y2 < 83) {
+                    x2s = 83 + 834*(83-y2)/(y-y2);
+                    context.lineTo(x2s,83);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2s,83, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2s,83);
+                    context.stroke();
+                }
+                else {
+                    context.lineTo(83,y2);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(83,y2, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(83,y2);
+                    context.stroke();
+                }
+                context.closePath();
+                context.beginPath();
+                context.moveTo(917,y);
+                context.lineTo(954,yr);
+                context.strokeStyle = "#f00";
+                context.stroke();
+                context.closePath();
+            }
+            
+            if ( mouseY > yWhite && ratio > ratioBR && ratio < ratioBL ) {
+                x = (yWhite-491)*ratio+xWhite;
+                xr = x-37*ratio;
+                x2 = x-408*ratio-213*english-adjV;
+                context.beginPath();
+                context.moveTo(xWhite,yWhite);
+                context.lineTo(x,491);
+                context.stroke();
+                context.beginPath();
+                context.arc(x,491, ballRadius, 0, 2 * Math.PI, false);
+                context.moveTo(x,491);
+                if (x2 > 917) {
+                    y2s = 491 - 408*(917-x)/(x2-x);
+                    context.lineTo(917,y2s);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(917,y2s, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(917,y2s);
+                    context.stroke();
+                }
+                else if (x2 < 83) {
+                    y2s = 491 - 408*(x-83)/(x-x2);
+                    context.lineTo(83,y2s);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(83,y2s, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(83,y2s);
+                    context.stroke();
+                }
+                else {
+                    context.lineTo(x2,83);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2,83, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2,83);
+                    context.stroke();
+                }
+                context.closePath();
+                context.beginPath();
+                context.moveTo(x,491);
+                context.lineTo(xr,528);
+                context.strokeStyle = "#f00";
+                context.stroke();
+                context.closePath();
+            }
+            
+            if ( mouseX < xWhite && (1/ratio) > (1/ratioTL) && (1/ratio) < (1/ratioBL) ) {
+                y = yWhite-(83-xWhite)/ratio;
+                yr = y+(37)/ratio;
+                y2 = y+834/ratio-426*english+adjH;
+                context.beginPath();
+                context.moveTo(xWhite,yWhite);
+                context.lineTo(83,y);
+                context.stroke();
+                context.beginPath();
+                context.arc(83,y, ballRadius, 0, 2 * Math.PI, false);
+                context.moveTo(83,y);
+                if (y2 > 491) {
+                    x2s = 83 + 834*(491-y)/(y2-y);
+                    context.lineTo(x2s,491);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2s,491, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2s,491);
+                    context.stroke();
+                }
+                else if (y2 < 83) {
+                    x2s = 83 + 834*(y-83)/(y-y2);
+                    context.lineTo(x2s,83);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(x2s,83, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(x2s,83);
+                    context.stroke();
+                }
+                else {
+                    context.lineTo(917,y2);
+                    context.stroke();
+                    context.beginPath();
+                    context.arc(917,y2, ballRadius, 0, 2 * Math.PI, false);
+                    context.moveTo(917,y2);
+                    context.stroke();
+                }
+                context.closePath();
+                context.beginPath();
+                context.moveTo(83,y);
+                context.lineTo(46,yr);
+                context.strokeStyle = "#f00";
+                context.stroke();
+                context.closePath();
+            }
+        }
+        
+    </script>
+    <p>
+        <form><label>English: </label>
+            <fieldset><input type="radio" class="radio" name="english" id="tipL" onclick="changeTipColor();changeEnglish(-1);" />Left</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipN" onclick="changeTipColor();changeEnglish(0);" checked />None</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipR" onclick="changeTipColor();changeEnglish(1);" />Right</fieldset>
+            <br />
+            <fieldset><input type="radio" class="radio" name="english" id="tipL34" onclick="changeTipColor();changeEnglish(-0.75);" />&frac34; left</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipL12" onclick="changeTipColor();changeEnglish(-0.5);" />&frac12; left</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipL14" onclick="changeTipColor();changeEnglish(-0.25);" />&frac14; left</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipR14" onclick="changeTipColor();changeEnglish(0.25);" />&frac14; right</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipR12" onclick="changeTipColor();changeEnglish(0.5);" />&frac12; right</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="tipR34" onclick="changeTipColor();changeEnglish(0.75);" />&frac34; right</fieldset>
+        </form>
+    </p>
+    <p>
+        <form><label>Adjustments: </label>
+            <fieldset><input type="radio" class="radio" name="english" id="adjOn" checked />On</fieldset>
+            <fieldset><input type="radio" class="radio" name="english" id="adjOff" />Off</fieldset>
+        </form>
+    </p>
+    <p>
+        <button onclick="toggleColor();">Toggle green/blue</button>
+    </p>
+    <p>
+        <a id="download" download="screenshot.png"><button onclick="saveImg();">Save as image</button></a>
+    </p>
+    <p>
+        <button onclick="window.location.href = 'index.html';">Home</button>
+    </p>
+</body>
+</html>

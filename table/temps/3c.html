@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bida 3 Băng - Game Bida Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a3a, #0d1b2a);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #f1c40f;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+        
+        .game-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .game-board {
+            flex: 1;
+            min-width: 300px;
+            background: #1e3a5c;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        #gameCanvas {
+            width: 100%;
+            height: 500px;
+            background: #2c5530;
+            border: 8px solid #8b4513;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .game-controls {
+            flex: 0 0 300px;
+            background: #1e3a5c;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .control-group {
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #f1c40f;
+            border-bottom: 1px solid #34495e;
+            padding-bottom: 5px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: #f1c40f;
+            color: #2c3e50;
+        }
+        
+        .btn-primary:hover {
+            background: #f39c12;
+        }
+        
+        .slider-container {
+            margin: 15px 0;
+        }
+        
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #34495e;
+            outline: none;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .stat-box {
+            background: #2c3e50;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+        
+        .rules {
+            background: #1e3a5c;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .rules h2 {
+            color: #f1c40f;
+        }
+        
+        .rules ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .rules li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .game-controls {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BIDA 3 BĂNG</h1>
+            <p class="subtitle">Thách thức kỹ năng và tính toán của bạn với bida 3 băng</p>
+        </header>
+        
+        <div class="game-area">
+            <div class="game-board">
+                <canvas id="gameCanvas"></canvas>
+            </div>
+            
+            <div class="game-controls">
+                <div class="control-group">
+                    <h2>ĐIỀU KHIỂN</h2>
+                    <button class="btn btn-primary" id="startBtn">Bắt đầu lượt chơi</button>
+                    <button class="btn" id="resetBtn">Thiết lập lại</button>
+                    <button class="btn" id="aimBtn">Chế độ ngắm (A)</button>
+                </div>
+                
+                <div class="control-group">
+                    <h2>LỰC ĐÁNH</h2>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Nhẹ</span>
+                            <span id="powerValue">50%</span>
+                            <span>Mạnh</span>
+                        </div>
+                        <input type="range" id="powerSlider" min="10" max="100" value="50">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>GÓC ĐÁNH</h2>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>Trái</span>
+                            <span id="angleValue">0°</span>
+                            <span>Phải</span>
+                        </div>
+                        <input type="range" id="angleSlider" min="-45" max="45" value="0">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h2>THỐNG KÊ</h2>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div>Điểm số</div>
+                            <div class="stat-value" id="scoreValue">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Lượt chơi</div>
+                            <div class="stat-value" id="turnValue">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Băng thành công</div>
+                            <div class="stat-value" id="bankValue">0</div>
+                        </div>
+                        <div class="stat-box">
+                            <div>Độ chính xác</div>
+                            <div class="stat-value" id="accuracyValue">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rules">
+            <h2>LUẬT CHƠI BIDA 3 BĂNG</h2>
+            <ul>
+                <li>Mục tiêu: Đưa bi chủ (bi trắng) chạm ít nhất 3 băng trước khi chạm bi mục tiêu.</li>
+                <li>Mỗi lần bi chủ chạm băng sẽ được tính điểm: 1 điểm cho mỗi băng chạm.</li>
+                <li>Bi mục tiêu phải là bi được đánh số (không phải bi chủ).</li>
+                <li>Nếu bi chủ chạm bi mục tiêu trước khi chạm đủ 3 băng, lượt chơi kết thúc.</li>
+                <li>Nếu bi chủ rơi vào lỗ, lượt chơi kết thúc và điểm không được tính.</li>
+                <li>Người chơi có tổng điểm cao nhất sau 10 lượt sẽ thắng.</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Bida 3 Băng - Game được phát triển bởi 3C Friend | © 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        // Khởi tạo canvas và context
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Thiết lập kích thước canvas
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        
+        // Biến trạng thái game
+        let gameState = {
+            score: 0,
+            turn: 0,
+            successfulBanks: 0,
+            totalShots: 0,
+            isAiming: false,
+            power: 50,
+            angle: 0,
+            balls: [],
+            cueBall: null,
+            isShotInProgress: false
+        };
+        
+        // Cập nhật các giá trị thống kê trên giao diện
+        function updateStats() {
+            document.getElementById('scoreValue').textContent = gameState.score;
+            document.getElementById('turnValue').textContent = gameState.turn;
+            document.getElementById('bankValue').textContent = gameState.successfulBanks;
+            const accuracy = gameState.totalShots > 0 ? Math.round((gameState.successfulBanks / gameState.totalShots) * 100) : 0;
+            document.getElementById('accuracyValue').textContent = accuracy + '%';
+        }
+        
+        // Khởi tạo bóng
+        function initBalls() {
+            gameState.balls = [];
+            gameState.cueBall = null;
+            
+            // Tạo bi chủ (màu trắng)
+            gameState.cueBall = {
+                x: canvas.width * 0.25,
+                y: canvas.height / 2,
+                radius: 15,
+                color: '#FFFFFF',
+                number: 0,
+                vx: 0,
+                vy: 0,
+                isMoving: false
+            };
+            
+            // Tạo các bi mục tiêu
+            const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+            const positions = [
+                {x: canvas.width * 0.75, y: canvas.height / 2},
+                {x: canvas.width * 0.7, y: canvas.height / 2 - 40},
+                {x: canvas.width * 0.7, y: canvas.height / 2 + 40},
+                {x: canvas.width * 0.65, y: canvas.height / 2 - 80},
+                {x: canvas.width * 0.65, y: canvas.height / 2},
+                {x: canvas.width * 0.65, y: canvas.height / 2 + 80}
+            ];
+            
+            for (let i = 0; i < 6; i++) {
+                gameState.balls.push({
+                    x: positions[i].x,
+                    y: positions[i].y,
+                    radius: 15,
+                    color: colors[i],
+                    number: i + 1,
+                    vx: 0,
+                    vy: 0,
+                    isMoving: false,
+                    isPocketed: false
+                });
+            }
+        }
+        
+        // Vẽ bàn bida
+        function drawTable() {
+            // Mặt bàn
+            ctx.fillStyle = '#2c5530';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Viền bàn
+            ctx.strokeStyle = '#8b4513';
+            ctx.lineWidth = 8;
+            ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            
+            // Vẽ các lỗ
+            const pocketRadius = 25;
+            const pockets = [
+                {x: pocketRadius, y: pocketRadius},
+                {x: canvas.width / 2, y: pocketRadius},
+                {x: canvas.width - pocketRadius, y: pocketRadius},
+                {x: pocketRadius, y: canvas.height - pocketRadius},
+                {x: canvas.width / 2, y: canvas.height - pocketRadius},
+                {x: canvas.width - pocketRadius, y: canvas.height - pocketRadius}
+            ];
+            
+            ctx.fillStyle = '#000000';
+            pockets.forEach(pocket => {
+                ctx.beginPath();
+                ctx.arc(pocket.x, pocket.y, pocketRadius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            
+            // Vẽ điểm giữa bàn và các điểm trên bàn
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(canvas.width / 2, 0);
+            ctx.lineTo(canvas.width / 2, canvas.height);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.arc(canvas.width / 2, canvas.height / 2, 50, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            ctx.setLineDash([]);
+        }
+        
+        // Vẽ bóng
+        function drawBalls() {
+            // Vẽ bi mục tiêu
+            gameState.balls.forEach(ball => {
+                if (!ball.isPocketed) {
+                    ctx.beginPath();
+                    ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = ball.color;
+                    ctx.fill();
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Vẽ số trên bi
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(ball.number, ball.x, ball.y);
+                }
+            });
+            
+            // Vẽ bi chủ
+            if (gameState.cueBall && !gameState.cueBall.isPocketed) {
+                ctx.beginPath();
+                ctx.arc(gameState.cueBall.x, gameState.cueBall.y, gameState.cueBall.radius, 0, Math.PI * 2);
+                ctx.fillStyle = gameState.cueBall.color;
+                ctx.fill();
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Vẽ hướng ngắm nếu đang trong chế độ ngắm
+                if (gameState.isAiming && !gameState.isShotInProgress) {
+                    const angleRad = gameState.angle * Math.PI / 180;
+                    const power = gameState.power * 2;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(gameState.cueBall.x, gameState.cueBall.y);
+                    ctx.lineTo(
+                        gameState.cueBall.x + Math.cos(angleRad) * power,
+                        gameState.cueBall.y + Math.sin(angleRad) * power
+                    );
+                    ctx.strokeStyle = 'rgba(255, 255, 0, 0.7)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                    
+                    // Vẽ điểm kết thúc của đường ngắm
+                    ctx.beginPath();
+                    ctx.arc(
+                        gameState.cueBall.x + Math.cos(angleRad) * power,
+                        gameState.cueBall.y + Math.sin(angleRad) * power,
+                        5, 0, Math.PI * 2
+                    );
+                    ctx.fillStyle = 'rgba(255, 255, 0, 0.7)';
+                    ctx.fill();
+                }
+            }
+        }
+        
+        // Cập nhật vị trí bóng
+        function updateBalls() {
+            let allBallsStopped = true;
+            
+            // Cập nhật bi chủ
+            if (gameState.cueBall && !gameState.cueBall.isPocketed) {
+                if (gameState.cueBall.isMoving) {
+                    gameState.cueBall.x += gameState.cueBall.vx;
+                    gameState.cueBall.y += gameState.cueBall.vy;
+                    
+                    // Ma sát
+                    gameState.cueBall.vx *= 0.98;
+                    gameState.cueBall.vy *= 0.98;
+                    
+                    // Kiểm tra dừng lại
+                    if (Math.abs(gameState.cueBall.vx) < 0.1 && Math.abs(gameState.cueBall.vy) < 0.1) {
+                        gameState.cueBall.vx = 0;
+                        gameState.cueBall.vy = 0;
+                        gameState.cueBall.isMoving = false;
+                    } else {
+                        allBallsStopped = false;
+                    }
+                    
+                    // Kiểm tra va chạm với tường
+                    checkWallCollision(gameState.cueBall);
+                }
+            }
+            
+            // Cập nhật bi mục tiêu
+            gameState.balls.forEach(ball => {
+                if (!ball.isPocketed && ball.isMoving) {
+                    ball.x += ball.vx;
+                    ball.y += ball.vy;
+                    
+                    // Ma sát
+                    ball.vx *= 0.98;
+                    ball.vy *= 0.98;
+                    
+                    // Kiểm tra dừng lại
+                    if (Math.abs(ball.vx) < 0.1 && Math.abs(ball.vy) < 0.1) {
+                        ball.vx = 0;
+                        ball.vy = 0;
+                        ball.isMoving = false;
+                    } else {
+                        allBallsStopped = false;
+                    }
+                    
+                    // Kiểm tra va chạm với tường
+                    checkWallCollision(ball);
+                }
+            });
+            
+            // Kiểm tra va chạm giữa các bóng
+            checkBallCollisions();
+            
+            // Kiểm tra bóng rơi vào lỗ
+            checkPocketCollisions();
+            
+            // Nếu tất cả bóng đã dừng và đang trong lượt đánh
+            if (allBallsStopped && gameState.isShotInProgress) {
+                gameState.isShotInProgress = false;
+                gameState.turn++;
+                updateStats();
+            }
+            
+            return allBallsStopped;
+        }
+        
+        // Kiểm tra va chạm với tường
+        function checkWallCollision(ball) {
+            if (ball.x - ball.radius < 0) {
+                ball.x = ball.radius;
+                ball.vx = -ball.vx;
+                if (ball === gameState.cueBall) gameState.bankCount++;
+            } else if (ball.x + ball.radius > canvas.width) {
+                ball.x = canvas.width - ball.radius;
+                ball.vx = -ball.vx;
+                if (ball === gameState.cueBall) gameState.bankCount++;
+            }
+            
+            if (ball.y - ball.radius < 0) {
+                ball.y = ball.radius;
+                ball.vy = -ball.vy;
+                if (ball === gameState.cueBall) gameState.bankCount++;
+            } else if (ball.y + ball.radius > canvas.height) {
+                ball.y = canvas.height - ball.radius;
+                ball.vy = -ball.vy;
+                if (ball === gameState.cueBall) gameState.bankCount++;
+            }
+        }
+        
+        // Kiểm tra va chạm giữa các bóng
+        function checkBallCollisions() {
+            // Kiểm tra va chạm giữa bi chủ và bi mục tiêu
+            if (gameState.cueBall && !gameState.cueBall.isPocketed) {
+                gameState.balls.forEach(ball => {
+                    if (!ball.isPocketed) {
+                        const dx = ball.x - gameState.cueBall.x;
+                        const dy = ball.y - gameState.cueBall.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < ball.radius + gameState.cueBall.radius) {
+                            // Va chạm xảy ra
+                            const angle = Math.atan2(dy, dx);
+                            const sin = Math.sin(angle);
+                            const cos = Math.cos(angle);
+                            
+                            // Vận tốc sau va chạm
+                            const vx1 = gameState.cueBall.vx * cos + gameState.cueBall.vy * sin;
+                            const vy1 = gameState.cueBall.vy * cos - gameState.cueBall.vx * sin;
+                            const vx2 = ball.vx * cos + ball.vy * sin;
+                            const vy2 = ball.vy * cos - ball.vx * sin;
+                            
+                            // Trao đổi vận tốc theo hướng x
+                            const finalVx1 = vx2;
+                            const finalVx2 = vx1;
+                            
+                            // Cập nhật vận tốc
+                            gameState.cueBall.vx = finalVx1 * cos - vy1 * sin;
+                            gameState.cueBall.vy = vy1 * cos + finalVx1 * sin;
+                            ball.vx = finalVx2 * cos - vy2 * sin;
+                            ball.vy = vy2 * cos + finalVx2 * sin;
+                            
+                            // Đẩy các bóng ra xa nhau để tránh kẹt
+                            const overlap = (ball.radius + gameState.cueBall.radius - distance) / 2;
+                            gameState.cueBall.x -= overlap * cos;
+                            gameState.cueBall.y -= overlap * sin;
+                            ball.x += overlap * cos;
+                            ball.y += overlap * sin;
+                            
+                            // Đánh dấu các bóng đang di chuyển
+                            gameState.cueBall.isMoving = true;
+                            ball.isMoving = true;
+                        }
+                    }
+                });
+            }
+            
+            // Kiểm tra va chạm giữa các bi mục tiêu với nhau
+            for (let i = 0; i < gameState.balls.length; i++) {
+                for (let j = i + 1; j < gameState.balls.length; j++) {
+                    const ball1 = gameState.balls[i];
+                    const ball2 = gameState.balls[j];
+                    
+                    if (!ball1.isPocketed && !ball2.isPocketed) {
+                        const dx = ball2.x - ball1.x;
+                        const dy = ball2.y - ball1.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < ball1.radius + ball2.radius) {
+                            // Va chạm xảy ra
+                            const angle = Math.atan2(dy, dx);
+                            const sin = Math.sin(angle);
+                            const cos = Math.cos(angle);
+                            
+                            // Vận tốc sau va chạm
+                            const vx1 = ball1.vx * cos + ball1.vy * sin;
+                            const vy1 = ball1.vy * cos - ball1.vx * sin;
+                            const vx2 = ball2.vx * cos + ball2.vy * sin;
+                            const vy2 = ball2.vy * cos - ball2.vx * sin;
+                            
+                            // Trao đổi vận tốc theo hướng x
+                            const finalVx1 = vx2;
+                            const finalVx2 = vx1;
+                            
+                            // Cập nhật vận tốc
+                            ball1.vx = finalVx1 * cos - vy1 * sin;
+                            ball1.vy = vy1 * cos + finalVx1 * sin;
+                            ball2.vx = finalVx2 * cos - vy2 * sin;
+                            ball2.vy = vy2 * cos + finalVx2 * sin;
+                            
+                            // Đẩy các bóng ra xa nhau để tránh kẹt
+                            const overlap = (ball1.radius + ball2.radius - distance) / 2;
+                            ball1.x -= overlap * cos;
+                            ball1.y -= overlap * sin;
+                            ball2.x += overlap * cos;
+                            ball2.y += overlap * sin;
+                            
+                            // Đánh dấu các bóng đang di chuyển
+                            ball1.isMoving = true;
+                            ball2.isMoving = true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Kiểm tra bóng rơi vào lỗ
+        function checkPocketCollisions() {
+            const pockets = [
+                {x: 25, y: 25},
+                {x: canvas.width / 2, y: 25},
+                {x: canvas.width - 25, y: 25},
+                {x: 25, y: canvas.height - 25},
+                {x: canvas.width / 2, y: canvas.height - 25},
+                {x: canvas.width - 25, y: canvas.height - 25}
+            ];
+            
+            // Kiểm tra bi chủ
+            if (gameState.cueBall && !gameState.cueBall.isPocketed) {
+                for (const pocket of pockets) {
+                    const dx = pocket.x - gameState.cueBall.x;
+                    const dy = pocket.y - gameState.cueBall.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 25) {
+                        gameState.cueBall.isPocketed = true;
+                        gameState.isShotInProgress = false;
+                        gameState.turn++;
+                        updateStats();
+                        return;
+                    }
+                }
+            }
+            
+            // Kiểm tra bi mục tiêu
+            gameState.balls.forEach(ball => {
+                if (!ball.isPocketed) {
+                    for (const pocket of pockets) {
+                        const dx = pocket.x - ball.x;
+                        const dy = pocket.y - ball.y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+                        
+                        if (distance < 25) {
+                            ball.isPocketed = true;
+                            // Có thể thêm điểm nếu muốn
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Thực hiện cú đánh
+        function takeShot() {
+            if (gameState.isShotInProgress || !gameState.cueBall || gameState.cueBall.isPocketed) return;
+            
+            gameState.isShotInProgress = true;
+            gameState.totalShots++;
+            gameState.bankCount = 0;
+            
+            const angleRad = gameState.angle * Math.PI / 180;
+            const power = gameState.power / 10;
+            
+            gameState.cueBall.vx = Math.cos(angleRad) * power;
+            gameState.cueBall.vy = Math.sin(angleRad) * power;
+            gameState.cueBall.isMoving = true;
+        }
+        
+        // Vẽ game
+        function draw() {
+            drawTable();
+            drawBalls();
+        }
+        
+        // Vòng lặp game
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            updateBalls();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Xử lý sự kiện khi trang web được tải
+        window.addEventListener('load', function() {
+            // Khởi tạo game
+            initBalls();
+            updateStats();
+            gameLoop();
+            
+            // Xử lý sự kiện cho các nút điều khiển
+            document.getElementById('startBtn').addEventListener('click', takeShot);
+            
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                gameState.score = 0;
+                gameState.turn = 0;
+                gameState.successfulBanks = 0;
+                gameState.totalShots = 0;
+                initBalls();
+                updateStats();
+            });
+            
+            document.getElementById('aimBtn').addEventListener('click', function() {
+                gameState.isAiming = !gameState.isAiming;
+                this.textContent = gameState.isAiming ? 'Tắt ngắm (A)' : 'Chế độ ngắm (A)';
+            });
+            
+            // Xử lý sự kiện cho thanh trượt lực đánh
+            const powerSlider = document.getElementById('powerSlider');
+            const powerValue = document.getElementById('powerValue');
+            
+            powerSlider.addEventListener('input', function() {
+                gameState.power = parseInt(this.value);
+                powerValue.textContent = gameState.power + '%';
+            });
+            
+            // Xử lý sự kiện cho thanh trượt góc đánh
+            const angleSlider = document.getElementById('angleSlider');
+            const angleValue = document.getElementById('angleValue');
+            
+            angleSlider.addEventListener('input', function() {
+                gameState.angle = parseInt(this.value);
+                angleValue.textContent = gameState.angle + '°';
+            });
+            
+            // Xử lý sự kiện bàn phím
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'a' || e.key === 'A') {
+                    gameState.isAiming = !gameState.isAiming;
+                    document.getElementById('aimBtn').textContent = gameState.isAiming ? 'Tắt ngắm (A)' : 'Chế độ ngắm (A)';
+                } else if (e.key === ' ' && !gameState.isShotInProgress) {
+                    takeShot();
+                }
+            });
+        });
+        
+        // Xử lý thay đổi kích thước cửa sổ
+        window.addEventListener('resize', function() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            initBalls();
+        });
+    </script>
+</body>
+</html>

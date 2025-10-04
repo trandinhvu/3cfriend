@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Billiards</title>
+	<link rel="stylesheet" href="https://www.joelpark.net/billiards/canvas.css">
+</head>
+<body onload="draw();">
+    <div id="container_aim">
+    <canvas id="aim" width="600" height="300"></canvas>
+    <!-- 310x168 -->
+    <script>
+        
+        var canvas = document.getElementById("aim");
+        var context = canvas.getContext("2d");
+        var ballRadius = 123;
+        
+        var xObject = 350;
+        var yObject = 150;
+        var xCue = 250;
+        var yCue = 150;
+        
+        var xAim = xCue;
+        var yAim = yCue;
+        var aimOffset = 0;
+        
+        var cueColor1 = "#fff";
+        var cueColor2 = "#ccc";
+        var objColor1 = "#f55";
+        var objColor2 = "#d11";
+        
+        var tipRadius = 24;
+        
+        function tipChange(tip) {
+            tipRadius = tip * 2;
+            
+            draw();
+        }
+        
+        function upEnglish() {
+            yAim = yAim - tipRadius;
+            
+            draw();
+        }
+        
+        function downEnglish() {
+            yAim = yAim + tipRadius;
+            
+            draw();
+        }
+        
+        function leftEnglish() {
+            xAim = xAim - tipRadius;
+            aimOffset = xAim - xCue;
+            draw();
+        }
+        
+        function rightEnglish() {
+            xAim = xAim + tipRadius;
+            aimOffset = xAim - xCue;
+            draw();
+        }
+        
+        function changeCue(one,two){
+            cueColor1 = one;
+            cueColor2 = two;
+            
+            draw();
+        }
+        
+        function changeObj(one,two){
+            objColor1 = one;
+            objColor2 = two;
+            
+            draw();
+        }
+        
+        function changePos(pos){
+            xCue = 300 + Number(pos) * 7.6875;
+            xAim = aimOffset + 300 + Number(pos) * 7.6875;
+            xObject = 300 - Number(pos) * 7.6875;
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            draw();
+        }
+                
+        function draw() {
+            //background
+    
+            objectGradient = context.createRadialGradient(xObject-20, yObject-20, 2, xObject-20, yObject-20, 120);
+            objectGradient.addColorStop(0, objColor1);
+            objectGradient.addColorStop(1, objColor2);
+    
+            cueGradient = context.createRadialGradient(xCue-20, yCue-20, 2, xCue-20, yCue-20, 120);
+            cueGradient.addColorStop(0, cueColor1);
+            cueGradient.addColorStop(1, cueColor2);
+    
+            context.beginPath();
+            context.arc(xObject, yObject, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = objectGradient;
+            context.fill();
+            
+            context.beginPath();
+            context.arc(xObject, yObject, 2, 0, 2 * Math.PI, false);
+            context.fillStyle = "#000";
+            context.fill();
+    
+            context.beginPath();
+            context.arc(xCue, yCue, ballRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = cueGradient;
+            context.fill();
+        
+            // aiming english
+            context.beginPath();
+            context.arc(xAim, yAim, tipRadius, 0, 2 * Math.PI, false);
+            context.fillStyle = "#38d";
+            context.fill();
+        }
+        
+        // set to image
+        function saveImg() {
+            isDrawing = false;
+            var download = document.getElementById("download");
+            var dataURL = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            download.setAttribute("href", dataURL);
+        }    
+        
+        //draw
+        canvas.addEventListener('mousedown',draw_mouseDown,false);
+        canvas.addEventListener('mousemove',draw_mouseMove,false);
+        window.addEventListener('mouseup',draw_mouseUp,false);
+        canvas.addEventListener("touchstart",draw_mouseDown,false);
+        canvas.addEventListener("touchmove",draw_mouseMove,false);
+        window.addEventListener("touchend",draw_mouseUp,false);
+        
+        function midPointBtw(p1, p2) {
+            return {
+                x: p1.x + (p2.x - p1.x) / 2,
+                y: p1.y + (p2.y - p1.y) / 2
+            };
+        }
+
+        var mouseX,mouseY;
+        var isDrawing, points = [ ];
+
+        function draw_mouseDown(e) {
+            isDrawing = true;
+            getMousePos(e);
+            points.push({ x: mouseX, y: mouseY });
+            e.preventDefault();
+        }
+
+        function draw_mouseUp() {
+            isDrawing = false;
+            context.closePath();
+            points = [ ];
+        }
+
+        function draw_mouseMove(e) { 
+            if (!isDrawing) return;
+            getMousePos(e);
+            points.push({ x: mouseX, y: mouseY });
+
+            var p1 = points[0];
+            var p2 = points[1];
+
+            context.beginPath();
+            context.moveTo(p1.x, p1.y);
+            console.log(points);
+
+            for (var i = 1, len = points.length; i < len; i++) {
+                var midPoint = midPointBtw(p1, p2);
+                context.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+                p1 = points[i];
+                p2 = points[i+1];
+            }
+            
+            context.lineTo(p1.x, p1.y);
+            context.stroke();
+            e.preventDefault();
+        }
+        
+        function getMousePos(e) {
+            if (!e) {
+                var e = event;
+            }
+            if (e.offsetX) {
+                mouseX = e.offsetX;
+                mouseY = e.offsetY;
+            }
+            else if (e.layerX) {
+                mouseX = e.layerX;
+                mouseY = e.layerY;
+            }
+        }
+    </script>
+    <p>
+        Cue ball:
+        <button onclick="changeCue(&quot;#fff&quot;,&quot;#ccc&quot;);">White</button>
+        <button onclick="changeCue(&quot;#fd0&quot;,&quot;#e90&quot;);">Yellow</button>
+    </p>
+    <p>
+        Object ball:
+        <button onclick="changeObj(&quot;#fff&quot;,&quot;#ccc&quot;);">White</button>
+        <button onclick="changeObj(&quot;#fd0&quot;,&quot;#e90&quot;);">Yellow</button>
+        <button onclick="changeObj(&quot;#f55&quot;,&quot;#d11&quot;);">Red</button>
+    </p>
+    <p>
+        Cue ball position:
+        <input type="range" id="slider" value="0" min="-16" max="16" step="1" oninput="changePos(getElementById('slider').value);" />
+    </p>
+    <p>
+        Tip radius:
+        <input id="tip" type="text" value="12" />
+        <button onclick="tipChange(getElementById('tip').value);">mm</button>
+        <button onclick="getElementById('tip').value=Number(getElementById('tip').value)+.5;tipChange(getElementById('tip').value);">&and;</button>
+        <button onclick="getElementById('tip').value=Number(getElementById('tip').value)-.5;tipChange(getElementById('tip').value);">&or;</button>
+    </p>
+    <p>
+        English:
+        <button onclick="upEnglish();">&and;</button>
+        <button onclick="downEnglish();">&or;</button>
+        <button onclick="leftEnglish();">&lt;</button>
+        <button onclick="rightEnglish();">&gt;</button>
+    </p>
+    <p>
+        <a id="download" download="screenshot.png"><button onclick="saveImg();">Save as image</button></a>
+    </p>
+    <p>
+        <button onclick="location.reload();">Reset</button>
+    </p>
+    <p>
+        <button onclick="window.location.href = 'index.html';">Home</button>
+    </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html class="" lang="en">
+    <head>
+        
+        <title>ChalkySticks Pad</title>
+
+        <meta charset="utf-8">
+
+        <meta http-equiv="X-UA-Compatible"       content="IE=edge">
+        <meta http-equiv="Content-Type"          content="text/html; charset=UTF-8">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="google-site-verification"    content="EXRsemKCQcxAa3Jo_66aR4o2EpfF9AEcpLoQKyFbsd4">
+
+        <meta name="robots"             content="follow, all">
+        <meta name="language"           content="en">
+        <meta name="googlebot"          content="index, follow">
+        <meta name="revisit-after"      content="5 days">
+        <meta name="distribution"       content="global">
+        <meta name="description"        content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta name="keywords"           content="pool, diagrammer, pool diagrammer, billiards, pad, diagrams, situation, apa, napl, wpa, bca">
+        <meta name="viewport"           content="width=900, maximum-scale=1, user-scalable=yes, minimal-ui">
+        <meta name="google"             value="notranslate">
+
+        <meta itemprop="name"           content="ChalkySticks Pad">
+        <meta itemprop="image"          content="https://pad.chalkysticks.com/image/share.jpg">
+        <meta itemprop="description"    content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+
+        <!-- Open Graph Meta -->
+        <meta property="og:title"       content="ChalkySticks Pad">
+        <meta property="og:email"       content="feedback@chalkysticks.com">
+        <meta property="og:url"         content="https://pad.chalkysticks.com/">
+        <meta property="og:site_name"   content="ChalkySticks Pad">
+        <meta property="og:description" content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta property="og:image"       content="https://pad.chalkysticks.com/image/share.jpg">
+        <meta property="og:image:type"  content="image/jpeg">
+
+        <!-- Twitter Cards -->
+        <meta property="twitter:account_id"  content="">
+        <meta property="twitter:url"         content="https://pad.chalkysticks.com/">
+        <meta property="twitter:card"        content="summary_large_image">
+        <meta property="twitter:site"        content="@chalkysticks">
+        <meta property="twitter:title"       content="ChalkySticks Pad">
+        <meta property="twitter:image"       content="https://pad.chalkysticks.com/image/share.jpg">
+        <meta property="twitter:creator"     content="@chalkysticks">
+        <meta property="twitter:description" content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta property="twitter:image:src"   content="https://pad.chalkysticks.com/image/share.jpg">
+
+        <!-- Linkage -->
+        <link rel="image_src" href="https://static.chalkysticks.com/favicon.ico">
+        <link rel="shortcut icon" href="https://static.chalkysticks.com/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="https://static.chalkysticks.com/image/apple-touch-icon.png">
+
+        <link rel="stylesheet" type="text/css" href="https://static.chalkysticks.com/style/theme-latest.css?v=2.5">
+        <link rel="stylesheet" type="text/css" href="https://static.chalkysticks.com/style/vendor/jquery/jquery-ui.min.css?v=2.5">
+        <link rel="stylesheet" type="text/css" href="https://pad.chalkysticks.com/style/pad-latest.css?v=2.5">
+        <link rel="stylesheet" type="text/css" href="https://static.chalkysticks.com/style/vendor/ionicframework/style/ionicons.min.css?v=2.5">
+    </head>
+    <body style="opacity: 0; ">
+        <div id="Fullscreen" class="warning-window">
+            <img class="logo" src="https://pad.chalkysticks.com/image/branding/nav-logo.svg">
+
+            <p>
+                The mobile Pad requires you use fullscreen
+                mode due to browser size restrictions.
+            </p>
+
+            <a href="#" class="btn btn-primary action-fullscreen">Enter Fullscreen</a>
+
+            <br><br>
+            <a href="#" class="btn btn-secondary action-skipFullscreen">Continue without fullscreen</a>
+        </div>
+
+        <div id="iOS_Warning" class="warning-window">
+            <img class="logo" src="https://pad.chalkysticks.com/image/branding/nav-logo.svg">
+
+            <p>
+                Unfortunately, we require things that Safari doesn't support.
+                Please upgrade to another browser that supports modern web
+                standards.
+            </p>
+
+            <div class="icon-group">
+                <a class="app-icon" href="https://itunes.apple.com/us/app/microsoft-edge/id1288723196" title="Microsoft Edge">
+                    <img src="https://pad.chalkysticks.com/image/icon/browser-edge.jpg">
+                    <h3>Microsoft Edge</h3>
+                </a>
+
+                <a class="app-icon" href="https://itunes.apple.com/us/app/google-chrome/id535886823" title="Google Chrome">
+                    <img src="https://pad.chalkysticks.com/image/icon/browser-chrome.jpg">
+                    <h3>Google Chrome</h3>
+                </a>
+
+                <a class="app-icon" href="https://itunes.apple.com/us/app/firefox-web-browser/id989804926" title="Mozilla Firefox">
+                    <img src="https://pad.chalkysticks.com/image/icon/browser-firefox.jpg">
+                    <h3>Mozilla Firefox</h3>
+                </a>
+
+                <a class="app-icon" href="https://itunes.apple.com/us/app/opera-touch-web-browser/id1411869974" title="Opera">
+                    <img src="https://pad.chalkysticks.com/image/icon/browser-opera.jpg">
+                    <h3>Opera</h3>
+                </a>
+            </div>
+        </div>
+
+        <div id="Portrait_Warning" class="warning-window">
+            <img class="logo" src="https://pad.chalkysticks.com/image/branding/nav-logo.svg" width="90%">
+
+            <p>
+                Please rotate your device
+            </p>
+
+            <svg class="icon-rotate-device" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 401 391.8" enable-background="new 0 0 401 391.8" xml:space="preserve">
+                <path fill="#fff" d="M184.8,353.5c-29.7,0-55.3-17.1-67.6-42.1h24.3c0,0,0-10.1,0-12.3H96.9v46.2h13.1v-17.1 c16.2,24.1,43.6,40,74.8,40c39.8,0,73.5-25.8,85.5-61.6l-12.6-9.1C249.1,329.7,219.8,353.5,184.8,353.5L184.8,353.5z"/>
+                <path fill="#fff" d="M318.8,168L226,75c-6.6-6.6-12.8-1.2-12.8-1.2L83.3,203.6l-2.3,2.3c0,0-5.5,6.2,1.1,12.8l2.6,2.6l90.3,90.3 c0,0,7.2,7.9,14.7,0.5l129.7-129.5C327,174.9,318.8,168,318.8,168z M131.9,262.5c-2-2-2-5.2,0-7.2c2-2,5.2-2,7.2,0c2,2,2,5.2,0,7.2 C137.1,264.5,133.9,264.5,131.9,262.5z M188.1,296.8c-0.9,0.9-2.4,0.9-3.3,0l-87.2-87.2c-0.9-0.9-0.9-2.4,0-3.3L217.9,86 c0.9-0.9,2.4-0.9,3.3,0l87.2,87.2c0.9,0.9,0.9,2.4,0,3.3L188.1,296.8z"/>
+            </svg>
+        </div>
+
+        <div id="App">
+            <aside id="Settings" class="bg-dark">
+                <header class="align-center p-5">
+                    <a href="/"><img class="logo" src="https://pad.chalkysticks.com/image/branding/nav-logo.svg" width="170"></a>
+                </header>
+
+                <nav>
+                    <section id="Nav_Table" data-step="1" data-intro="Welcome to <strong>ChalkySticks Pad</strong>!<br><br>Over here on the left are tabs with some configuration options.">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-table.svg" height="20">
+                            <h3>Table</h3>
+                        </header>
+                        <div class="settings">
+                            <h4 class="mobile-only">Table Type</h4>
+
+                            <label>
+                                <input type="radio" name="setting-table-type" value="table-horizontal-9" checked="checked">
+                                <span>Pockets</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-table-type" value="table-horizontal-billiard">
+                                <span>Billiards</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-table-type" value="table-snooker">
+                                <span>Snooker</span>
+                            </label>
+
+                            <h4>Options</h4>
+
+                            <label>
+                                <input class="jscolor no-inner" type="checkbox" name="setting-table-clothcolor" value="#FFFFFF" data-colorMode="HEX">
+                                <span>Cloth Color</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="setting-table-headspot" value="on" checked="checked">
+                                <span>Head Spot</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="setting-table-balkline" value="on" checked="checked">
+                                <span>Balk Line</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="setting-table-footspot" value="on" checked="checked">
+                                <span>Foot Spot</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="setting-table-rackoutline" value="on" checked="checked">
+                                <span>Rack Outline</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="setting-table-grid" value="on">
+                                <span>Grid Lines</span>
+                            </label>
+                        </div>
+                    </section>
+                    <section id="Nav_Balls">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-balls.svg" height="20">
+                            <h3>Balls</h3>
+                        </header>
+                        <div class="settings">
+                            <div class="mobile-only">
+                                <div class="buttons">
+                                    <a class="btn btn-small btn-action action-add">Add Ball</a>
+                                </div>
+
+                                <h4>Ball Set</h4>
+                            </div>
+
+                            <label>
+                                <input class="option-rackable" data-rackable="standard" type="radio" name="setting-balls-type" value="chalkysticks" checked="checked">
+                                <span>ChalkySticks</span>
+                            </label>
+                            <label>
+                                <input class="option-rackable" data-rackable="blackball" type="radio" name="setting-balls-type" value="generic">
+                                <span>Generic</span>
+                            </label>
+                            <label>
+                                <input class="option-rackable" data-rackable="standard" type="radio" name="setting-balls-type" value="cyclop">
+                                <span>Cyclop</span>
+                            </label>
+                            <label>
+                                <input class="option-rackable" data-rackable="billiards" type="radio" name="setting-balls-type" value="billiards">
+                                <span>Billiards</span>
+                            </label>
+                            <label>
+                                <input class="option-rackable" data-rackable="snooker" type="radio" name="setting-balls-type" value="snooker">
+                                <span>Snooker</span>
+                            </label>
+
+                            <div class="options-rack rack-type-standard">
+                                <h4>Racking Options</h4>
+
+                                <label class="option-rack-blackball">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="blackball">Blackball</button>
+                                </label>
+
+                                <label class="option-rack-standard">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="8-ball">8-Ball</button>
+                                </label>
+
+                                <label class="option-rack-standard">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="9-ball">9-Ball</button>
+                                </label>
+
+                                <label class="option-rack-standard">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="10-ball">10-Ball</button>
+                                </label>
+
+                                <label class="option-rack-snooker">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="snooker">Snooker</button>
+                                </label>
+
+                                <label class="option-rack-billiards">
+                                    <button name="setting-rack" class="btn btn-secondary btn-sm" value="billiards">Billiards</button>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="Nav_Lines">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-lines.svg" height="20">
+                            <h3>Lines</h3>
+                            <mark>Drawing</mark>
+                        </header>
+                        <div class="settings">
+                            <div class="mobile-only">
+                                <h4>Line Style</h4>
+                            </div>
+
+                            <label>
+                                <input type="radio" name="setting-line-type" value="solid" checked="checked">
+                                <span>Solid</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-line-type" value="dashed">
+                                <span>Dashed</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-line-type" value="dotted">
+                                <span>Dotted</span>
+                            </label>
+
+                            <h4>Options</h4>
+
+                            <label>
+                                <input type="checkbox" name="setting-line-arrows" value="on">
+                                <span>Arrows</span>
+                            </label>
+                            <label>
+                                <input class="jscolor no-inner" type="checkbox" name="setting-line-color" value="#000000" data-colorMode="HEX">
+                                <span>Line Color</span>
+                            </label>
+
+                            <h4>Masse</h4>
+
+                            <div id="MasseGrid">
+                                <img id="MasseGrid_Ball" src="https://pad.chalkysticks.com/image/diagrammer/masse-ball.svg" height="22">
+                            </div>
+                        </div>
+                    </section>
+                    <section id="Nav_Text" class="is-not-mobile">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-text.svg" height="20">
+                            <h3>Text</h3>
+                            <a class="action-add">Add</a>
+                        </header>
+                        <div class="settings">
+                            <div class="mobile-only">
+                                <div class="buttons">
+                                    <a class="btn btn-small btn-action action-add">Add Text</a>
+                                </div>
+
+                                <h4>Text Size</h4>
+                            </div>
+
+                            <label>
+                                <input type="radio" name="setting-text-size" value="12" checked="checked">
+                                <span>Small</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-text-size" value="15">
+                                <span>Medium</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-text-size" value="18">
+                                <span>Larger</span>
+                            </label>
+
+                            <h4>Options</h4>
+
+                            <label>
+                                <input class="jscolor no-inner" type="checkbox" name="setting-text-color" value="#000000" data-colorMode="HEX">
+                                <span>Font Color</span>
+                            </label>
+                        </div>
+                    </section>
+                    <section id="Nav_Shapes" class="is-not-mobile">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-shapes.svg" height="20">
+                            <h3>Shapes</h3>
+                            <a class="action-add">Add</a>
+                        </header>
+                        <div class="settings">
+                            <div class="mobile-only">
+                                <div class="buttons">
+                                    <a class="btn btn-small btn-action action-add">Add Shape</a>
+                                </div>
+
+                                <h4>Shapes</h4>
+                            </div>
+
+                            <label>
+                                <input type="radio" name="setting-shapes-type" value="rectangle" checked="checked">
+                                <span>Rectangle</span>
+                            </label>
+                            <small class="faded" style="padding-left: 30px;">
+                                More shapes coming soon
+                            </small>
+
+                            <h4>Options</h4>
+
+                            <label>
+                                <input class="jscolor no-inner" type="checkbox" name="setting-shapes-color" value="#FFFFFF" data-colorMode="HEX">
+                                <span>Fill Color</span>
+                            </label>
+
+                            <h4>Resize</h4>
+
+                            <div class="resize-grid" id="ShapeResizeGrid">
+                                <img class="resize-ball" src="https://pad.chalkysticks.com/image/diagrammer/masse-ball.svg" height="22">
+                            </div>
+                        </div>
+                    </section>
+                    <section id="Nav_Cues" class="is-not-mobile">
+                        <header>
+                            <img src="https://pad.chalkysticks.com/image/icon/nav-cues.svg" height="20">
+                            <h3>Cues</h3>
+                            <a class="action-add">Add</a>
+                        </header>
+                        <div class="settings">
+                            <div class="mobile-only">
+                                <div class="buttons">
+                                    <a class="btn btn-small btn-action action-add">Add Cue</a>
+                                </div>
+
+                                <h4>Cue Type</h4>
+                            </div>
+
+                            <label>
+                                <input type="radio" name="setting-cues-type" value="chalkysticks" checked="checked">
+                                <span>ChalkySticks</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="setting-cues-type" value="sneakypete">
+                                <span>Sneaky Pete</span>
+                            </label>
+                            <!-- label>
+                                <input type="radio" name="setting-cues-type" value="jumpcue">
+                                <span>Jump Cue</span>
+                            </label -->
+                            <!-- label>
+                                <input type="radio" name="setting-cues-type" value="snooker">
+                                <span>Snooker</span>
+                            </label -->
+                            <!-- label>
+                                <input type="radio" name="setting-cues-type" value="predator">
+                                <span>Predator</span>
+                            </label -->
+                            <!-- label>
+                                <input type="radio" name="setting-cues-type" value="mcdermott">
+                                <span>McDermott</span>
+                            </label -->
+
+                            <h4>Rotation</h4>
+
+                            <input type="range" name="setting-cues-rotation" value="0" min="0" max="360">
+                        </div>
+                    </section>
+                </nav>
+
+                <footer>
+                    <a class="btn-type-2 btn-action action-save" data-step="4" data-intro="Click Save to download your diagram.">
+                        <img src="https://pad.chalkysticks.com/image/icon/nav-save.svg" height="13">
+                                                    <h3>Save Diagram</h3>
+                                            </a>
+                    <a href="https://pad.chalkysticks.com/6b630.png" target="_blank" class="btn-type-2 btn-action action-download-png">
+                        <h3>Download PNG</h3>
+                    </a>
+                    <a href="https://pad.chalkysticks.com/6b630.svg" target="_blank" class="btn-type-2 btn-action action-download-svg">
+                        <h3>Download SVG</h3>
+                    </a>
+                    <a href="http://www.facebook.com" target="_blank" class="btn-type-2 btn-action action-share">
+                        <h3>Share</h3>
+                    </a>
+                </footer>
+            </aside>
+
+            <main data-step="3" data-intro="Click anywhere on the table to start and stop drawing lines.">
+                <div class="alert alert-primary alert-v1-banner hide" role="alert" style="width: 70%; margin: 0 auto;">
+                    Welcome to the new ChalkySticks Pad!
+                    If you prefer the old version, you can
+                    <a class="alert-link" href="https://pad-v1.chalkysticks.com">access that here</a>.
+
+                    <button type="button" class="close action-close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                    <nav>
+        <!-- a class="ui-action action-zoom-out"><img class="icon" src="/image/icon/ui-zoom-out.svg"></a -->
+        <!-- a class="ui-action action-zoom-in"><img class="icon" src="/image/icon/ui-zoom-in.svg"></a -->
+        <a title="Play Rack" class="ui-action action-play" target="_blank" href="https://game.chalkysticks.com">
+            <svg class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" enable-background="new 0 0 20 20">
+              <path fill="#999999" d="m354.2,247.4l-135.1-92.4c-4.2-3.1-15.4-3.1-16.3,8.6v184.8c1,11.7 12.4,11.9 16.3,8.6l135.1-92.4c3.5-2.1 8.3-10.7 0-17.2zm-130.5,81.3v-145.4l106.1,72.7-106.1,72.7z"/>
+              <path fill="#999999" d="M256,11C120.9,11,11,120.9,11,256s109.9,245,245,245s245-109.9,245-245S391.1,11,256,11z M256,480.1    C132.4,480.1,31.9,379.6,31.9,256S132.4,31.9,256,31.9S480.1,132.4,480.1,256S379.6,480.1,256,480.1z"/>
+            </svg>
+
+            <span>Play Rack</span>
+            <sup>Experimental</sup>
+        </a>
+        <a title="View List" class="ui-action action-list" target="_blank" href="/list">
+            <svg class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 22.08 22.08" enable-background="new 0 0 20 20" xml:space="preserve">
+                <path fill="#999999" d="M11.04,0C4.952,0,0,4.953,0,11.04c0,6.088,4.952,11.04,11.04,11.04s11.04-4.952,11.04-11.04 C22.08,4.953,17.128,0,11.04,0z M11.04,21.344c-5.682,0-10.304-4.622-10.304-10.304c0-5.682,4.622-10.304,10.304-10.304 c5.682,0,10.305,4.622,10.305,10.304C21.345,16.722,16.722,21.344,11.04,21.344z"/>
+                <rect x="7.014" y="10.636" fill="#999999" width="7.95" height="0.829"/>
+                <rect x="7.014" y="14.321" fill="#999999" width="7.95" height="0.83"/>
+                <rect x="7.014" y="6.951" fill="#999999" width="7.95" height="0.829"/>
+            </svg>
+
+            <span>View List</span>
+        </a>
+        <a title="Shuffle Table" class="ui-action action-shuffle">
+            <svg class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 22.08 22.08" enable-background="new 0 0 20 20" xml:space="preserve">
+                <path fill="#999999" d="M6.119,8.201h0.517c0.7,0,1.372,0.256,1.894,0.722c0.049,0.044,0.111,0.066,0.172,0.066 c0.07,0,0.142-0.029,0.192-0.086c0.095-0.106,0.086-0.27-0.021-0.364c-0.615-0.551-1.41-0.854-2.237-0.854H6.119 c-0.144,0-0.258,0.115-0.258,0.258C5.861,8.085,5.976,8.201,6.119,8.201z"/>
+                <path fill="#999999" d="M12.622,5.725c-0.084,0.115-0.059,0.277,0.057,0.361l2.197,1.598H12.83c-1.85,0-3.355,1.505-3.355,3.356 c0,1.565-1.273,2.839-2.839,2.839H6.119c-0.144,0-0.258,0.115-0.258,0.258c0,0.145,0.114,0.26,0.258,0.26h0.517 c1.85,0,3.355-1.506,3.355-3.356c0-1.566,1.274-2.839,2.839-2.839h2.046l-2.197,1.598c-0.115,0.083-0.141,0.245-0.057,0.36 c0.05,0.069,0.129,0.106,0.209,0.106c0.053,0,0.104-0.016,0.151-0.049l3.127-2.273l-3.127-2.274 C12.866,5.584,12.705,5.609,12.622,5.725z"/>
+                <path fill="#999999" d="M12.622,11.921c-0.084,0.115-0.059,0.276,0.057,0.36l2.197,1.598H12.83c-0.692,0-1.36-0.252-1.878-0.709 c-0.106-0.094-0.271-0.084-0.364,0.023s-0.084,0.27,0.023,0.363c0.612,0.541,1.4,0.84,2.219,0.84h2.046l-2.197,1.598 c-0.115,0.084-0.141,0.244-0.057,0.359c0.05,0.07,0.129,0.107,0.209,0.107c0.053,0,0.104-0.018,0.151-0.049l3.127-2.275 l-3.127-2.273C12.866,11.78,12.705,11.805,12.622,11.921z"/>
+                <path fill="#999999" d="M11.04,0C4.952,0,0,4.953,0,11.04c0,6.088,4.952,11.04,11.04,11.04s11.04-4.952,11.04-11.04 C22.08,4.953,17.128,0,11.04,0z M11.04,21.344c-5.682,0-10.304-4.623-10.304-10.304c0-5.682,4.622-10.304,10.304-10.304 S21.345,5.358,21.345,11.04C21.345,16.721,16.722,21.344,11.04,21.344z"/>
+            </svg>
+
+            <span>Shuffle</span>
+        </a>
+        <a title="Clear Table" class="ui-action action-clear">
+            <svg class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 22.127 22.127" enable-background="new 0 0 20 20" xml:space="preserve">
+                <path fill="#999999" d="M11.063,0C4.963,0,0,4.963,0,11.063s4.963,11.063,11.063,11.063s11.063-4.963,11.063-11.063 S17.164,0,11.063,0z M11.063,21.276c-5.631,0-10.213-4.582-10.213-10.213S5.433,0.851,11.063,0.851s10.213,4.582,10.213,10.212 S16.694,21.276,11.063,21.276z"/>
+                <path fill="#999999" d="M15.194,6.933c-0.167-0.167-0.436-0.167-0.602,0l-3.529,3.529L7.534,6.933 c-0.166-0.167-0.435-0.167-0.602,0c-0.166,0.167-0.166,0.435,0,0.602l3.529,3.529l-3.529,3.529c-0.166,0.166-0.166,0.435,0,0.602 c0.083,0.082,0.192,0.125,0.301,0.125c0.109,0,0.219-0.043,0.301-0.125l3.529-3.529l3.529,3.529 c0.082,0.082,0.191,0.125,0.301,0.125c0.108,0,0.218-0.043,0.301-0.125c0.166-0.166,0.166-0.436,0-0.602l-3.529-3.529l3.529-3.529 C15.36,7.368,15.36,7.1,15.194,6.933z"/>
+            </svg>
+
+            <span>Clear</span>
+        </a>
+
+        <!-- a class="ui-action action-previous-table"><img class="icon" src="/image/icon/ui-arrow-left.svg"></a -->
+        <!-- a class="ui-action action-next-table"><img class="icon" src="/image/icon/ui-arrow-right.svg"></a -->
+        <!-- a class="ui-action action-add-table"><img class="icon" src="/image/icon/ui-plus.svg"></a -->
+    </nav>
+
+    <div id="Table">
+        <div id="DOMTable">
+                        <svg id="SVGTable"
+                class="table"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                owidth="838"
+                oheight="453"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 838 453"
+                enable-background="new 0 0 838 453"
+                xml:space="preserve">
+                <defs>
+                    <marker id="arrow-black" viewBox="0 0 15 15" refX="0" refY="5" fill="#000000" markerUnits="strokeWidth" markerWidth="14" markerHeight="13" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+                </defs>
+                <path class="bounds" class="table" fill="#D3D3D3" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" d="M0,49.812C0,22.301,23.127,0,51.66,0h730.138 c28.529,0,51.666,22.301,51.666,49.812v351.839c0,27.51-23.137,49.811-51.666,49.811H51.66C23.127,451.461,0,429.161,0,401.651 V49.812L0,49.812z"/>
+                <rect class="cloth" x="31.405" y="31.398" fill="#4A98D8" stroke="#000000" stroke-width="0.5" stroke-miterlimit="10" width="770.06" height="385.407"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M802.566,395.038 c0,0,7.584,10.179,13.775,18.88c6.189,8.699-13.897,29.056-24.173,19.731c-10.265-9.333-16.164-16.845-16.164-16.845 s1.539-10.335,9.076-16.437C792.621,394.271,802.566,395.038,802.566,395.038z"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M779.786,30.832c0,0,9.985-7.764,18.521-14.11 c8.53-6.35,29.116,13.39,20.03,23.818c-9.087,10.442-16.447,16.467-16.447,16.467s-10.304-1.352-16.498-8.783 C779.2,40.797,779.786,30.832,779.786,30.832z"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M31.252,55.476c0,0-8.574-9.246-15.609-17.171 C8.601,30.387,27.018,8.692,38.225,16.856c11.197,8.168,17.828,14.963,17.828,14.963s-0.602,10.214-7.639,16.857 C41.359,55.319,31.252,55.476,31.252,55.476z"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M54.852,417.519c0,0-9.026,8.718-16.77,15.882 c-7.742,7.164-29.581-10.853-21.674-22.185c7.916-11.326,14.535-18.062,14.535-18.062s10.162,0.437,16.864,7.354 C54.53,407.433,54.852,417.519,54.852,417.519z"/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="801.076,57.428 792.867,68.331 792.867,380.555 802.113,394.67 "/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="779.479,31.398 764.558,40.75 436.024,40.75 433.993,31.398 "/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="397.544,30.312 395.756,40.625 68.266,40.625 68.266,40.625 55.955,31.511 "/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="31.405,55.044 41.873,69.23 41.873,378.316 31.405,393.152 "/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="54.852,416.858 69.87,408.264 393.715,408.264 397.329,416.858 "/>
+                <polyline class="rail" fill="#387DA8" stroke="#000000" stroke-width="0.3" stroke-miterlimit="10" points="433.378,416.858 436.086,408.264 765.043,408.264 775.925,416.858 "/>
+                <path class="diamond" id="spot18_1_" fill="#6D6E70" d="M809.693,129.226c0-1.887,1.524-3.413,3.407-3.413c1.884,0,3.408,1.524,3.408,3.413 c0,1.88-1.524,3.406-3.408,3.406C811.22,132.632,809.693,131.105,809.693,129.226z"/>
+                <path class="diamond" id="spot17_1_" fill="#6D6E70" d="M809.693,225.433c0-1.881,1.524-3.408,3.407-3.408c1.884,0,3.408,1.527,3.408,3.408 c0,1.885-1.524,3.409-3.408,3.409C811.22,228.842,809.693,227.318,809.693,225.433z"/>
+                <path class="diamond" id="spot15_1_" fill="#6D6E70" d="M701.617,430.68c0-1.881,1.521-3.403,3.408-3.403c1.883,0,3.401,1.522,3.401,3.403 c0,1.892-1.521,3.41-3.401,3.41C703.14,434.09,701.617,432.567,701.617,430.68z"/>
+                <path class="diamond" id="spot14_1_" fill="#6D6E70" d="M605.539,430.68c0-1.881,1.529-3.403,3.412-3.403c1.879,0,3.406,1.522,3.406,3.403 c0,1.892-1.525,3.41-3.406,3.41C607.068,434.09,605.539,432.567,605.539,430.68z"/>
+                <path class="diamond" id="spot13_1_" fill="#6D6E70" d="M509.46,430.68c0-1.881,1.527-3.403,3.416-3.403c1.879,0,3.406,1.522,3.406,3.403 c0,1.892-1.527,3.41-3.406,3.41C510.992,434.09,509.46,432.567,509.46,430.68z"/>
+                <path class="diamond" id="spot12_1_" fill="#6D6E70" d="M316.968,430.68c0-1.881,1.527-3.403,3.414-3.403c1.875,0,3.402,1.522,3.402,3.403 c0,1.892-1.527,3.41-3.402,3.41C318.494,434.09,316.968,432.567,316.968,430.68z"/>
+                <path class="diamond" id="spot11_1_" fill="#6D6E70" d="M220.547,430.68c0-1.881,1.528-3.403,3.414-3.403c1.875,0,3.402,1.522,3.402,3.403 c0,1.892-1.527,3.41-3.402,3.41C222.074,434.09,220.547,432.567,220.547,430.68z"/>
+                <path class="diamond" id="spot10_1_" fill="#6D6E70" d="M124.126,430.68c0-1.881,1.526-3.403,3.413-3.403c1.875,0,3.402,1.522,3.402,3.403 c0,1.892-1.527,3.41-3.402,3.41C125.655,434.09,124.126,432.567,124.126,430.68z"/>
+                <path class="diamond" id="spot9_1_" fill="#6D6E70" d="M16.451,321.641c0-1.879,1.528-3.402,3.414-3.402c1.881,0,3.408,1.523,3.408,3.402 c0,1.889-1.527,3.412-3.408,3.412C17.979,325.053,16.451,323.525,16.451,321.641z"/>
+                <path class="diamond" id="spot8_1_" fill="#6D6E70" d="M16.451,225.433c0-1.881,1.528-3.408,3.414-3.408c1.881,0,3.408,1.527,3.408,3.408 c0,1.885-1.527,3.409-3.408,3.409C17.979,228.842,16.451,227.318,16.451,225.433z"/>
+                <path class="diamond" id="spot7_1_" fill="#6D6E70" d="M16.451,129.226c0-1.887,1.528-3.414,3.414-3.414c1.881,0,3.408,1.525,3.408,3.414 c0,1.879-1.527,3.406-3.408,3.406C17.979,132.632,16.451,131.104,16.451,129.226z"/>
+                <path class="diamond" id="spot6_1_" fill="#6D6E70" d="M124.036,22.178c0-1.887,1.526-3.414,3.413-3.414c1.875,0,3.402,1.527,3.402,3.414 c0,1.884-1.527,3.41-3.402,3.41C125.564,25.589,124.036,24.062,124.036,22.178z"/>
+                <path class="diamond" id="spot5_1_" fill="#6D6E70" d="M220.366,22.178c0-1.887,1.528-3.414,3.414-3.414c1.875,0,3.402,1.527,3.402,3.414 c0,1.884-1.527,3.41-3.402,3.41C221.893,25.589,220.366,24.062,220.366,22.178z"/>
+                <path class="diamond" id="spot4_1_" fill="#6D6E70" d="M316.696,22.178c0-1.887,1.526-3.414,3.414-3.414c1.875,0,3.401,1.527,3.401,3.414 c0,1.884-1.526,3.41-3.401,3.41C318.222,25.589,316.696,24.062,316.696,22.178z"/>
+                <path class="diamond" id="spot3_1_" fill="#6D6E70" d="M509.193,22.178c0-1.887,1.522-3.414,3.407-3.414c1.888,0,3.406,1.527,3.406,3.414 c0,1.884-1.521,3.41-3.406,3.41C510.72,25.589,509.193,24.062,509.193,22.178z"/>
+                <line class="grid" style="display: none;" x1="223.8" y1="407.1" x2="223.8" y2="40.9" display="none" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="224" y1="408.1" x2="224" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="127.4" y1="408.1" x2="127.4" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="320.1" y1="408.1" x2="320.1" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="415.4" y1="408.1" x2="415.4" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="512.6" y1="408.1" x2="512.6" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="608.9" y1="408.1" x2="608.9" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="704.9" y1="408.1" x2="704.9" y2="40.9" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="792.9" y1="129.2" x2="41.9" y2="129.2" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="792.9" y1="225.4" x2="41.9" y2="225.4" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<line class="grid" style="display: none;" x1="792.9" y1="321.6" x2="41.9" y2="321.6" fill="none" isolation="isolate" opacity=".5" stroke="#000" stroke-miterlimit="10" stroke-width=".2" />
+				<circle id="spot16_1_" fill="#6D6E70" cx="813.101" cy="321.646" r="3.409"/>
+                <circle id="spot2_1_" fill="#6D6E70" cx="608.765" cy="22.178" r="3.409"/>
+                <ellipse id="spot1_1_" fill="#6D6E70" cx="704.931" cy="22.178" rx="3.406" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_2_" fill="#333333" cx="801.097" cy="417.858" rx="3.406" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_3_" fill="#333333" cx="801.097" cy="33.01" rx="3.406" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_4_" fill="#333333" cx="416.434" cy="29.01" rx="3.406" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_5_" fill="#333333" cx="31.113" cy="33.01" rx="3.405" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_6_" fill="#333333" cx="31.113" cy="417.856" rx="3.405" ry="3.414"/>
+                <ellipse class="pocket" id="spot1_7_" fill="#333333" cx="416.797" cy="417.856" rx="3.406" ry="3.414"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M397.946,31.796 c0,0-0.649-11.306,6.174-17.721s15.542-6.988,23.491-0.632c7.947,6.356,6.242,17.817,6.242,17.817s-8.838,10.052-17.93,9.67 C406.84,40.553,397.946,31.796,397.946,31.796z"/>
+                <path fill="#333333" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" d="M415.347,407.122 c9.091-0.381,17.931,9.672,17.931,9.672s1.705,11.461-6.244,17.816c-7.948,6.354-16.667,5.781-23.491-0.635 c-6.823-6.412-6.174-17.721-6.174-17.721S406.262,407.501,415.347,407.122z"/>
+                <g class="branding" opacity="0.1">
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M277.915,200.74c4.555,0,8.547,0.562,13.776,2.137l-1.743,6.466c-6.016-1.405-8.434-1.687-11.414-1.687 c-7.085,0-9.503,4.892-9.503,12.482c0,8.152,2.418,13.102,9.503,13.102c2.98,0,5.398-0.281,11.414-1.688l1.743,6.468 c-5.229,1.519-9.221,2.08-13.776,2.08c-13.438,0-17.037-8.996-17.037-19.96C260.877,209.343,264.476,200.74,277.915,200.74z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M303.049,239.537h-7.31v-39.359h7.31v14.9h0.112c2.418-2.586,5.51-4.217,9.166-4.217 c5.623,0,8.434,3.654,8.434,9.446v19.229h-7.31v-17.543c0-3.262-1.237-5.061-4.499-5.061c-2.305,0-4.498,1.237-5.904,2.137 L303.049,239.537L303.049,239.537z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M327.564,218.002l-1.068-5.848c3.992-0.787,8.209-1.293,11.583-1.293c7.141,0,11.077,1.855,11.077,9.446 v19.229h-7.311v-2.812c-0.057,0-0.057,0-0.111,0c-2.418,2.476-4.78,3.373-8.322,3.373c-5.623,0-8.715-3.769-8.715-8.658 c0-6.86,6.298-8.771,11.808-8.771h5.342V220.7c0-2.867-1.799-3.768-5.454-3.768C334.143,216.934,331.613,217.158,327.564,218.002z  M341.847,227.055h-4.892c-3.317,0-4.948,1.182-4.948,3.77c0,2.475,1.968,3.652,4.386,3.652c2.307,0,4.442-0.955,5.454-1.742 V227.055z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M353.936,200.178h7.311v39.359h-7.311V200.178z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M373.335,221.264l10.57-9.84h8.828l-10.234,10.121l10.797,17.992h-8.604l-7.311-13.832l-4.048,3.711v10.121 h-7.311v-39.359h7.311L373.335,221.264L373.335,221.264z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M394.083,211.424h8.152l6.408,20.523h0.113l6.24-20.523h7.76l-9.951,29.125 c-2.698,8.041-6.299,10.797-12.54,10.797c-1.519,0-3.599-0.168-5.061-0.506l0.675-6.018c0.844,0.17,2.08,0.281,2.699,0.281 c2.699,0,4.836-2.08,5.904-5.172L394.083,211.424z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M427.595,238.188l0.73-3.484c5.734,1.404,9.559,1.688,12.707,1.688c6.467,0,9.055-3.543,9.055-6.916 c0-5.174-5.961-6.521-9.896-7.592c-6.02-1.519-12.033-4.835-12.033-11.302c0-7.085,5.678-9.84,12.875-9.84 c4.162,0,8.098,0.562,12.65,1.912l-0.953,3.485c-5.736-1.405-8.549-1.687-11.697-1.687c-6.465,0-8.49,2.98-8.49,6.241 c0,4.948,6.354,6.747,10.402,7.703c6.018,1.35,11.525,4.161,11.525,10.739c0,7.312-5.732,10.966-13.438,10.966 C436.872,240.1,432.149,239.537,427.595,238.188z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M463.581,214.291h-4.441v-2.586l4.441-0.281l0.506-7.873h3.43v7.873h8.322v2.867h-8.322v16.363 c0,4.104,1.125,6.24,5.117,6.24c0.9,0,1.799-0.059,3.092-0.281l0.396,3.094c-1.463,0.225-3.486,0.393-4.723,0.393 c-5.455,0-7.816-2.248-7.816-8.828L463.581,214.291L463.581,214.291z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M486.354,201.303v6.69h-3.938v-6.69H486.354z M486.354,211.424v28.113h-3.938v-28.113H486.354z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M506.089,210.861c3.486,0,6.02,0.393,9.393,1.236l-0.73,3.205c-4.387-1.124-6.748-1.124-8.66-1.124 c-6.689,0-9.276,4.835-9.276,11.302c0,6.467,2.587,11.303,9.276,11.303c1.912,0,4.273,0,8.66-1.125l0.73,3.205 c-3.373,0.844-5.904,1.236-9.393,1.236c-9.953,0-13.438-5.959-13.438-14.621C492.649,216.821,496.136,210.861,506.089,210.861z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M524.14,223.737l14.957-12.313h4.893l-10.908,9.502l11.471,18.611h-4.666l-9.561-16.418l-6.186,5.004 v11.414h-3.938v-39.359h3.938V223.737L524.14,223.737z"/>
+                    <path fill="#08556D" stroke-width="1" stroke="#000000" d="M559.112,240.1c-4.273,0-8.377-0.393-11.75-1.234l0.729-3.205c4.441,1.125,8.715,1.234,10.57,1.234 c6.018,0,6.578-3.768,6.578-4.891c0-2.082-1.236-3.768-7.084-4.949c-5.734-1.068-10.234-2.924-10.234-8.604 c0-5.004,3.543-7.59,10.066-7.59c4.271,0,7.59,0.393,10.965,1.236l-0.732,3.205c-4.439-1.124-8.15-1.236-10.008-1.236 c-5.904,0-6.354,3.316-6.354,4.273c0,2.08,0.955,3.879,6.745,5.061c6.187,1.293,10.571,2.98,10.571,8.377 C569.179,237.119,565.636,240.1,559.112,240.1z"/>
+                </g>
+                <line class="balkline" opacity="0.5" fill="none" stroke="#000000" stroke-width="0.25" stroke-miterlimit="10" enable-background="new    " x1="223.772" y1="407.111" x2="223.772" y2="40.941"/>
+                <g class="headspot">
+                    <circle id="outerdot_2_" fill="#FFFFFF" stroke="#818282" stroke-width="0.25" stroke-miterlimit="10" cx="223.774" cy="225.446" r="6.725"/>
+                    <path id="innerdot_2_" fill="#868686" stroke="#FFFFFF" stroke-width="0.25" stroke-miterlimit="10" d="M221.306,225.446 c0-1.358,1.104-2.464,2.467-2.464c1.354,0,2.467,1.104,2.467,2.464c0,1.358-1.104,2.467-2.467,2.467 S221.306,226.805,221.306,225.446z"/>
+                </g>
+                <g class="footspot">
+                    <circle id="outerdot_1_" fill="#FFFFFF" stroke="#818282" stroke-width="0.25" stroke-miterlimit="10" cx="608.623" cy="225.446" r="6.725"/>
+                    <path id="innerdot_1_" fill="#868686" stroke="#FFFFFF" stroke-width="0.25" stroke-miterlimit="10" d="M606.154,225.446 c0-1.358,1.104-2.464,2.467-2.464c1.354,0,2.467,1.104,2.467,2.464c0,1.358-1.104,2.467-2.467,2.467 S606.154,226.805,606.154,225.446z"/>
+                </g>
+                <g class="rackoutline" opacity="0.1">
+                    <path  d="M671.906,169.136l-71.07,40.71c-5.52,2.759-8.97,8.97-8.97,15.18c0,6.209,3.45,11.73,8.97,15.181l71.07,40.709 c5.52,3.451,12.42,3.451,17.939,0c5.521-2.76,8.971-8.97,8.971-15.18v-81.42c0-6.9-3.45-12.42-8.971-15.18 C684.326,165.685,677.426,165.685,671.906,169.136L671.906,169.136z M687.087,174.655c3.45,1.38,5.52,4.831,5.52,8.97v82.111 c0,3.45-2.069,6.9-5.52,8.97c-3.451,2.07-7.591,2.07-11.04,0l-71.071-40.711c-3.449-1.379-5.52-4.829-5.52-8.969 s2.07-7.59,5.52-9.661l71.071-40.71C679.496,172.585,683.636,172.585,687.087,174.655z"/>
+                </g>
+
+                <!-- Editable Groups -->
+                <g class="shapes"></g>
+                <g class="lines"></g>
+                <g class="balls"></g>
+                <g class="text"></g>
+                <g class="cues"></g>
+            </svg>
+                    </div>
+    </div>
+
+    <div id="Flags">
+        <mark class="line-drawing">Drawing</mark>
+    </div>
+            </main>
+
+            <footer data-step="2">
+                <div id="BallHolder" class="bg-dark" data-intro="Drag balls from this tray onto the table to position them.<br><br>Use the arrows on your keyboard for fine tuning.">
+                    <div id="BallHolder_Tray">
+                        <div id="BallHolder_Tray_Balls">
+                            <!-- balls load in here dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+            <div id="DialogSaved" class="hide align-center">
+                <img src="https://pad.chalkysticks.com/image/diagrammer/balls/snooker/ball-green.svg" width="35" height="35">
+
+                <h3>Success!</h3>
+                <p>
+                    You have successfully saved this diagram!
+                </p>
+            </div>
+
+            <div id="DialogHelpBalls" class="hide">
+                <h3><img src="https://pad.chalkysticks.com/image/icon/ui-help.svg" width="25" height="25"> Tips for Balls</h3>
+                <p>
+                    <strong>Removing:</strong> Drag to any pocket and release.
+                </p>
+                <p>
+                    Use the keyboard arrows to fine-tune the placement of balls.
+                </p>
+                <p>
+                    When drawing lines, you can click a ball to attach the line to that ball.
+                </p>
+            </div>
+
+            <div id="DialogHelpLines" class="hide">
+                <h3><img src="https://pad.chalkysticks.com/image/icon/ui-help.svg" width="25" height="25"> Tips for Lines</h3>
+                <p>
+                    <strong>Removing:</strong> Hover over lines and press backspace OR click and hold for 3 seconds.
+                </p>
+                <p>
+                    Press <strong>"A"</strong> on the keyboard to toggle arrows.<br>
+                    Press <strong>"L"</strong> on the keyboard to toggle line styles.
+                </p>
+                <p>
+                    Click the Lines menu on the left to see options for colors, massé,
+                    and more.
+                </p>
+                <p>
+                    Starting lines near the end of another will connect them. It creates a
+                    joint between the two that you can drag around.
+                </p>
+                <p>
+                    Clicking a ball will connect a line to that ball.
+                </p>
+            </div>
+
+            <div id="DialogHelpTexts" class="hide">
+                <h3><img src="https://pad.chalkysticks.com/image/icon/ui-help.svg" width="25" height="25"> Tips for Texts</h3>
+                <p>
+                    <strong>Removing:</strong> Click text and follow dialog instructions.
+                </p>
+                <p>
+                    You can resize text field by dragging textbox lower right corner.
+                </p>
+            </div>
+
+            <div id="DialogHelpShapes" class="hide">
+                <h3><img src="https://pad.chalkysticks.com/image/icon/ui-help.svg" width="25" height="25"> Tips for Shapes</h3>
+                <p>
+                    <strong>Removing:</strong> Drag shape to overlap any rail.
+                </p>
+                <p>
+                    <strong>Resizing:</strong> Open Shapes menu on left to show resizing tool.
+                </p>
+            </div>
+
+            <div id="DialogHelpCues" class="hide">
+                <h3><img src="https://pad.chalkysticks.com/image/icon/ui-help.svg" width="25" height="25"> Tips for Cues</h3>
+                <p>
+                    <strong>Removing:</strong> You can't remove one yet.
+                </p>
+                <p>
+                    Click the Cues menu on the left to see options for rotation, style,
+                    and more.
+                </p>
+            </div>
+        </div>
+
+        <!-- Templates -->
+        <script type="text/template" id="tpl-textarea">
+            <textarea name="txtInput" placeholder="Enter your text here..."></textarea>
+            <button class="action-remove">Cancel</button>
+            <button class="action-add">Add</button>
+        </script>
+
+        <!-- Script -->
+        
+        <script>
+            var config = {
+                API_URL: "https:////api.chalkysticks.com/v2",
+                BASE_URL: "https://pad.chalkysticks.com",
+                IMAGE_URL: "https://pad.chalkysticks.com/image"
+            };
+        </script>
+
+        <script src="script/vendor.js?v=2.5" type="text/javascript"></script>
+        <script src="script/vendor/jquery/jquery-ui.dialog.min.js?v=2.5" type="text/javascript"></script>
+        <script src="script/sdk-latest.js?v=2.5" type="text/javascript"></script>
+        <script src="script/pad-latest.js?v=2.5" type="text/javascript"></script>
+
+        <script>
+        
+            // $(document).ready(function() {
+                    window.page = new pm.Page_Main({
+        el: document.body
+    });
+
+            // });
+
+            if (location.host.toString().indexOf("dev") < 0) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-73559206-3', 'auto');
+                ga('send', 'pageview');
+            }
+
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+            fbq('init', '479073392278701');
+            fbq('track', "PageView");
+        </script>
+
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=479073392278701&ev=PageView&noscript=1" /></noscript>    </body>
+</html>

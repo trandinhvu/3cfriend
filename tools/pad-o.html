@@ -1,0 +1,633 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ChalkySticks Pad</title>
+
+        <meta charset="utf-8">
+
+        <meta http-equiv="X-UA-Compatible"       content="IE=edge">
+        <meta http-equiv="Content-Type"          content="text/html; charset=UTF-8">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="google-site-verification"    content="EXRsemKCQcxAa3Jo_66aR4o2EpfF9AEcpLoQKyFbsd4">
+
+        <meta name="robots"             content="follow, all">
+        <meta name="language"           content="en">
+        <meta name="googlebot"          content="index, follow">
+        <meta name="revisit-after"      content="5 days">
+        <meta name="distribution"       content="global">
+        <meta name="description"        content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta name="keywords"           content="pool, diagrammer, pool diagrammer, billiards, pad, diagrams, situation, apa, napl, wpa, bca">
+        <meta name="viewport"           content="width=900, maximum-scale=1, user-scalable=yes, minimal-ui">
+
+        <meta itemprop="name"           content="ChalkySticks Pad">
+        <meta itemprop="image"          content="/image/share/pad-share.jpg">
+        <meta itemprop="description"    content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+
+        <!-- Open Graph Meta -->
+        <meta property="og:title"       content="ChalkySticks Pad">
+        <meta property="og:email"       content="feedback@chalkysticks.com">
+        <meta property="og:url"         content="https://pad-v1.chalkysticks.com/">
+        <meta property="og:site_name"   content="ChalkySticks Pad">
+        <meta property="og:description" content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta property="og:image"       content="/image/share/pad-share.jpg">
+        <meta property="og:image:type"  content="image/jpeg">
+
+        <!-- Twitter Cards -->
+        <meta property="twitter:account_id"  content="">
+        <meta property="twitter:card"        content="summary_large_image">
+        <meta property="twitter:title"       content="ChalkySticks Pad">
+        <meta property="twitter:site"        content="@chalkysticks">
+        <meta property="twitter:creator"     content="@chalkysticks">
+        <meta property="twitter:description" content="ChalkySticks Pad is an advanced billiards / pool diagramming tool. Recreate any pool situation on a variety of different table types and share with others.">
+        <meta property="twitter:url"         content="https://pad-v1.chalkysticks.com/">
+        <meta property="twitter:image:src"   content="/image/share/pad-share.jpg">
+        <meta property="twitter:image"       content="/image/share/pad-share.jpg">
+
+        <!-- Linkage -->
+        <link rel="image_src"        href="https://pad-v1.chalkysticks.com/image/favicon.ico">
+        <link rel="shortcut icon"    href="https://pad-v1.chalkysticks.com/image/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="https://pad-v1.chalkysticks.com/image/apple-touch-icon.png">
+
+        <link rel="stylesheet" type="text/css" href="https://pad-v1.chalkysticks.com/style/pad-latest.css?v=1.1">
+        <link rel="stylesheet" type="text/css" href="https://pad-v1.chalkysticks.com/style/vendor/ionicframework/style/ionicons.min.css?v=1.1">
+    </head>
+    <body>
+        <div id="Wrapper">
+            <div id="saveResponse">
+                <h1>Diagram Saved!</h1>
+
+                <div class="images">
+                    <a class="site-url" target="_blank"><span>WEBSITE</span><img height="50" src="#"></a>
+                    <a class="svg-url" target="_blank"><span>SVG</span><img height="50" src="#"></a>
+                    <a class="png-url" target="_blank"><span>PNG</span><img height="50" src="#"></a>
+                </div>
+
+                <a class="close"><i class="ion-close"></i></a>
+            </div>
+
+            <header>
+                <h1>
+                    <a href="/"><img src="/image/branding/logo.svg"></a>
+                </h1>
+
+                
+<nav>
+    <form>
+        <section class="navGroup" id="navMain">
+            <h3>Main Menu</h3>
+            <div class="option-set">
+                <div class="option-group option-menu">
+                    <div class="display">
+                        <img src="/image/icon/pad/icon-menu.svg" height="12" style="margin-bottom: 4px">
+                        <span class="caption">Options</span>
+                    </div>
+                    <ul>
+                        <li class="option option-link display">
+                            <a href="/list">
+                                <span class="caption">Browse</span>
+                            </a>
+                        </li>
+                        <li class="option option-divider display">
+                            <span class="caption">Racks</span>
+                        </li>
+                        <li class="option option-action display option-load-rack" data-action="load-rack-8">
+                            <span class="caption">8-Ball</span>
+                        </li>
+                        <li class="option option-action display option-load-rack" data-action="load-rack-9">
+                            <span class="caption">9-Ball</span>
+                        </li>
+                        <li class="option option-action display option-load-rack" data-action="load-rack-10">
+                            <span class="caption">10-Ball</span>
+                        </li>
+                        <li class="option option-divider display">
+                            <span class="caption">General</span>
+                        </li>
+                        <li class="option option-help display">
+                            <span class="caption">Help</span>
+                        </li>
+                        <li class="option option-action display option-random" data-action="load-rack-random">
+                            <span class="caption">Random</span>
+                        </li>
+                        <li class="option option-clear display">
+                            <span class="caption">Clear</span>
+                        </li>
+                        <li class="option option-save display">
+                            <span class="caption">Save</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navTable">
+            <h3>Table</h3>
+            <div class="option-set">
+                <div class="option-group">
+                    <div class="display">
+                        <img src="/image/icon/pad/icon-table.svg" height="20">
+                        <span class="caption">7' Table</span>
+                    </div>
+                    <ul>
+                        <li id="size7" class="option option-action display" data-action="load-table-7" title="Keyboard Command: 7">
+                            <span class="caption">7' Table</span>
+                        </li>
+                        <li id="size8" class="option option-action display" data-action="load-table-8" title="Keyboard Command: 8">
+                            <span class="caption">8' Table</span>
+                        </li>
+                        <li id="size9" class="option option-action display" data-action="load-table-9" title="Keyboard Command: 9">
+                            <span class="caption">9' Table</span>
+                        </li>
+                        <li id="sizeBilliard" class="option option-action display" data-action="load-table-billiard" title="Keyboard Command: 0">
+                            <span class="caption">Billiards</span>
+                        </li>
+                        <li id="sizeSnooker" class="option option-action display" data-action="load-table-snooker" style="display: none;">
+                            <span class="caption">Snooker</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navLines">
+            <h3>Lines</h3>
+            <div class="option-set">
+                <div class="option-group" title="Keyboard Command: L">
+                    <div class="display">
+                        <img src="/image/icon/pad/icon-dashed.svg" height="20">
+                        <span class="caption">Dashed</span>
+                    </div>
+                    <ul>
+                        <li class="option option-modifier display" data-action="line-dashed">
+                            <input type="radio" name="line-style" class="hide" value="dashed" checked>
+                            <img src="/image/icon/pad/icon-dashed.svg" height="20">
+                            <span class="caption">Dashed</span>
+                        </li>
+                        <li class="option option-modifier display" data-action="line-solid">
+                            <input type="radio" name="line-style" class="hide" value="solid">
+                            <img src="/image/icon/pad/icon-solid.svg" height="20">
+                            <span class="caption">Solid</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="option-group" title="Keyboard Command: A">
+                    <div class="display">
+                        <img src="/image/icon/pad/icon-noarrow.svg" height="20">
+                        <span class="caption">No Arrows</span>
+                    </div>
+                    <ul>
+                        <li class="option option-modifier display" data-action="line-arrow">
+                            <input type="radio" name="line-arrow" class="hide" value="1">
+                            <img src="/image/icon/pad/icon-arrow.svg" height="20">
+                            <span class="caption">Arrows</span>
+                        </li>
+                        <li class="option option-modifier display" data-action="line-noarrow">
+                            <input type="radio" name="line-arrow" class="hide" value="0" checked>
+                            <img src="/image/icon/pad/icon-noarrow.svg" height="20">
+                            <span class="caption">No Arrows</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="option-group" title="Keyboard Command: M">
+                    <div class="display option-curve" data-action="line-curve">
+                        <img src="/image/icon/pad/icon-curve.svg" height="20">
+                        <span class="caption">Curve</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navBalls">
+            <h3>Balls</h3>
+            <div class="option-set">
+                <div class="option-group">
+                    <div class="display">
+                        <img src="/image/icon/pad/icon-numberedball.svg" height="20">
+                        <span class="caption">Numbered</span>
+                    </div>
+                    <ul>
+                        <li class="option option-ball" data-ball-type="cue">
+                            <img src="/image/diagrammer/ball-cue.svg" height="20">
+                            <span class="caption">Cue</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="ghost">
+                            <img src="/image/diagrammer/ball-ghost.svg" height="20">
+                            <span class="caption">Ghost</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="solid-generic">
+                            <img src="/image/diagrammer/ball-solid-generic.svg" height="20">
+                            <span class="caption">Grey</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="solid-generic-8">
+                            <img src="/image/diagrammer/ball-solid-generic-8.svg" height="20">
+                            <span class="caption">Black</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="solid-generic-red">
+                            <img src="/image/diagrammer/ball-solid-generic-red.svg" height="20">
+                            <span class="caption">Red</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="solid-generic-yellow">
+                            <img src="/image/diagrammer/ball-solid-generic-yellow.svg" height="20">
+                            <span class="caption">Yellow</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="1">
+                            <img src="/image/diagrammer/ball-1.svg" height="20">
+                            <span class="caption">1 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="2">
+                            <img src="/image/diagrammer/ball-2.svg" height="20">
+                            <span class="caption">2 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="3">
+                            <img src="/image/diagrammer/ball-3.svg" height="20">
+                            <span class="caption">3 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="4">
+                            <img src="/image/diagrammer/ball-4.svg" height="20">
+                            <span class="caption">4 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="5">
+                            <img src="/image/diagrammer/ball-5.svg" height="20">
+                            <span class="caption">5 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="6">
+                            <img src="/image/diagrammer/ball-6.svg" height="20">
+                            <span class="caption">6 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="7">
+                            <img src="/image/diagrammer/ball-7.svg" height="20">
+                            <span class="caption">7 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="8">
+                            <img src="/image/diagrammer/ball-8.svg" height="20">
+                            <span class="caption">8 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="9">
+                            <img src="/image/diagrammer/ball-9.svg" height="20">
+                            <span class="caption">9 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="10">
+                            <img src="/image/diagrammer/ball-10.svg" height="20">
+                            <span class="caption">10 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="11">
+                            <img src="/image/diagrammer/ball-11.svg" height="20">
+                            <span class="caption">11 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="12">
+                            <img src="/image/diagrammer/ball-12.svg" height="20">
+                            <span class="caption">12 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="13">
+                            <img src="/image/diagrammer/ball-13.svg" height="20">
+                            <span class="caption">13 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="14">
+                            <img src="/image/diagrammer/ball-14.svg" height="20">
+                            <span class="caption">14 Ball</span>
+                        </li>
+                        <li class="option option-ball" data-ball-type="15">
+                            <img src="/image/diagrammer/ball-15.svg" height="20">
+                            <span class="caption">15 Ball</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navText">
+            <h3>Text</h3>
+            <div class="option-set" title="Keyboard Command: T">
+                <div class="option-group group-text">
+                    <div class="display option-text">
+                        <img src="/image/icon/pad/icon-text.svg" height="20">
+                        <span class="caption">Add Text</span>
+                    </div>
+                    <ul>
+                        <li class="option option-text-modifier display" data-action="text-white">
+                            <input type="radio" name="text-color" class="hide" value="white" checked>
+                            <img src="/image/icon/pad/icon-genericball.svg" height="20">
+                            <span class="caption">White</span>
+                        </li>
+                        <li class="option option-text-modifier display" data-action="text-black">
+                            <input type="radio" name="text-color" class="hide" value="black">
+                            <img src="/image/diagrammer/ball-solid-generic-8.svg" height="20">
+                            <span class="caption">Black</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navOptions">
+            <h3>Options</h3>
+            <div class="option-set">
+                <div class="option-group">
+                    <div class="display option-action option-nocaption" data-action="load-rack-random">
+                        <i class="ion-shuffle"></i>
+                        <span class="caption">Randomize</span>
+                    </div>
+                </div>
+                <div class="option-group" title="Keyboard Command: C">
+                    <div class="display option-clear">
+                        <i class="ion-trash-a"></i>
+                        <span class="caption">Clear</span>
+                    </div>
+                </div>
+                <div class="option-group">
+                    <div class="display option-save">
+                        <i class="ion-checkmark"></i>
+                        <span class="caption">Save</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="navGroup" id="navContact">
+            <h3>Contact</h3>
+            <div class="option-set">
+                <div class="option-group">
+                    <div class="display option-link">
+                        <a href="mailto:feedback@chalkysticks.com?subject=Feedback%20about%20Pad&amp;body=Type%20your%20message%20here...">
+                            <i class="ion-email"></i>
+                            <span class="caption">Feedback</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+</nav>            </header>
+
+            <main>
+                
+    <aside id="Templates">
+        <div class="labels">
+            Browse Templates...
+        </div>
+        <div class="list">
+            <a href="http://pad.chalkysticks.com/f261f"><img data-src="http://pad.chalkysticks.com/image/f261f"></a>
+            <a href="http://pad.chalkysticks.com/912f0"><img data-src="http://pad.chalkysticks.com/image/912f0"></a>
+        </div>
+    </aside>
+
+    <section>
+        <div id="MainTable" class="table-container">
+            <div class="table-diagram">
+                <img class="table" src="/image/diagrammer/table-horizontal-7.svg">
+
+                <div class="cue"></div>
+                <div class="lines"></div>
+                <div class="text"></div>
+                <div class="balls"></div>
+
+                <div class="pockets">
+                    <div class="tl"></div><div class="tm"></div><div class="tr"></div>
+                    <div class="bl"></div><div class="bm"></div><div class="br"></div>
+                </div>
+
+                <canvas></canvas>
+            </div>
+
+            <div class="ball-selection">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-cue.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-ghost.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-solid-generic.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-solid-generic-8.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-solid-generic-yellow.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-solid-generic-red.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-stripe-generic.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-1.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-2.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-3.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-4.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-5.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-6.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-7.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-8.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-9.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-10.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-11.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-12.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-13.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-14.svg">
+                <img class="ball ball-droppable" src="/image/diagrammer/ball-15.svg">
+            </div>
+        </div>
+
+        <div class="table-list hide">
+            <a class="action-add-table">Add Table</a>
+        </div>
+
+        <div class="details-wrapper">
+            <div id="PadDetails" class="clearfix content">
+                <div id="ShotAttributes" class="float-right align-center">
+
+                    <div id="Spin" class="pad-15">
+                        <div class="spin-container">
+                            <div class="spin-dot"></div>
+                        </div>
+                    </div>
+                    <div id="Speed" class="pad-15">
+                        <div class="speed-meter">
+                            <div class="speed"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <form class="full">
+                    <div class="field-group">
+                        <input class="title" type="text" name="title" placeholder="What is this shot?">
+                    </div>
+                    <div class="field-group">
+                        <textarea class="description" rows="10" name="description" placeholder="Explain details about the shot, i.e. when to use this scenario"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+            </main>
+
+            <div class="overlay" id="OverlayCurve">
+                <a class="close"><i class="ion-close"></i></a>
+
+                <div class="overlay-content">
+                    <div class="curve">
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+
+            <section id="Changelog">
+                <div class="align-center">
+                    <h1>What&rsquo;s New</h1>
+
+                    <div class="clearfix">
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">April 15th, 2016</h3>
+
+                            <h4>Keyboard Commands</h4>
+                            <p>You can now control various commands via your keyboard.</p>
+
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">&nbsp;</h3>
+
+                            <ul>
+                                <li><strong>7-0</strong> - Changes table type (7, 8, 9, billiards)</li>
+                                <li><strong>A</strong> - Toggles arrows on/off</li>
+                                <li><strong>C</strong> - Clear table</li>
+                            </ul>
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">&nbsp;</h3>
+
+                            <ul>
+                                <li><strong>L</strong> - Toggles line dashed/solid</li>
+                                <li><strong>M</strong> - Open massé control</li>
+                                <li><strong>T</strong> - Create a text box</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="clearfix">
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">March 18th, 2016</h3>
+
+                            <h4>Highlight / Remove Lines</h4>
+                            <p>We added a new method of removing lines instead of clicking and holding them. You'll notice lines highlight now when hovering over them. You can still click and hold <b>or</b> you can press the Backspace key to remove.</p>
+
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">&nbsp;</h3>
+
+                            <h4>New Tables and Balls</h4>
+                            <p>
+                                We modified the pocket size on all tables to be a bit larger. Darkend the green on the 9' table to match Simonis green. The balls have also shifted colors a little bit to be clearer.
+                            </p>
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">&nbsp;</h3>
+
+                            <h4>Bug Fixes</h4>
+                            <p>
+                                Fixed a bug that didn't allow you to use your arrow keys to move around in the textboxes; it would instead fine-tune the balls. This no longer happens.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer id="Help">
+                <div class="align-center">
+                    <h1>Help</h1>
+
+                    <div class="clearfix">
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">Balls</h3>
+
+                            <h4>Adding</h4>
+                            <p>Drag and drop a ball to place on the table.</p>
+
+                            <h4>Removing</h4>
+                            <p>Drag and drop a ball from the table into a pocket.</p>
+
+                            <h4>Fine Tuning</h4>
+                            <p>Selected balls (recently dragged) can be fine tuned using the keyboard.</p>
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">Lines</h3>
+
+                            <h4>Adding</h4>
+                            <p>
+                                Click table or a ball to start adding a line. Click again to stop.
+                                <i>If you're on mobile/tablet, click first <b>THEN</b> drag and release.</i>
+                            </p>
+
+                            <h4>Removing</h4>
+                            <p>Highlight line by hovering over with your mouse and press the Backspace key <strong>OR</strong> Press and hold on a line for 1/4 second to remove a line.</p>
+
+                            <h4>Curve</h4>
+                            <p>Click <b>Curve</b> in menu to open massé panel. It affects the last placed line on the table.</p>
+
+                            <h4>Continuing Lines</h4>
+                            <p>Double click while drawing a line to place and re-start a new segment.</p>
+                        </div>
+                        <div class="third align-left pad-15">
+                            <h3 class="flush">Text</h3>
+
+                            <h4>Adding</h4>
+                            <p>Click <b>Add Text</b> in menu to add a new textbox. Press escape or click outside of the table to place it.</p>
+
+                            <h4>Remove</h4>
+                            <p>Delete all text from the textbox and unfocus from the textbox.</p>
+
+                            <h4>Moving / Editing</h4>
+                            <p>Click on a textbox to start editing. Start dragging to move textbox.</p>
+
+                            <h4>Resizing</h4>
+                            <p>Textbox should have a lower-right corner resizing icon.</p>
+                        </div>
+                    </div>
+
+                    <hr class="push-top">
+
+                    <a href="https://www.polymermallard.com" style="text-decoration: none;"><small> &copy; Polymer Mallard LLC</small></a> // <a href="https://www.chalkysticks.com" style="text-decoration: none;"><small>ChalkySticks</small></a>
+                </div>
+            </footer>
+        </div>
+
+
+        <!-- Script -->
+        <script>
+            var config = {
+                BASE_URL   : "https://pad-v1.chalkysticks.com",
+                API_URL    : "https://api.chalkysticks.com/v1",
+                IMAGE_URL  : "https://pad-v1.chalkysticks.com/image",
+                DIAGRAM    : false            };
+        </script>
+
+        <script src="https://pad-v1.chalkysticks.com/script/vendor.min.js?v=1.1"     type="text/javascript"></script>
+        <script src="https://pad-v1.chalkysticks.com/script/sdk-latest.min.js?v=1.1" type="text/javascript"></script>
+        <script src="https://pad-v1.chalkysticks.com/script/pad-latest.js?v=1.1"     type="text/javascript"></script>
+
+        <script>
+            if (location.href.indexOf('embedded=app') > 0) {
+                document.body.classList.add('embedded-app');
+            }
+
+            $(document).ready(function() {
+                    window.page = new pm.Page_Main({
+        el: document.body
+    });
+            });
+
+            if (navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i)
+                || navigator.userAgent.match(/iPad/i)
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i)
+                ){
+                    document.body.classList.add("is-mobile");
+                }
+
+            if (location.host.toString().indexOf("dev") < 0) {
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', 'UA-73559206-3', 'auto');
+                ga('send', 'pageview');
+            }
+
+            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','//connect.facebook.net/en_US/fbevents.js');
+
+            fbq('init', '479073392278701');
+            fbq('track', "PageView");
+        </script>
+
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=479073392278701&ev=PageView&noscript=1" /></noscript>
+    </body>
+</html>
